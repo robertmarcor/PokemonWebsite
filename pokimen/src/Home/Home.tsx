@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+const baseUrl = "https://pokeapi.co/api/v2";
 
-const getPokemonDetails = async (url: string) => {
-  const response = await fetch(url);
+const getPokemonDetails = async (id: string) => {
+  const response = await fetch(`${baseUrl}/pokemon/${id}`);
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Not Found");
@@ -9,10 +10,10 @@ const getPokemonDetails = async (url: string) => {
   return data;
 };
 
-const extractIdFromUrl = (url: string): number => {
+const extractIdFromUrl = (url: string) => {
   const parts = url.split("/").filter((part) => part !== "");
   const id = parts[parts.length - 1];
-  return parseInt(id, 10);
+  return id;
 };
 
 type Generation = {
@@ -23,20 +24,38 @@ type Generation = {
   name: string;
   names: [];
   pokemon_species: [{ name: string; url: string }];
-  types: [];
+  types: [{ type: [name: string] }];
   version_groups: [];
 };
 
 type Pokemon = {
+  id: number;
   name: string;
-  url: string;
+  sprites: {
+    back_default: string;
+    front_default: string;
+    versions: [];
+  };
+  stats: Array<{
+    base_stat: number;
+    effort: number;
+    stat: { name: string; url: string };
+  }>;
+  types: Array<{
+    slot: number;
+    type: { name: string; url: string };
+  }>;
+  weight: number;
+  base_experience: number;
+  cries: {
+    latest: string;
+    legacy: string;
+  };
 };
 
 export default function Home() {
-  const baseUrl = "https://pokeapi.co/api/v2";
-
   const [gen_Id, setGen_Id] = useState<string>("1");
-  const [pokemonDetail, setPokemonDetails] = useState<any>([]);
+  const [pokemonDetail, setPokemonDetails] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -44,9 +63,9 @@ export default function Home() {
       setLoading(true);
       const response = await fetch(`${baseUrl}/generation/${gen_Id}/`);
       const data: Generation = await response.json();
-      const speciesUrls = data.pokemon_species.map((specie) => specie.url);
+      const speciesUrls = data.pokemon_species.map((specie) => extractIdFromUrl(specie.url));
+      speciesUrls.sort((a: string, b: string) => parseInt(a, 10) - parseInt(b, 10));
       const pokemonDetails = await Promise.all(speciesUrls.map((url) => getPokemonDetails(url)));
-      console.log(pokemonDetail);
       setPokemonDetails(pokemonDetails);
       setLoading(false);
     }
@@ -75,11 +94,17 @@ export default function Home() {
 
       {loading ? <p>Loading...</p> : <ul></ul>}
       <ul>
-        {pokemonDetail.map((pokemon: any) => (
-          <li key={pokemon.id}>
-            <h2>
-              {pokemon.id} {pokemon.name}
-            </h2>
+        {pokemonDetail.map((pokemon) => (
+          <li key={pokemon.id} className="flex items-center gap-2">
+            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+            <h2>{`${pokemon.name.charAt(0).toUpperCase()}${pokemon.name.slice(1)}`}</h2>
+            <p>Weight: {pokemon.weight}</p>
+            <p>Types:</p>
+            <div className="flex gap-2">
+              {pokemon.types.map((i) => (
+                <div className="border rounded-md px-1">{i.type.name}</div>
+              ))}
+            </div>
           </li>
         ))}
       </ul>
