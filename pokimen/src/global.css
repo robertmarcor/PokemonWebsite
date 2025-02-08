@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* * {
+  outline: 1px solid red;
+} */
+:root {
+  --background: hsl(0, 100%, 100%);
+  --foreground: hsl(0, 0%, 0%);
+}
+#root {
+  max-width: 100dvw;
+  min-height: 100dvh;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: hsl(0, 0%, 2.5%);
+    --foreground: hsl(0, 100%, 100%);
+  }
+}
+
+html {
+  background-color: var(--background);
+  color: var(--foreground);
+}
