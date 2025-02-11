@@ -1,8 +1,10 @@
 import { Route, Routes } from "react-router";
-import Home from "./routes";
 import Header from "./Header/Header";
 import Nav from "./Nav";
 import Footer from "./Footer/Footer";
+import GuessingGame from "./GuessingGame/guessing-game";
+import About from "./About/about";
+import Home from "./Home/Home";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <main className="sm:mx-10 text-center">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/guessing-game" element={<GuessingGame />} />
           </Routes>
         </main>
       </div>

@@ -29,3 +29,55 @@ h2,
 h3 {
   font-weight: bold;
 }
+
+li {
+  list-style: none;
+}
+.title {
+  font-weight: bold;
+  font-size: 3rem;
+  margin-top: 1rem;
+}
+@layer base {
+  :root {
+    --background: 0, 100%, 100%;
+    --foreground: 0, 0%, 0%;
+  }
+  .dark {
+    --background: 0, 0%, 2.5%;
+    --foreground: 0, 100%, 100%;
+  }
+}
+
+.spinner_9Mto {
+  animation: spinner_5GqJ 1.6s linear infinite;
+  animation-delay: -1.6s;
+}
+
+.spinner_bb12 {
+  animation-delay: -1s;
+}
+
+@keyframes spinner_5GqJ {
+  12.5% {
+    transform: translate(13px, 1px);
+  }
+  25% {
+    transform: translate(13px, 1px);
+  }
+  37.5% {
+    transform: translate(13px, 13px);
+  }
+  50% {
+    transform: translate(13px, 13px);
+  }
+  62.5% {
+    transform: translate(1px, 13px);
+  }
+  75% {
+    transform: translate(1px, 13px);
+  }
+  87.5% {
+    transform: translate(1px, 1px);
+  }
+}
