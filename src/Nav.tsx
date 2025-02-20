@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { routes } from "./data/routes";
 
 type Props = { className?: string };
@@ -9,7 +10,7 @@ export default function Nav({ className }: Props) {
           {routes.map((route) => (
             <li key={route.name} className="flex items-center font-headings font-bold">
               {route.icon && <img className="h-8 pb-1" src={route.icon} alt={`${route.name}-nav`} />}
-              <a href={route.href}>{route.name.toUpperCase()}</a>
+              <Link to={route.href}>{route.name.toUpperCase()}</Link>
             </li>
           ))}
         </ul>
