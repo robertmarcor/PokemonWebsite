@@ -4,10 +4,11 @@ type Props = { className?: string };
 export default function Nav({ className }: Props) {
   return (
     <>
-      <nav className={`${className}h-8 p-2 m-2 flex`}>
-        <ul className="flex gap-4">
+      <nav className={`${className} flex`}>
+        <ul className="flex items-center gap-4 h-full ml-3">
           {routes.map((route) => (
-            <li key={route.name}>
+            <li key={route.name} className="flex items-center font-headings font-bold">
+              {route.icon && <img className="h-8 pb-1" src={route.icon} alt={`${route.name}-nav`} />}
               <a href={route.href}>{route.name.toUpperCase()}</a>
             </li>
           ))}

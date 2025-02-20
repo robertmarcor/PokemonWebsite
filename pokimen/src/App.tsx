@@ -10,8 +10,8 @@ function App() {
   return (
     <>
       <header>
-        <Header className="h-24 bg-red-400 flex items-center px-4" />
-        <Nav />
+        <Header className="h-16 bg-gradient-to-r from-rose-700 to-rose-400 flex items-center" />
+        <Nav className="h-8" />
       </header>
       <div className="grid grid-rows-[1fr] justify-items-center min-w-dvw min-h-svh">
         <main className="sm:mx-10 text-center">

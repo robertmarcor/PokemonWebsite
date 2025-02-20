@@ -4,14 +4,28 @@
 /* * {
   outline: 1px solid red;
 } */
-:root {
-  --background: hsl(0, 100%, 100%);
-  --foreground: hsl(0, 0%, 0%);
+@layer base {
+  :root {
+    --background: 0, 100%, 100%;
+    --foreground: 0, 0%, 0%;
+    --font-headings: "Doto", serif;
+    --font-base: "Orbitron", serif;
+    --font-base2: "Pixelify Sans", serif;
+  }
+  .dark {
+    --background: 0, 0%, 2.5%;
+    --foreground: 0, 100%, 100%;
+  }
 }
+
 #root {
   max-width: 100dvw;
   min-height: 100dvh;
 }
+.heading {
+  font-family: var(--font-headings);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: hsl(0, 0%, 2.5%);
@@ -19,34 +33,33 @@
   }
 }
 
-html {
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
   background-color: var(--background);
   color: var(--foreground);
-}
-
-h1,
-h2,
-h3 {
-  font-weight: bold;
+  font-family: var(--font-base);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.1rem;
+  font-size: 1.5rem;
+  font-weight: 100;
 }
 
 li {
   list-style: none;
 }
+
+.glow {
+  box-shadow: 0 0 0 0.5rem 0.25rem red;
+}
+
 .title {
   font-weight: bold;
   font-size: 3rem;
   margin-top: 1rem;
-}
-@layer base {
-  :root {
-    --background: 0, 100%, 100%;
-    --foreground: 0, 0%, 0%;
-  }
-  .dark {
-    --background: 0, 0%, 2.5%;
-    --foreground: 0, 100%, 100%;
-  }
 }
 
 .spinner_9Mto {
@@ -80,4 +93,14 @@ li {
   87.5% {
     transform: translate(1px, 1px);
   }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-start infinite;
 }

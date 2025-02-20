@@ -1,5 +1,11 @@
-import { NamedAPIResource } from "../resources";
+import type { Name, NamedAPIResource } from "../Common";
 
+/**
+ * ## Generation
+ * A generation is a grouping of the Pokémon games that separates them based on the Pokémon they include.
+ * In each generation, a new set of Pokémon, Moves, Abilities and Types that did not exist in the previous generation are released.
+ * - Check out [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Generation) for greater details.
+ */
 export interface Generation {
   /** The identifier for this resource */
   id: number;
@@ -7,6 +13,8 @@ export interface Generation {
   name: string;
   /** A list of abilities that were introduced in this generation */
   abilities: NamedAPIResource[];
+  /** The name of this resource listed in different languages */
+  names: Name[];
   /** The main region travelled in this generation */
   main_region: NamedAPIResource;
   /** A list of moves that were introduced in this generation */

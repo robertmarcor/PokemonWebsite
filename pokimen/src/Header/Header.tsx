@@ -1,6 +1,11 @@
-type Props = {
-  className?: string;
-};
-export default function Header({ className }: Props) {
-  return <div className={`${className} text-2xl font-bold tracking-wide`}>POKEMENN MESTER QUIZT</div>;
+export default function Header({ className }: { className?: string }) {
+  const iconUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png";
+  return (
+    <div className={`${className} flex`}>
+      <div className="w-12">
+        <img className="w-full" src={iconUrl || "fallback"} alt="" />
+      </div>
+      <p className="text-3xl font-bold tracking-wide heading">PokèMenn Quizter</p>
+    </div>
+  );
 }
