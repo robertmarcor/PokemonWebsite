@@ -104,3 +104,22 @@ li {
 .animate-blink {
   animation: blink 1s step-start infinite;
 }
+
+
+@keyframes score-popup {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.animate-score {
+  animation: score-popup 1s ease-out forwards;
+}
