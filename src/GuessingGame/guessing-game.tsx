@@ -43,7 +43,7 @@ export default function GuessingGame() {
     <div className="grid w-full max-w-full place-items-center py-8">
       <h1 className="text-5xl my-4 font-headings font-extrabold">Who is that Pokémon?</h1>
       <button onClick={generateNumber}> Click</button>
-      <PokemonDisplay className="size-96 my-28" />
+      <PokemonDisplay className="size-96 lg:size-56 my-28" />
 
       {scorePopup !== null && (
         <div className="absolute top-1/2 text-6xl font-bold text-green-500 animate-score z-50">
@@ -128,7 +128,7 @@ export default function GuessingGame() {
 
         <div
           className={`flex justify-center gap-2 text-4xl font-bold uppercase tracking-widest px-4 h-12 ${
-            isFocused && "outline"
+            isFocused && ""
           }`}>
           {word.split("").map((char, index) => {
             const isCorrect = inputValue[index]?.toLowerCase() === char.toLowerCase();
@@ -151,9 +151,11 @@ export default function GuessingGame() {
         </div>
 
         {!isFocused ? (
-          <p className="mt-2 text-gray-400 text-lg animate-pulse">Press Space to focus</p>
+          <p className="mt-2 text-gray-400 text-4xl animate-pulse">
+            Press Space to focus
+          </p>
         ) : (
-          <p className="mt-2 text-gray-400 text-xl">Press Enter to submit</p>
+          <p className="mt-2 text-gray-400 text-xl">Type Then Press Enter to submit</p>
         )}
 
         {feedback && (
