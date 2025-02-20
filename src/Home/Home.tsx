@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center gap-6 min-h-screen text-center my-12">
       <img
-        className="w-96"
+        className="w-96 lg:w-56"
         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/25.svg"
         alt=""
       />
