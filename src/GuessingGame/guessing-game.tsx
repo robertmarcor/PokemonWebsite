@@ -90,7 +90,7 @@ export default function GuessingGame() {
     const [isFocused, setIsFocused] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [feedback, setFeedback] = useState<string | null>(null);
-    const [guessStartTime, setGuessStartTime] = useState<number>(Date.now());
+    const guessStartTime = useRef<number>(Date.now());
     const [timeTaken, setTimeTaken] = useState<number>(0);
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -100,7 +100,7 @@ export default function GuessingGame() {
       if (inputRef.current) {
         inputRef.current.focus();
       }
-      setGuessStartTime(Date.now());
+      guessStartTime.current = Date.now();
       setTimeTaken(0);
 
       if (timerRef.current) clearInterval(timerRef.current);
