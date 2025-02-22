@@ -136,13 +136,13 @@ export default function GuessingGame() {
         if (inputValue.trim().toLowerCase() === word.toLowerCase()) {
           setIsCorrect(true);
           const baseScore = 200;
-          const timeFactor = Math.max(1, 10 - timeTaken); // Ensures a minimum multiplier of 1
+          const timeFactor = Math.max(1, 10 - timeTaken);
           const points = baseScore * timeFactor;
 
           setScore((prev) => prev + points);
           setScorePopup(points);
           setFeedback(`✅ Correct! (${timeTaken}s)`);
-          setTimeout(() => generateNumber(), 1000);
+          setTimeout(() => generateNumber(), 500);
         } else {
           setFeedback("❌ Incorrect, try again!");
         }
