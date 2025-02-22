@@ -8,6 +8,7 @@ export default function GuessingGame() {
   const [availableIds, setAvailableIds] = useState<number[][]>([[]]);
   const [score, setScore] = useState<number>(0);
   const [scorePopup, setScorePopup] = useState<number | null>(null);
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
 
   const pokemonCry = useRef<HTMLAudioElement>(null);
 
@@ -31,6 +32,7 @@ export default function GuessingGame() {
 
       return () => clearTimeout(timeout);
     }
+    setIsCorrect(false);
   }, [scorePopup]);
 
   const generateNumber = () => {
@@ -40,17 +42,17 @@ export default function GuessingGame() {
   };
 
   return (
-    <div className="grid w-full max-w-full place-items-center py-8">
+    <div className="grid w-full max-w-full place-items-center py-8 relative px-36">
       <h1 className="text-5xl my-4 font-headings font-extrabold">Who is that Pokémon?</h1>
-      <button onClick={generateNumber}> Click</button>
       <PokemonDisplay className="size-96 lg:size-56 my-28" />
-
       {scorePopup !== null && (
-        <div className="absolute top-1/2 text-6xl font-bold text-green-500 animate-score z-50">
-          +{scorePopup}
+        <div
+          className={`absolute top-1/2 text-6xl font-bold animate-score z-50 ${
+            scorePopup < 0 ? "text-red-500" : "text-green-500"
+          }`}>
+          {scorePopup > 0 ? `+${scorePopup}` : scorePopup}
         </div>
       )}
-
       <aside className="absolute left-2 top-1/4">
         <GenerationDropDown updateSelectedRanges={setAvailableIds} />
       </aside>
@@ -69,7 +71,9 @@ export default function GuessingGame() {
           <p>Loading...</p>
         ) : randomPkm?.sprite ? (
           <img
-            className="filter brightness-0 z-10"
+            className={`z-10 transition-all duration-500 ${
+              isCorrect ? "brightness-100" : "filter brightness-0"
+            }`}
             src={randomPkm.sprite}
             alt={`Image of ${randomPkm.name}`}
           />
@@ -86,12 +90,28 @@ export default function GuessingGame() {
     const [isFocused, setIsFocused] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [feedback, setFeedback] = useState<string | null>(null);
+    const [guessStartTime, setGuessStartTime] = useState<number>(Date.now());
+    const [timeTaken, setTimeTaken] = useState<number>(0);
+
     const inputRef = useRef<HTMLInputElement>(null);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
       if (inputRef.current) {
         inputRef.current.focus();
       }
+      setGuessStartTime(Date.now());
+      setTimeTaken(0);
+
+      if (timerRef.current) clearInterval(timerRef.current);
+
+      timerRef.current = setInterval(() => {
+        setTimeTaken((prev) => prev + 1);
+      }, 1000);
+
+      return () => {
+        if (timerRef.current) clearInterval(timerRef.current);
+      };
     }, [word]);
 
     useEffect(() => {
@@ -108,28 +128,49 @@ export default function GuessingGame() {
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+
         if (inputValue.trim().toLowerCase() === word.toLowerCase()) {
-          setFeedback("✅ Correct!");
-          setScore((prev) => prev + 200);
-          setScorePopup(200);
-          setFeedback(null);
-          generateNumber();
+          setIsCorrect(true);
+          const baseScore = 200;
+          const timeFactor = Math.max(1, 10 - timeTaken); // Ensures a minimum multiplier of 1
+          const points = baseScore * timeFactor;
+
+          setScore((prev) => prev + points);
+          setScorePopup(points);
+          setFeedback(`✅ Correct! (${timeTaken}s)`);
+          setTimeout(() => generateNumber(), 1000);
         } else {
           setFeedback("❌ Incorrect, try again!");
         }
-
         setInputValue("");
+      }
+
+      if (event.key === "Tab") {
+        event.preventDefault();
+
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+
+        setScore((prev) => prev - 100);
+        setScorePopup(-100);
+        generateNumber();
+        setInputValue("");
+        setFeedback(null);
       }
     };
 
     return (
       <div className={`${className} text-center`}>
-        <h2 className="text-2xl font-bold mb-4">Guess the Pokémon</h2>
+        <p className="text-xl font-semibold text-gray-700">⏳ {timeTaken}s</p>
 
-        <div
-          className={`flex justify-center gap-2 text-4xl font-bold uppercase tracking-widest px-4 h-12 ${
-            isFocused && ""
-          }`}>
+        <h2 className="text-2xl font-bold mb-4">Guess the Pokémon</h2>
+        <div className="flex justify-center gap-2 text-4xl font-bold uppercase tracking-widest px-4 h-12">
           {word.split("").map((char, index) => {
             const isCorrect = inputValue[index]?.toLowerCase() === char.toLowerCase();
             const isTyped = index < inputValue.length;
@@ -148,6 +189,10 @@ export default function GuessingGame() {
               </span>
             );
           })}
+
+          {isFocused && inputValue.length === 0 && (
+            <span className="animate-blink absolute">|</span>
+          )}
         </div>
 
         {!isFocused ? (
@@ -155,7 +200,10 @@ export default function GuessingGame() {
             Press Space to focus
           </p>
         ) : (
-          <p className="mt-2 text-gray-400 text-xl">Type Then Press Enter to submit</p>
+          <>
+            <p className="mt-2 text-gray-400 text-xl">Type Then Press Enter to submit</p>
+            <p className="mt-2 text-gray-400 text-xl">Tab to SKIP</p>
+          </>
         )}
 
         {feedback && (
