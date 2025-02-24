@@ -2,8 +2,10 @@ import { useEffect, useState, useMemo } from "react";
 import { generations } from "../data/consts";
 
 export default function GenerationSelector({
+  className,
   updateSelectedRanges,
 }: {
+  className?: string;
   updateSelectedRanges: (ranges: number[][]) => void;
 }) {
   const [activeGenerations, setActiveGenerations] = useState<number[]>([1, 2, 3]);
@@ -27,30 +29,30 @@ export default function GenerationSelector({
   }, [selectedRanges, updateSelectedRanges]);
 
   return (
-    <div className="border-2 rounded-md">
-      <p className="font-bold text-center">PICK</p>
+    <div className={`${className}`}>
+      <p className="font-bold text-center">Select</p>
       {generations.map((generation) => (
         <div
           key={generation.id}
           onClick={() => toggleGenerationSelection(generation.id)}
-          className={`border-b cursor-pointer transition-colors select-none p-2 flex items-center justify-between
-            ${
-              activeGenerations.includes(generation.id)
-                ? "opacity-100"
-                : "opacity-50 hover:opacity-100"
-            }`}
+          className={`cursor-pointer transition-colors select-none my-1
+          ${
+            activeGenerations.includes(generation.id)
+              ? "opacity-100 bg-gradient-to-r from-blue-800 via- to-teal-400 rounded-md text-black font-semibold"
+              : "opacity-20 hover:opacity-100 hover:text-blue-400"
+          }`}
           role="button"
           aria-selected={activeGenerations.includes(generation.id)}>
-          <p className="text-sm w-16 hover:text-violet-500 hover:underline">
-            Gen {generation.id}
-          </p>
-          {generation.icon && (
-            <img
-              className="w-8 h-8 scale-150 pointer-events-none"
-              src={generation.icon}
-              alt={`${generation.label} icon`}
-            />
-          )}
+          <div className="flex items-center">
+            <p className="text-sm w-16">Gen {generation.id}</p>
+            {generation.icon && (
+              <img
+                className="w-8 h-8 scale-[2] pointer-events-none"
+                src={generation.icon}
+                alt={`${generation.label} icon`}
+              />
+            )}
+          </div>
         </div>
       ))}
     </div>

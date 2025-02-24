@@ -5,6 +5,7 @@ import Footer from "./Footer/Footer";
 import GuessingGame from "./GuessingGame/guessing-game";
 import About from "./About/about";
 import Home from "./Home/Home";
+import GuessingGameTest from "./GuessingGame/guessing-game copy";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/guessing-game" element={<GuessingGame />} />
+            <Route path="test/guessing-game" element={<GuessingGameTest />} />
           </Routes>
         </main>
       </div>

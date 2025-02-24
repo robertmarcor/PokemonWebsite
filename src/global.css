@@ -62,49 +62,9 @@ li {
   margin-top: 1rem;
 }
 
-.spinner_9Mto {
-  animation: spinner_5GqJ 1.6s linear infinite;
-  animation-delay: -1.6s;
+.stroke{
+  -webkit-text-stroke: 1px black;
 }
-
-.spinner_bb12 {
-  animation-delay: -1s;
-}
-
-@keyframes spinner_5GqJ {
-  12.5% {
-    transform: translate(13px, 1px);
-  }
-  25% {
-    transform: translate(13px, 1px);
-  }
-  37.5% {
-    transform: translate(13px, 13px);
-  }
-  50% {
-    transform: translate(13px, 13px);
-  }
-  62.5% {
-    transform: translate(1px, 13px);
-  }
-  75% {
-    transform: translate(1px, 13px);
-  }
-  87.5% {
-    transform: translate(1px, 1px);
-  }
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-.animate-blink {
-  animation: blink 1s step-start infinite;
-}
-
 
 @keyframes score-popup {
   0% {
@@ -122,4 +82,17 @@ li {
 
 .animate-score {
   animation: score-popup 1s ease-out forwards;
+}
+
+@keyframes pingFade{
+  0%{
+    opacity: 100;
+  }
+  75%{
+    transform: scale(2);
+  }
+  100%{
+    opacity: 0;
+    transform: scale(2);
+  }
 }

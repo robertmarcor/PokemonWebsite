@@ -15,7 +15,10 @@ import { Pokemon } from "../models";
  * // bulba = { name: "bulbasaur", id: 1 }
  */
 
-export function useGetPokemonById<T = Pokemon>(id: number, selector?: (pokemon: Pokemon) => T) {
+export function useGetPokemonById<T = Pokemon>(
+  id: number,
+  selector?: (pokemon: Pokemon) => T
+) {
   return useQuery<Pokemon, Error, T>({
     queryKey: ["Pokemon", id],
     queryFn: async () => await apiClient.fetchByEndpoint<Pokemon>(`Pokemon/${id}`),
@@ -23,7 +26,10 @@ export function useGetPokemonById<T = Pokemon>(id: number, selector?: (pokemon: 
   });
 }
 
-export function useGetMultiplePokemonById<T = Pokemon>(ids: number[], selector?: (pokemon: Pokemon) => T) {
+export function useGetMultiplePokemonById<T = Pokemon>(
+  ids: number[],
+  selector?: (pokemon: Pokemon) => T
+) {
   const queries = useQueries({
     queries: ids.map((id) => ({
       queryKey: ["Pokemon", id],
