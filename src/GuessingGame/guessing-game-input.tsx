@@ -19,7 +19,6 @@ export default function GuessingGameInput({
 
   return (
     <>
-      <p>{word}</p>
       <div className="relative flex justify-center items-center p-4 w-full">
         <input
           className={`bg-transparent text-transparent p-2 z-10 focus:outline-none border-4 rounded-md w-full ${
