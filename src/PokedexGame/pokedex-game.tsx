@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetMultiplePokemonById } from "../client/pokemon.client";
 import GenerationSelector from "../Components/generation-dropdown";
 import { useGetMultipleGenerationById } from "../client/generation.client";
 
 export default function PokedexGame() {
   const [generation, setGeneration] = useState<number[]>([]);
-  const { data, isLoading } = useGetMultiplePokemonById([1, 2, 3]);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: genData, isLoading: genLoading } = useGetMultipleGenerationById(generation);
+  const { data, isLoading, refetch } = useGetMultiplePokemonById([1, 2, 3]);
+
+  useEffect(() => {
+    if (!genLoading && genData) {
+      refetch();
+    }
+  }, [genLoading, genData, refetch]);
 
   return (
     <div className="grid w-full gap-4">

@@ -15,10 +15,7 @@ import { Pokemon } from "../models";
  * // bulba = { name: "bulbasaur", id: 1 }
  */
 
-export function useGetPokemonById<T = Pokemon>(
-  id: number,
-  selector?: (pokemon: Pokemon) => T
-) {
+export function useGetPokemonById<T = Pokemon>(id: number, selector?: (pokemon: Pokemon) => T) {
   return useQuery<Pokemon, Error, T>({
     queryKey: ["Pokemon", id],
     queryFn: async () => await apiClient.fetchByEndpoint<Pokemon>(`Pokemon/${id}`),
@@ -32,6 +29,7 @@ export function useGetMultiplePokemonById<T = Pokemon>(
 ) {
   const queries = useQueries({
     queries: ids.map((id) => ({
+      enabled: false,
       queryKey: ["Pokemon", id],
       queryFn: async () => await apiClient.fetchByEndpoint<Pokemon>(`Pokemon/${id}`),
       select: selector ? (pokemon: Pokemon) => selector(pokemon) : undefined,
@@ -42,5 +40,6 @@ export function useGetMultiplePokemonById<T = Pokemon>(
     data: queries.map((q) => q.data).filter(Boolean),
     isLoading: queries.some((q) => q.isLoading),
     error: queries.find((q) => q.error)?.error || null,
+    refetch: () => queries.forEach((q) => q.refetch()),
   };
 }
