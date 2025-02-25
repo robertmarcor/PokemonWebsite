@@ -6,7 +6,7 @@ export type TimerRef = {
   stopTimer: () => void;
 } | null;
 
-const TimerComp = ({
+const GuessTimer = ({
   className,
   timerRef,
   onTimeUpdate,
@@ -56,4 +56,4 @@ const TimerComp = ({
   );
 };
 
-export default TimerComp;
+export default GuessTimer;

@@ -1,4 +1,4 @@
-export default function GuessingGameToolTips() {
+export default function WhosThatGameTooltips() {
   return (
     <div className="absolute left-2 top-28 text-xs opacity-50 text-start p-2 flex flex-col gap-3">
       <div>

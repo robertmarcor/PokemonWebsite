@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function GuessingGameInput({
+export default function WhosThatGameInput({
   word,
   inputRef,
   inputValue,

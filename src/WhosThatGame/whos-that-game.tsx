@@ -6,8 +6,8 @@ import { getRandomBetweenMinMax } from "../utils/utils";
 import ScoreDisplay from "./score-display";
 import { MoonLoader } from "react-spinners";
 import GameTimer, { TimerRef } from "./game-timer";
-import GuessingGameInput from "./guessing-game-input";
-import GuessingGameToolTips from "./guessing-game-tooltips";
+import WhosThatGameInput from "./whos-that-input";
+import WhosThatGameTooltips from "./whos-that-tooltips";
 
 const ACTION = {
   IDLE: "IDLE",
@@ -49,7 +49,7 @@ type GameState = {
 
 type GameActions = { type: (typeof ACTION)[keyof typeof ACTION]; payload?: number };
 
-export default function GuessingGame() {
+export default function WhosThatGame() {
   const [randomPokemonId, setRandomPokemonId] = useState<number>(132);
   const [selectionRange, setSelectionRange] = useState<number[][]>([[]]);
   const [word, setWord] = useState<string>("");
@@ -248,7 +248,7 @@ export default function GuessingGame() {
 
   return (
     <>
-      <GuessingGameToolTips />
+      <WhosThatGameTooltips />
       <div className="grid w-full max-w-full place-items-center content-start mt-8 relative">
         <button onClick={() => dispatch({ type: ACTION.END })}>END </button>
 
@@ -296,7 +296,7 @@ export default function GuessingGame() {
       <GameTimer className="justify-end py-2" timerRef={timerRef} onTimeUpdate={setTimeTaken} />
       <div className="grid w-full place-items-center border-t-2">
         {state.gameState === ACTION.STARTED && (
-          <GuessingGameInput
+          <WhosThatGameInput
             inputRef={inputRef}
             inputValue={inputValue}
             setInputValue={setInputValue}

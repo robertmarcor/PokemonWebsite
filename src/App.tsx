@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import Header from "./Header/Header";
 import Nav from "./Nav";
 import Footer from "./Footer/Footer";
-import GuessingGame from "./GuessingGame/guessing-game";
+import WhosThatGame from "./WhosThatGame/whos-that-game";
 import About from "./About/about";
 import Home from "./Home/Home";
 import PokdexGame from "./PokedexGame/pokedex-game";
@@ -19,12 +19,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/guessing-game" element={<GuessingGame />} />
+            <Route path="/who-is-that-pokemon-game" element={<WhosThatGame />} />
             <Route path="/pokedex-game" element={<PokdexGame />} />
           </Routes>
         </main>
       </div>
-      <Footer className="bg-emerald-500 flex flex-col justify-center items-center mt-auto" />
+      <Footer className="grid place-items-center mt-auto" />
     </>
   );
 }

@@ -4,9 +4,11 @@ import { generations } from "../data/consts";
 export default function GenerationSelector({
   className,
   updateSelectedRanges,
+  selectedGenerations,
 }: {
   className?: string;
-  updateSelectedRanges: (ranges: number[][]) => void;
+  updateSelectedRanges?: (ranges: number[][]) => void;
+  selectedGenerations?: (gens: number[] | []) => void;
 }) {
   const [activeGenerations, setActiveGenerations] = useState<number[]>([1, 2, 3]);
 
@@ -25,8 +27,13 @@ export default function GenerationSelector({
   }, [activeGenerations]);
 
   useEffect(() => {
-    updateSelectedRanges(selectedRanges);
-  }, [selectedRanges, updateSelectedRanges]);
+    if (updateSelectedRanges) {
+      updateSelectedRanges(selectedRanges);
+    }
+    if (selectedGenerations) {
+      selectedGenerations(activeGenerations);
+    }
+  }, [activeGenerations, selectedGenerations, selectedRanges, updateSelectedRanges]);
 
   return (
     <div className={`${className}`}>
