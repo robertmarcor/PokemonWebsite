@@ -62,6 +62,12 @@ li {
   margin-top: 1rem;
 }
 
+.button{
+  outline: 2px solid var(--foreground);
+  border-radius: 0.375rem;
+  padding-inline: .5rem;
+}
+
 .stroke{
   -webkit-text-stroke: 1px black;
 }

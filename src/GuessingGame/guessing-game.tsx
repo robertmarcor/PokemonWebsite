@@ -14,11 +14,12 @@ const ACTION = {
   START: "START",
   STARTED: "STARTED",
   END: "END",
-  INCREASE_SCORE: "INCREMENT_SCORE",
+  INCREMENT_SCORE: "INCREMENT_SCORE",
   DECREMENT_SCORE: "DECREMENT_SCORE",
   DECREMENT_HEALTH: "DECREMENT_HEALTH",
   INCREMENT_STREAK: "INCREMENT_STREAK",
   RESET_STREAK: "RESET_STREAK",
+  INCREMENT_GUESS: "INCREMENT_GUESS",
 };
 
 const initialState: GameState = {
@@ -26,6 +27,7 @@ const initialState: GameState = {
   score: 0,
   health: 5,
   streak: 0,
+  correctGuess: 0,
 };
 
 type GameState = {
@@ -42,6 +44,7 @@ type GameState = {
   score: number;
   health: number;
   streak: number;
+  correctGuess: number;
 };
 
 type GameActions = { type: (typeof ACTION)[keyof typeof ACTION]; payload?: number };
@@ -55,6 +58,7 @@ export default function GuessingGame() {
   const [spriteHidden, setSpriteHidden] = useState(true);
   const [scoreChange, setScoreChange] = useState<number | null>(null);
   const [timeTaken, setTimeTaken] = useState(0);
+  const [hotStreak, setHotStreak] = useState<number>(0);
 
   const timerRef = useRef<TimerRef>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -66,12 +70,13 @@ export default function GuessingGame() {
         return { ...state, gameState: "IDLE" };
       case ACTION.START:
         if (state.gameState === ACTION.STARTED) return state;
-        else return { ...state, gameState: "START", score: 0, health: 5, streak: 0 };
+        else
+          return { ...state, gameState: "START", score: 0, health: 5, streak: 0, correctGuess: 0 };
       case ACTION.STARTED:
         return { ...state, gameState: "STARTED" };
       case ACTION.END:
         return { ...state, gameState: "END" };
-      case ACTION.INCREASE_SCORE:
+      case ACTION.INCREMENT_SCORE:
         return { ...state, score: state.score + (action.payload ?? 0) };
       case ACTION.DECREMENT_SCORE:
         return { ...state, score: state.score - (action.payload ?? 0) };
@@ -81,6 +86,8 @@ export default function GuessingGame() {
         return { ...state, streak: state.streak + 1 };
       case ACTION.RESET_STREAK:
         return { ...state, streak: 0 };
+      case ACTION.INCREMENT_GUESS:
+        return { ...state, correctGuess: state.correctGuess + 1 };
       default:
         return state;
     }
@@ -100,12 +107,12 @@ export default function GuessingGame() {
   }, [selectionRange, state.gameState]);
 
   const skipPokemon = useCallback(() => {
+    timerRef.current?.resetTimer();
     const skipPenality = 500;
     dispatch({ type: ACTION.DECREMENT_SCORE, payload: skipPenality });
     setScoreChange(-skipPenality);
     dispatch({ type: ACTION.DECREMENT_HEALTH });
     handleFetchPokemon();
-    timerRef.current?.resetTimer();
     setInputValue("");
   }, [handleFetchPokemon]);
 
@@ -114,6 +121,7 @@ export default function GuessingGame() {
     handleFetchPokemon();
     timerRef.current?.startTimer();
     dispatch({ type: ACTION.STARTED });
+    setHotStreak(0);
     setTimeout(() => inputRef.current?.focus(), 200);
   }, [handleFetchPokemon, state.gameState]);
 
@@ -128,15 +136,18 @@ export default function GuessingGame() {
   const handleGuess = useCallback(() => {
     if (inputValue === word) {
       const points = calculateScore();
-      dispatch({ type: ACTION.INCREASE_SCORE, payload: points });
+      dispatch({ type: ACTION.INCREMENT_SCORE, payload: points });
       dispatch({ type: ACTION.INCREMENT_STREAK });
+      setHotStreak((prev) => prev + 1);
+      dispatch({ type: ACTION.INCREMENT_GUESS });
       setScoreChange(points);
       timerRef.current?.resetTimer();
-      setFeedback("✔️ Correct guess");
-      setTimeout(() => setFeedback(""), 2000);
+      setFeedback(`✅ Correct guess in ${timeTaken / 1000}⌛`);
+      setTimeout(() => setFeedback(""), 5000);
       setSpriteHidden(false);
       setTimeout(handleFetchPokemon, 1000);
     } else if (inputValue !== word) {
+      if (state.streak < 1) dispatch({ type: ACTION.DECREMENT_HEALTH });
       const scorePenality = 200;
       dispatch({ type: ACTION.DECREMENT_SCORE, payload: scorePenality });
       setScoreChange(-scorePenality);
@@ -145,10 +156,9 @@ export default function GuessingGame() {
       dispatch({ type: ACTION.RESET_STREAK });
     }
     setInputValue("");
-  }, [calculateScore, handleFetchPokemon, inputValue, word]);
+  }, [calculateScore, handleFetchPokemon, inputValue, state.streak, timeTaken, word]);
 
   const handleEndGame = () => {
-    // SAVE SCORE
     timerRef.current?.stopTimer();
   };
 
@@ -166,10 +176,15 @@ export default function GuessingGame() {
     if (pokemonData) {
       setWord(pokemonData.name);
     }
-    if (!isLoading) {
-      setSpriteHidden(true);
-    }
-  }, [calculateScore, isLoading, pokemonData, startGame, state.gameState]);
+  }, [calculateScore, pokemonData, startGame, state.gameState]);
+
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (state.gameState === ACTION.STARTED)
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleGuess();
+      } else return;
+  };
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -181,22 +196,21 @@ export default function GuessingGame() {
 
         if (event.key === " ") {
           event.preventDefault();
-          if (inputRef.current) {
-            inputRef.current.focus();
-          }
+          if (state.gameState === ACTION.STARTED)
+            if (inputRef.current) {
+              inputRef.current.focus();
+            }
+          if (state.gameState === ACTION.IDLE) startGame();
         }
-      } else return;
-    },
-    [skipPokemon, state.gameState]
-  );
+      }
 
-  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (state.gameState === ACTION.STARTED)
-      if (event.key === "Enter") {
+      if (state.gameState === ACTION.IDLE && event.key === " ") {
         event.preventDefault();
-        handleGuess();
-      } else return;
-  };
+        startGame();
+      }
+    },
+    [skipPokemon, startGame, state.gameState]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -205,12 +219,14 @@ export default function GuessingGame() {
     };
   }, [handleKeyDown]);
 
+  /* END the Game  */
   useEffect(() => {
     if (state.health <= 0) {
       dispatch({ type: ACTION.END });
     }
   }, [state.health]);
 
+  /* Only visual feedback */
   useEffect(() => {
     if (scoreChange !== null) {
       const timeout = setTimeout(() => {
@@ -221,11 +237,17 @@ export default function GuessingGame() {
     }
   }, [scoreChange]);
 
+  /* Set sprite back to siluette */
+  useEffect(() => {
+    if (!isLoading) {
+      setSpriteHidden(true);
+    }
+  }, [isLoading]);
+
   return (
     <>
       <GuessingGameToolTips />
       <div className="grid w-full max-w-full place-items-center content-start mt-8 relative">
-        <button onClick={() => dispatch({ type: ACTION.START })}>START</button>
         <button onClick={() => dispatch({ type: ACTION.END })}>END </button>
 
         <h1 className="text-5xl font-headings font-extrabold">Who is that Pokémon?</h1>
@@ -268,7 +290,16 @@ export default function GuessingGame() {
           </div>
         )}
       </div>
-      <h2 className="title">{state.gameState}</h2>
+      {state.gameState === ACTION.IDLE && (
+        <div className="flex">
+          <h2 className="title mr-6">Press Space to</h2>
+          <button
+            className="title border-2 rounded-md px-4 bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
+            onClick={() => dispatch({ type: ACTION.START })}>
+            START
+          </button>
+        </div>
+      )}
       <GameTimer className="justify-end py-2" timerRef={timerRef} onTimeUpdate={setTimeTaken} />
       <div className="grid w-full place-items-center border-t-2">
         {state.gameState === ACTION.STARTED && (
@@ -281,6 +312,24 @@ export default function GuessingGame() {
           />
         )}
         <p>{feedback}</p>
+        {state.gameState === ACTION.END && (
+          <div className="mt-4">
+            <p>You ran out of lives 💔</p>
+            <p>
+              You managed to guess <span className="font-bold">{state.correctGuess}</span> Pokemon
+            </p>
+            <p>
+              Highest hot streak: <span className="font-bold">{hotStreak}</span>🔥
+            </p>
+            <p>Final Score</p>
+            <p className="font-bold ">{state.score}</p>
+            <button
+              className="title border-2 rounded-md px-4 bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
+              onClick={() => dispatch({ type: ACTION.START })}>
+              Retry
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
