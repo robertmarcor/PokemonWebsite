@@ -107,6 +107,8 @@ export default function GuessingGame() {
   }, [selectionRange, state.gameState]);
 
   const skipPokemon = useCallback(() => {
+    setFeedback(`Sucks to suck, it was '${word.toUpperCase()}'`);
+    setTimeout(() => setFeedback(""), 5000);
     timerRef.current?.resetTimer();
     const skipPenality = 500;
     dispatch({ type: ACTION.DECREMENT_SCORE, payload: skipPenality });
@@ -114,7 +116,7 @@ export default function GuessingGame() {
     dispatch({ type: ACTION.DECREMENT_HEALTH });
     handleFetchPokemon();
     setInputValue("");
-  }, [handleFetchPokemon]);
+  }, [handleFetchPokemon, word]);
 
   const startGame = useCallback(() => {
     if (state.gameState === ACTION.STARTED) return;
@@ -290,16 +292,7 @@ export default function GuessingGame() {
           </div>
         )}
       </div>
-      {state.gameState === ACTION.IDLE && (
-        <div className="flex">
-          <h2 className="title mr-6">Press Space to</h2>
-          <button
-            className="title border-2 rounded-md px-4 bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
-            onClick={() => dispatch({ type: ACTION.START })}>
-            START
-          </button>
-        </div>
-      )}
+
       <GameTimer className="justify-end py-2" timerRef={timerRef} onTimeUpdate={setTimeTaken} />
       <div className="grid w-full place-items-center border-t-2">
         {state.gameState === ACTION.STARTED && (
@@ -311,7 +304,20 @@ export default function GuessingGame() {
             handleKeyDown={handleInputKeyDown}
           />
         )}
+
+        {state.gameState === ACTION.IDLE && (
+          <div className="flex justify-center mt-8">
+            <h2 className="text-3xl mr-6">Press Space to</h2>
+            <button
+              className="text-3xl border-2 rounded-md px-4 bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
+              onClick={() => dispatch({ type: ACTION.START })}>
+              START
+            </button>
+          </div>
+        )}
+
         <p>{feedback}</p>
+
         {state.gameState === ACTION.END && (
           <div className="mt-4">
             <p>You ran out of lives 💔</p>

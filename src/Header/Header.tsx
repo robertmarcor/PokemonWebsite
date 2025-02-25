@@ -1,7 +1,8 @@
 export default function Header({ className }: { className?: string }) {
-  const iconUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png";
+  const iconUrl =
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png";
   return (
-    <div className={`${className} flex`}>
+    <div className={`${className} flex text-nowrap`}>
       <div className="w-12">
         <img className="w-full" src={iconUrl || "fallback"} alt="" />
       </div>
