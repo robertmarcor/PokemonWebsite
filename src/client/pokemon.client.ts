@@ -1,6 +1,6 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { apiClient } from "./base";
-import { Pokemon } from "../models";
+import { Pokemon, PokemonSpecies } from "../models";
 
 /**
  * Example usage:
@@ -18,8 +18,18 @@ import { Pokemon } from "../models";
 export function useGetPokemonById<T = Pokemon>(id: number, selector?: (pokemon: Pokemon) => T) {
   return useQuery<Pokemon, Error, T>({
     queryKey: ["Pokemon", id],
-    queryFn: async () => await apiClient.fetchByEndpoint<Pokemon>(`Pokemon/${id}`),
+    queryFn: async () => await apiClient.fetchByEndpoint<Pokemon>(`pokemon/${id}`),
     select: selector as (pokemon: Pokemon) => T,
+  });
+}
+export function useGetSpeciesById<T = PokemonSpecies>(
+  id: number,
+  selector?: (specie: PokemonSpecies) => T
+) {
+  return useQuery<PokemonSpecies, Error, T>({
+    queryKey: ["Pokemon-Specie", id],
+    queryFn: async () => await apiClient.fetchByEndpoint<PokemonSpecies>(`pokemon-species/${id}`),
+    select: selector as (specie: PokemonSpecies) => T,
   });
 }
 

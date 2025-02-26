@@ -7,7 +7,9 @@ type Route = {
 };
 
 export type Routes = {
-  [key: string]: Route;
+  Home: Route;
+  WhosThatPokemon: Route;
+  PokedexGame: Route;
 };
 
 export const ROUTES: Routes = {

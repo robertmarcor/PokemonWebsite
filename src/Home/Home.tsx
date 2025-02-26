@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { ROUTES } from "../data/routes";
 
 export default function Home() {
   return (
@@ -14,9 +15,9 @@ export default function Home() {
       <h1 className="text-5xl font-bold mt-6 tracking-wide">Pokémon Guessing Game</h1>
       <div className="mt-8 grid gap-4">
         <p className="text-lg text-gray-300 max-w-lg mt-4">
-          Guessing Game - Guess Pokémon based on their silhouette.
+          Who´s that Pokèmon - Guess Pokémon based on their silhouette.
         </p>
-        <Link to="/guessing-game">
+        <Link to={ROUTES.WhosThatPokemon.href}>
           <button className="px-6 py-3 text-lg font-semibold rounded-md bg-gradient-to-r from-yellow-500 to-orange-500 shadow-lg shadow-yellow-500/50 hover:scale-105 transition-transform">
             Start Guessing
           </button>
@@ -24,7 +25,7 @@ export default function Home() {
         <p className="text-lg text-gray-300 max-w-lg mt-4">
           Pokedex Game - Test your knowledge by filling the dex{" "}
         </p>
-        <Link to="/pokedex-game">
+        <Link to={ROUTES.PokedexGame.href}>
           <button className="px-6 py-3 text-lg font-semibold rounded-md bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/50 hover:scale-105 transition-transform">
             Fill the Dex
           </button>

@@ -94,10 +94,18 @@ export default function WhosThatGame() {
   }
 
   const { data: pokemonData, isLoading } = useGetPokemonById(randomPokemonId, (pokemon) => ({
-    name: pokemon.name,
+    name: pokemon.species.name,
     sprite: pokemon.sprites.other?.["official-artwork"].front_default,
-    cry: pokemon.cries.latest,
   }));
+
+  // const { data: specieData } = useGetSpeciesById(randomPokemonId, (species) => ({
+  //   variant: species.varieties,
+  // }));
+
+  // if (specieData) {
+  //   for (let i: number = 0; i < specieData.variant.length; i++)
+  //     console.log(extractIdFromUrl(specieData?.variant[i].pokemon.url));
+  // }
 
   const handleFetchPokemon = useCallback(() => {
     const genIds = selectionRange[Math.floor(Math.random() * selectionRange.length)];
