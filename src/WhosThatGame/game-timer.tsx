@@ -24,7 +24,7 @@ const GuessTimer = ({
     startTimeRef.current = Date.now();
     localTimerRef.current = window.setInterval(() => {
       setTimeElapsed(Date.now() - startTimeRef.current);
-    }, 10);
+    }, 100);
   }, []);
 
   const stopTimer = useCallback(() => {
