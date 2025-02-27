@@ -2,21 +2,21 @@
 
 ## Who's That Pokemon Game
 ### TODO
-[x] Add health/tries
-[x] Add Indicator reached maxlenght
-[x] Look into pokemon with forms, use simplest one
-[] add leaderboard
-[x] remove dragginng image to preventg cheating
-[] add easy mode/mobile version
-[x] decouple timer, then add scoremulti and timetake on correct guess
+- [x] Add health/tries
+- [x] Add indicator when max length is reached
+- [x] Look into Pokémon with forms, use simplest one
+- [ ] Add leaderboard
+- [x] Remove dragging image to prevent cheating
+- [ ] Add easy mode / mobile version
+- [x] Decouple timer, then add score multiplier and time taken on correct guess
 
 ## Pokedex Game
 ### TODO
-[] playable version, single gen only
-[] multiple gens
+- [ ] Playable version, single gen only
+- [ ] Multiple gens
 
 ## General
 ### TODO
-[] Pokemon lookup "Pokedex"
-[] Pokemon Draft game
-[] Mobile version
+- [ ] Pokémon lookup ("Pokedex")
+- [ ] Pokémon Draft game
+- [ ] Mobile version
