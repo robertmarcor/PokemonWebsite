@@ -1,10 +1,12 @@
+import { memo } from "react";
+
 type Props = {
   className?: string;
   score: number;
   hp?: number;
   streak?: number;
 };
-export default function ScoreDisplay({ className, score, hp, streak }: Props) {
+export default memo(function ScoreDisplay({ className, score, hp, streak }: Props) {
   return (
     <div className={`${className} grid place-items-end w-60`}>
       <p className="font-bold">{score} Points</p>
@@ -12,4 +14,4 @@ export default function ScoreDisplay({ className, score, hp, streak }: Props) {
       {streak && <p>{streak} 🔥</p>}
     </div>
   );
-}
+});

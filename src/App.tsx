@@ -10,12 +10,17 @@ import PokdexGame from "./PokedexGame/pokedex-game";
 function App() {
   return (
     <>
-      <header>
-        <Header className="h-16 bg-gradient-to-r from-rose-700 to-rose-400 flex items-center" />
-        <Nav className="h-10" />
-      </header>
-      <div className="grid grid-rows-[1fr] justify-items-center min-w-dvw min-h-svh">
-        <main className="sm:mx-10 text-center">
+      <div
+        className="min-h-screen grid 
+      grid-rows-[80px_0px_1fr_100px] 
+      sm:grid-rows-[80px_50px_1fr_100px]">
+        {/* Header */}
+        <header className="">
+          <Header className="h-full bg-gradient-to-r from-rose-700 to-rose-400 flex items-center" />
+        </header>
+        <Nav className="" />
+        {/* Main Content */}
+        <main className="w-full relative">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -23,8 +28,12 @@ function App() {
             <Route path="/pokedex-game" element={<PokdexGame />} />
           </Routes>
         </main>
+
+        {/* Footer */}
+        <footer className="flex justify-center items-center text-center bg-slate-800">
+          <Footer />
+        </footer>
       </div>
-      <Footer className="grid place-items-center mt-auto" />
     </>
   );
 }

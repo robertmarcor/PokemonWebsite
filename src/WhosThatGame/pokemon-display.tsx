@@ -1,3 +1,5 @@
+import React from "react";
+
 function PokemonDisplay({
   className,
   pokemonName,
@@ -23,4 +25,4 @@ function PokemonDisplay({
   );
 }
 
-export default PokemonDisplay;
+export default React.memo(PokemonDisplay);

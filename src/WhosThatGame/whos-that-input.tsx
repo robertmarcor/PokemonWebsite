@@ -18,9 +18,9 @@ function WhosThatGameInput({
 
   return (
     <>
-      <div className="relative flex justify-center items-center p-4 w-full">
+      <div className="relative flex justify-center items-center p-4">
         <input
-          className={`bg-transparent text-transparent p-2 z-10 focus:outline-none border-4 rounded-md w-full ${
+          className={`bg-transparent text-transparent p-2 px-8 z-10 focus:outline-none border-4 rounded-md w-full ${
             isFocused
               ? inputValue.length === word.length
                 ? inputValue === word

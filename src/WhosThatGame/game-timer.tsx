@@ -49,9 +49,11 @@ const GuessTimer = ({
   }, [onTimeUpdate, resetTimer, startTimer, stopTimer, timeElapsed, timerRef]);
 
   return (
-    <div className={`${className} flex`}>
-      <p> Time: {(timeElapsed / 1000).toFixed(1)}</p>
-      <p className="animate-bounce">⏳</p>
+    <div className={`${className}`}>
+      <div className="flex">
+        <p> Time: {(timeElapsed / 1000).toFixed(1)}</p>
+        <p className="animate-bounce">⏳</p>
+      </div>
     </div>
   );
 };

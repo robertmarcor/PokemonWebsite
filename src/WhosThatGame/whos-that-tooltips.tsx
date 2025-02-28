@@ -1,6 +1,8 @@
-export default function WhosThatGameTooltips() {
+import { memo } from "react";
+
+export default memo(function WhosThatGameTooltips() {
   return (
-    <div className="absolute left-2 top-28 text-xs opacity-50 text-start p-2 flex flex-col gap-3">
+    <div className="absolute left-0 bottom-0 text-xs opacity-50 text-start p-2 flex flex-col gap-3">
       <div>
         <span className="border-2 rounded-md border-slate-700 px-1 mr-1">Tab</span>
         <span>to skip</span>
@@ -15,4 +17,4 @@ export default function WhosThatGameTooltips() {
       </div>
     </div>
   );
-}
+});

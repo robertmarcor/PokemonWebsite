@@ -1,7 +1,7 @@
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { generations } from "../data/consts";
 
-export default function GenerationSelector({
+function GenerationSelector({
   className,
   updateSelectedRanges,
   selectedGenerations,
@@ -50,7 +50,7 @@ export default function GenerationSelector({
           }`}
           role="button"
           aria-selected={activeGenerations.includes(generation.id)}>
-          <div className="flex items-center">
+          <div className="flex items-center px-2">
             <p className="text-sm w-16">Gen {generation.id}</p>
             {generation.icon && (
               <img
@@ -65,3 +65,4 @@ export default function GenerationSelector({
     </div>
   );
 }
+export default React.memo(GenerationSelector);
