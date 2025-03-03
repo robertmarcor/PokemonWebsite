@@ -7,12 +7,12 @@ import Portal from "../Portal";
 
 type PokemonData = {
   name: string;
-  sprite: string;
+  sprite: string | null;
 };
 
 export default function PokedexGame() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [gen, setGen] = useState<number | null>(null);
+  const [gen, setGen] = useState<number>();
   const [list, setList] = useState<number[]>([]);
   const [pokemon, setPokemon] = useState<PokemonData[] | null>(null);
 
@@ -21,63 +21,58 @@ export default function PokedexGame() {
     refetch: pokemonRefetch,
     isLoading,
   } = useGetMultiplePokemonById(list, false, (pokemon) => ({
-    name: pokemon.species.name,
-    sprite: pokemon.sprites.versions["generation-viii"].icons.front_default,
+    name: pokemon?.species.name ?? pokemon.name,
+    sprite:
+      pokemon.sprites.versions["generation-viii"].icons.front_default ??
+      pokemon.sprites.front_default,
   }));
 
-  // Update list when generation changes and reset stored Pokemon data.
   useEffect(() => {
     if (gen != null) {
       const { range } = generations[gen - 1];
       const [start, end] = range;
       const array = Array.from({ length: end - start + 1 }, (_, i) => i + start);
       setList(array);
-      setPokemon(null); // Reset to avoid stale data when generation changes.
+
+      setPokemon(null);
     }
   }, [gen]);
 
-  // Check localStorage when generation changes.
   useEffect(() => {
-    if (gen != null) {
-      const key = `Generation${gen}_Data`;
-      const savedData = localStorage.getItem(key);
-      if (savedData && savedData.length >= 3) {
-        try {
-          const parsedData: PokemonData[] = JSON.parse(savedData);
-          setPokemon(parsedData);
-          console.log("Loaded from storage", parsedData);
-        } catch (error) {
-          console.error("Error parsing stored data", error);
-        }
-      } else {
-        // No valid saved data, so fetch fresh data.
+    if (list.length !== 0 && gen != null) {
+      const _key = `Generation${gen}_Data`;
+      const storedData = localStorage.getItem(_key);
+
+      if (!storedData) {
+        console.log("No stored data, fetching");
         pokemonRefetch();
-      }
-    }
-  }, [gen]);
-
-  // Save fetched data to localStorage and update state.
-  useEffect(() => {
-    if (gen != null && fetchedPokemonData && !isLoading) {
-      const key = `Generation${gen}_Data`;
-      const savedData = localStorage.getItem(key);
-      if (!savedData || savedData.length < 3) {
-        localStorage.setItem(key, JSON.stringify(fetchedPokemonData));
-        setPokemon(fetchedPokemonData as PokemonData[]);
-        console.log("Saved new data", fetchedPokemonData);
-      }
-    }
-  }, [gen, isLoading]);
-
-  const parseData = () => {
-    if (gen != null) {
-      const key = `Generation${gen}_Data`;
-      const savedData = localStorage.getItem(key);
-      if (savedData) {
-        console.log(JSON.parse(savedData));
       } else {
-        console.log("No data found");
+        const parsedData: PokemonData[] = JSON.parse(storedData);
+        if (parsedData.length === 0) {
+          console.log("Stored data is empty, fetching");
+          pokemonRefetch();
+        } else {
+          console.log("Stored Data found, retrieving data");
+          setPokemonData();
+        }
       }
+    }
+  }, [list, gen]);
+
+  useEffect(() => {
+    const _key = `Generation${gen}_Data`;
+    if (!isLoading && fetchedPokemonData && fetchedPokemonData.length !== 0) {
+      localStorage.setItem(_key, JSON.stringify(fetchedPokemonData));
+      console.log("Data saved to localStorage");
+      setPokemonData();
+    }
+  }, [isLoading]);
+
+  const setPokemonData = () => {
+    const _key = `Generation${gen}_Data`;
+    const _storedData = localStorage.getItem(_key);
+    if (_storedData) {
+      setPokemon(JSON.parse(_storedData));
     }
   };
 
@@ -85,7 +80,7 @@ export default function PokedexGame() {
     <div className="grid content-start h-full max-w-2xl gap-4 mx-auto mb-4 overflow-hidden text-center">
       <div className="fixed -z-50 inset-0 transform skew-x-[24deg] bg-zinc-500/10" />
       <div className="fixed -z-40 bg-zinc-500/10"></div>
-      <button onClick={parseData}>Parse</button>
+
       <h1 className="my-8 text-5xl font-extrabold tracking-widest">Fill the Dex</h1>
       <button className="px-4 mx-auto button" onClick={() => setIsModalOpen(!isModalOpen)}>
         Pick Gen
