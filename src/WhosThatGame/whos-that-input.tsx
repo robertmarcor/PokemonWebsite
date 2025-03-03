@@ -18,7 +18,7 @@ function WhosThatGameInput({
 
   return (
     <>
-      <div className="relative flex justify-center items-center p-4">
+      <div className="relative flex items-center justify-center p-4">
         <input
           className={`bg-transparent text-transparent p-2 px-8 z-10 focus:outline-none border-4 rounded-md w-full ${
             isFocused
@@ -40,7 +40,7 @@ function WhosThatGameInput({
         />
 
         {isFocused && (
-          <div className="absolute flex justify-center gap-2 text-4xl font-bold uppercase tracking-widest px-4 h-12">
+          <div className="absolute flex justify-center h-12 gap-2 px-4 text-4xl font-bold tracking-widest uppercase">
             {word.split("").map((char, index) => {
               const isCorrect = inputValue[index]?.toLowerCase() === char.toLowerCase();
               const isTyped = index < inputValue.length;
@@ -64,7 +64,7 @@ function WhosThatGameInput({
       </div>
 
       {!isFocused && (
-        <div className="animate-pulse flex items-center gap-2">
+        <div className="flex items-center gap-2 animate-pulse">
           <span>Press</span>
           <svg
             className="dark fill-foreground size-16"

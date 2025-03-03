@@ -6,7 +6,7 @@ export default function Header({ className }: { className?: string }) {
       <div className="w-12">
         <img className="w-full" src={iconUrl || "fallback"} alt="" />
       </div>
-      <p className="text-2xl sm:text-5xl font-bold tracking-wide heading ">PokèMenn Quizter</p>
+      <p className="text-2xl sm:text-5xl font-bold tracking-wide heading ">PokèMenn</p>
     </div>
   );
 }

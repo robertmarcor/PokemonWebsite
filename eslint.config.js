@@ -20,7 +20,6 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-      "no-unused-vars": process.env.NODE_ENV === "production" ? "warn" : "error",
     },
   }
 );

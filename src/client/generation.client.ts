@@ -4,12 +4,14 @@ import { apiClient } from "./base";
 
 export function useGetGenerationById<T = Generation>(
   id: number,
+  enabled: boolean = true,
   selector?: (generation: Generation) => T
 ) {
   return useQuery<Generation, Error, T>({
     queryKey: ["Generation", id],
     queryFn: async () => await apiClient.fetchByEndpoint(`Generation/${id}`),
     select: selector ?? ((generation) => generation as T),
+    enabled,
   });
 }
 

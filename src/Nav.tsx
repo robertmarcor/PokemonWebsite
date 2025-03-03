@@ -31,7 +31,9 @@ export default function Nav({ className }: Props) {
       {isMobile ? (
         <ul className="flex items-center gap-4 h-full ml-3 text-nowrap">
           {_routes.map((route) => (
-            <li key={route.key} className="flex items-center font-headings font-bold">
+            <li
+              key={route.key}
+              className="flex items-center font-pixel tracking-[.2rem] font-medium">
               {route.icon && (
                 <img className="h-8 pb-1 pr-1" src={route.icon} alt={`${route.key}-link-icon`} />
               )}
@@ -39,7 +41,7 @@ export default function Nav({ className }: Props) {
                 className={({ isActive }) =>
                   isActive
                     ? "underline text-orange-500"
-                    : "hover:text-sky-400 hover:underline underline-offset-6"
+                    : "hover:text-orange-400 hover:underline underline-offset-6"
                 }
                 to={route.href}>
                 {route.name}

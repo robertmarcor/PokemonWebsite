@@ -15,11 +15,16 @@ import { Pokemon, PokemonSpecies } from "../models";
  * // bulba = { name: "bulbasaur", id: 1 }
  */
 
-export function useGetPokemonById<T = Pokemon>(id: number, selector?: (pokemon: Pokemon) => T) {
+export function useGetPokemonById<T = Pokemon>(
+  id: number,
+  enabled: boolean = true,
+  selector?: (pokemon: Pokemon) => T
+) {
   return useQuery<Pokemon, Error, T>({
     queryKey: ["Pokemon", id],
     queryFn: async () => await apiClient.fetchByEndpoint<Pokemon>(`pokemon/${id}`),
     select: selector as (pokemon: Pokemon) => T,
+    enabled,
   });
 }
 export function useGetSpeciesById<T = PokemonSpecies>(
@@ -35,11 +40,12 @@ export function useGetSpeciesById<T = PokemonSpecies>(
 
 export function useGetMultiplePokemonById<T = Pokemon>(
   ids: number[],
+  enabled: boolean = true,
   selector?: (pokemon: Pokemon) => T
 ) {
   const queries = useQueries({
     queries: ids.map((id) => ({
-      enabled: false,
+      enabled,
       queryKey: ["Pokemon", id],
       queryFn: async () => await apiClient.fetchByEndpoint<Pokemon>(`Pokemon/${id}`),
       select: selector ? (pokemon: Pokemon) => selector(pokemon) : undefined,

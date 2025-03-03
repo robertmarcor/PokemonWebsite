@@ -20,7 +20,7 @@ export const ROUTES: Routes = {
   },
   WhosThatPokemon: {
     href: "/who-is-that-pokemon-game",
-    name: "WhoThatPokèmon?",
+    name: "WhosThatPokèmon?",
     icon: "/pika-hidden.png",
   },
   PokedexGame: {

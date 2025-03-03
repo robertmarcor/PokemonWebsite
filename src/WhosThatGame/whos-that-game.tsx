@@ -102,7 +102,7 @@ export default memo(function WhosThatGame() {
     }
   }
 
-  const { data: pokemonData, isLoading } = useGetPokemonById(randomPokemonId, (pokemon) => ({
+  const { data: pokemonData, isLoading } = useGetPokemonById(randomPokemonId, true, (pokemon) => ({
     name: pokemon.species.name,
     sprite: pokemon.sprites.other?.["official-artwork"].front_default,
   }));
@@ -274,28 +274,22 @@ export default memo(function WhosThatGame() {
 
   return (
     <>
-      <div
-        className="mx-auto max-w-screen-2xl relative
-        flex flex-col
-        min-h-full
-      ">
-        <section className="w-full px-4 grid place-items-center content-center pb-24">
-          <h1 className="text-5xl max-sm:text-3xl my-4 font-headings font-extrabold">
-            {"Who's that Pokémon!?"}
-          </h1>
+      <div className="relative flex flex-col min-h-full mx-auto max-w-screen-2xl ">
+        <section className="grid content-center w-full px-4 pb-24 place-items-center">
+          <h1 className="my-4 font-extrabold max-sm:text-3xl">{"Who's that Pokémon!?"}</h1>
           {/* UI stuff */}
           <div className="flex justify-start w-full gap-2">
-            <ToggleSwitch isChecked={isEasyMode} setIsChecked={setIsEasyMode} />{" "}
-            <p className={`${isEasyMode && "text-sky-400"}`}>PussyMode</p>
+            <ToggleSwitch isChecked={isEasyMode} setIsChecked={setIsEasyMode} />
+            <p className={`${isEasyMode && "text-sky-400"} font-mono`}>PussyMode</p>
           </div>
           <div className="relative w-full my-8">
-            <aside className="absolute left-0 max-sm:-left-5 top-0 max-sm:-top-20 z-40">
+            <aside className="absolute top-0 left-0 z-40 max-sm:-left-5 max-sm:-top-20">
               <GenerationSelector
                 className="max-sm:scale-75"
                 updateSelectedRanges={setSelectionRange}
               />
             </aside>
-            <aside className="absolute right-0 top-0 max-sm:-top-8">
+            <aside className="absolute top-0 right-0 max-sm:-top-8">
               <ScoreDisplay
                 className="text-2xl"
                 score={state.score}
@@ -306,12 +300,12 @@ export default memo(function WhosThatGame() {
           </div>
           {/* Image of the Pokemon */}
           {isLoading ? (
-            <div className="size-36 sm:size-72 lg:size-96 flex justify-center items-center">
+            <div className="flex items-center justify-center size-36 sm:size-72 lg:size-96">
               <MoonLoader color="#FFF" />
             </div>
           ) : (
             <PokemonDisplay
-              className="size-36 sm:size-72 lg:size-96 pt-20"
+              className="pt-20 size-36 sm:size-72 lg:size-96"
               pokemonName={pokemonData?.name || "Missing"}
               pokemonSprite={
                 pokemonData?.sprite ||
@@ -326,7 +320,7 @@ export default memo(function WhosThatGame() {
 
         {/* Non-Mobile (Desktop) UI */}
         {!isMobile && !isEasyMode && (
-          <section className="grid w-full h-full place-items-center content-start relative">
+          <section className="relative grid content-start w-full h-full place-items-center">
             <WhosThatGameTooltips />
 
             {state.gameState === ACTION.STARTED && (
@@ -340,12 +334,12 @@ export default memo(function WhosThatGame() {
             )}
 
             {state.gameState === ACTION.IDLE && (
-              <div className="flex justify-center items-center gap-2 mt-8">
+              <div className="flex items-center justify-center gap-2 mt-8">
                 Press
                 <SpaceBarIcon />
                 to
                 <button
-                  className="text-3xl border-2 rounded-md px-4 bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
+                  className="px-4 text-3xl border-2 rounded-md bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
                   onClick={() => dispatch({ type: ACTION.START })}>
                   START
                 </button>
@@ -362,10 +356,10 @@ export default memo(function WhosThatGame() {
         {/* Mobile UI */}
         {isMobile ||
           (isEasyMode && (
-            <section className="grid w-full h-full place-items-center relative flex-1">
+            <section className="relative grid flex-1 w-full h-full place-items-center">
               <div className="grid w-full h-full place-items-center">
                 {state.gameState === ACTION.IDLE && (
-                  <div className="grid place-items-center gap-2">
+                  <div className="grid gap-2 place-items-center">
                     <p>Finger Pika to Start</p>
                     <button onClick={startGame}>
                       <img className="size-20" src="/pika.png" alt="" />
@@ -374,7 +368,7 @@ export default memo(function WhosThatGame() {
                 )}
 
                 {state.gameState === ACTION.STARTED && (
-                  <div className="w-full h-full flex flex-col justify-center items-center">
+                  <div className="flex flex-col items-center justify-center w-full h-full">
                     <WhosThatGameMobileInput word={word} handleGuess={handleGuess} />
                     <p>{inputValue}</p>
                   </div>
@@ -415,7 +409,7 @@ export default memo(function WhosThatGame() {
         <p>Final Score</p>
         <p className="font-bold text-green-500">{state.score}</p>
         <button
-          className="title border-2 rounded-md px-4 bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
+          className="px-4 border-2 rounded-md title bg-gradient-to-t from-black to-slate-800 hover:border-blue-400"
           onClick={() => dispatch({ type: ACTION.START })}>
           Retry
         </button>

@@ -12,7 +12,7 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-yellow-400 opacity-10 blur-3xl rounded-full -z-50"></div>
       </div>
-      <h1 className="text-5xl font-bold mt-6 tracking-wide">Pokémon Guessing Game</h1>
+      <h1 className="text-5xl font-bold mt-6 tracking-wide">Pokèmenn</h1>
       <div className="mt-8 grid gap-4">
         <p className="text-lg text-gray-300 max-w-lg mt-4">
           Who´s that Pokèmon - Guess Pokémon based on their silhouette.
