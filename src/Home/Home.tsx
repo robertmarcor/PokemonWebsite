@@ -88,7 +88,7 @@ export default function Home() {
       <Portal>
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-10" />
       </Portal>
-      <PageWrapper>
+      <PageWrapper className="mb-8">
         <header>
           <h1 className="mb-2 text-4xl font-bold tracking-wider text-yellow-400">
             Welcome to Pokèmenn
