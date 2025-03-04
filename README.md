@@ -12,11 +12,12 @@
 
 ## Pokedex Game
 
-- [ ] Playable version, single gen only
-- [ ] Multiple gens
+- [x] Playable version, single gen only
+- [x] Multiple gens
 
 ## General
 
 - [ ] Pokémon lookup ("Pokedex")
 - [ ] Pokémon Draft game
-- [ ] Mobile version
+- [x] Mobile version
+- [ ] ServiceLayer and storing in localDB
