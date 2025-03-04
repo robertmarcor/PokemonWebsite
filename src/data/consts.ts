@@ -33,3 +33,20 @@ export const generations: RawGeneration[] = [
   { id: 8, range: [810, 905], specie_amount: 96, label: "Generation 8", icon: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/813.png" },
   { id: 9, range: [906, 1025], specie_amount: 120, label: "Generation 9", icon: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/912.png" },
 ];
+
+export const allNames = [
+  "Bulbasaur",
+  "Charmander",
+  "Squirtle",
+  "Pidgey",
+  "Rattata",
+  "Jigglypuff",
+  "Meowth",
+  "Psyduck",
+  "Machop",
+  "Magnemite",
+  "Onix",
+  "Geodude",
+  "Eevee",
+  "Snorlax",
+];

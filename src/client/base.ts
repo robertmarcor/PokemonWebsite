@@ -15,10 +15,10 @@ export class ApiClient extends BaseClient {
     console.log(`Fetching: ${pokeApiUrl}${endpoint}`);
     return this.fetch<T>(`${pokeApiUrl}${endpoint}`);
   }
-  async fetchByUrl(url: string) {
+  async fetchByUrl<T>(url: string) {
     console.log(`Fetching: ${url}`);
 
-    return this.fetch(url);
+    return this.fetch<T>(url);
   }
 }
 export const apiClient = new ApiClient();

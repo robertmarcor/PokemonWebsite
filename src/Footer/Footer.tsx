@@ -19,7 +19,7 @@ const GitIcon = () => {
 export default function Footer({ className }: Props) {
   return (
     <footer className={`${className} text-sm font-sans py-2`}>
-      <div className="flex justify-center items-center gap-1">
+      <div className="flex items-center justify-center gap-1">
         <p>Developed and maintained by</p>
         <a href="https://github.com/robertmarcor">
           <div className="flex items-center gap-1 underline text-emerald-400">
@@ -30,7 +30,7 @@ export default function Footer({ className }: Props) {
       </div>
       <p>
         Resource for data{" "}
-        <a className="text-emerald-400 underline" href="">
+        <a className="underline text-emerald-400" href="">
           PokèAPI
         </a>
       </p>

@@ -65,6 +65,7 @@ export default memo(function WhosThatGame() {
 
   const [isMobile, setIsMobile] = useState<boolean>(() => window.innerWidth < 768);
   const [isEasyMode, setIsEasyMode] = useState<boolean>(false);
+
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
@@ -278,10 +279,12 @@ export default memo(function WhosThatGame() {
         <section className="grid content-center w-full px-4 pb-24 place-items-center">
           <h1 className="my-4 font-extrabold max-sm:text-3xl">{"Who's that Pokémon!?"}</h1>
           {/* UI stuff */}
-          <div className="flex justify-start w-full gap-2">
-            <ToggleSwitch isChecked={isEasyMode} setIsChecked={setIsEasyMode} />
-            <p className={`${isEasyMode && "text-sky-400"} font-mono`}>PussyMode</p>
-          </div>
+          {!isMobile && (
+            <div className="flex justify-start w-full gap-2">
+              <ToggleSwitch isChecked={isEasyMode} setIsChecked={setIsEasyMode} />
+              <p className={`${isEasyMode && "text-sky-400"} font-mono`}>PussyMode</p>
+            </div>
+          )}
           <div className="relative w-full my-8">
             <aside className="absolute top-0 left-0 z-40 max-sm:-left-5 max-sm:-top-20">
               <GenerationSelector
@@ -354,28 +357,27 @@ export default memo(function WhosThatGame() {
         </div>
 
         {/* Mobile UI */}
-        {isMobile ||
-          (isEasyMode && (
-            <section className="relative grid flex-1 w-full h-full place-items-center">
-              <div className="grid w-full h-full place-items-center">
-                {state.gameState === ACTION.IDLE && (
-                  <div className="grid gap-2 place-items-center">
-                    <p>Finger Pika to Start</p>
-                    <button onClick={startGame}>
-                      <img className="size-20" src="/pika.png" alt="" />
-                    </button>
-                  </div>
-                )}
+        {(isMobile || isEasyMode) && (
+          <section className="relative grid flex-1 w-full h-full place-items-center">
+            <div className="grid w-full h-full place-items-center">
+              {state.gameState === ACTION.IDLE && (
+                <div className="grid gap-2 place-items-center">
+                  <p>Finger Pika to Start</p>
+                  <button onClick={startGame}>
+                    <img className="size-20" src="/pika.png" alt="" />
+                  </button>
+                </div>
+              )}
 
-                {state.gameState === ACTION.STARTED && (
-                  <div className="flex flex-col items-center justify-center w-full h-full">
-                    <WhosThatGameMobileInput word={word} handleGuess={handleGuess} />
-                    <p>{inputValue}</p>
-                  </div>
-                )}
-              </div>
-            </section>
-          ))}
+              {state.gameState === ACTION.STARTED && (
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                  <WhosThatGameMobileInput word={word} handleGuess={handleGuess} />
+                  <p>{inputValue}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
       </div>
     </>
   );

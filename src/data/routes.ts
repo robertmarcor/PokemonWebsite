@@ -1,31 +1,41 @@
 const ballIcon =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png";
-type Route = {
+
+export type SubRoute = {
+  label: string;
   href: string;
-  name: string;
   icon?: string;
 };
 
-export type Routes = {
-  Home: Route;
-  WhosThatPokemon: Route;
-  PokedexGame: Route;
+export type Route = {
+  label: string;
+  href: string;
+  icon?: string;
+  subroutes?: SubRoute[] | [];
 };
 
-export const ROUTES: Routes = {
-  Home: {
-    href: "/",
-    name: "HOME",
-    icon: ballIcon,
-  },
-  WhosThatPokemon: {
-    href: "/who-is-that-pokemon-game",
-    name: "WhosThatPokèmon?",
-    icon: "/pika-hidden.png",
-  },
-  PokedexGame: {
-    href: "/pokedex-game",
-    name: "Pokedex-Game",
-    icon: "/pokedex.webp",
-  },
+export const Home: Route = {
+  label: "Home",
+  href: "/home",
+  icon: ballIcon,
+  subroutes: [],
 };
+
+export const Games: Route = {
+  label: "Games",
+  href: "/games",
+  icon: ballIcon,
+  subroutes: [
+    { label: "WhosThatPokèmon?", href: "/who-is-that-pokemon-game", icon: "/pika-hidden.png" },
+    { label: "Pokedex Game", href: "/pokedex-game", icon: "/pokedex.webp" },
+  ],
+};
+
+export const Pokedex: Route = {
+  label: "Pokèdex",
+  href: "/pokedex",
+  icon: ballIcon,
+  subroutes: [],
+};
+
+export const ROUTES: Route[] = [Home, Games, Pokedex];

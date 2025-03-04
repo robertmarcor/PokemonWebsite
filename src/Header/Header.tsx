@@ -1,12 +1,14 @@
+import { Link } from "react-router";
+
 export default function Header({ className }: { className?: string }) {
-  const iconUrl =
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png";
   return (
-    <div className={`${className} flex text-nowrap`}>
-      <div className="w-12">
-        <img className="w-full" src={iconUrl || "fallback"} alt="" />
+    <Link to={"/"}>
+      <div className={`${className} flex items-center`}>
+        <div className="w-12">
+          <img className="w-full" src={"/public/shit-pokeball.png"} />
+        </div>
+        <p className="text-2xl font-bold tracking-wide heading ">PokèMenn</p>
       </div>
-      <p className="text-2xl sm:text-5xl font-bold tracking-wide heading ">PokèMenn</p>
-    </div>
+    </Link>
   );
 }

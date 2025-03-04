@@ -1,6 +1,15 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { apiClient } from "./base";
-import { Pokemon, PokemonSpecies } from "../models";
+import { NamedAPIResourceList, Pokemon, PokemonSpecies } from "../models";
+
+export function useGetPokemonCount() {
+  return useQuery<NamedAPIResourceList, Error, number>({
+    enabled: false,
+    queryKey: ["PokemonCount"],
+    queryFn: async () => apiClient.fetchByUrl("https://pokeapi.co/api/v2/pokemon"),
+    select: (data) => data.count,
+  });
+}
 
 /**
  * Example usage:

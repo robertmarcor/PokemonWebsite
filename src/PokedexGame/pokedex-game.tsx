@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useGetMultiplePokemonById } from "../client/pokemon.client";
 import PickGen from "../Components/pick-gen";
 import { generations } from "../data/consts";
-import { cn } from "../lib/utils";
 import Portal from "../Portal";
+import PageWrapper from "../Components/page-wrapper";
+import Board from "./board";
 
-type PokemonData = {
+export type PokemonData = {
   name: string;
   sprite: string | null;
 };
@@ -15,6 +16,9 @@ export default function PokedexGame() {
   const [gen, setGen] = useState<number>();
   const [list, setList] = useState<number[]>([]);
   const [pokemon, setPokemon] = useState<PokemonData[] | null>(null);
+  const [guessedPokemon, setGuessedPokemon] = useState<string[]>([]);
+  const [guess, setGuess] = useState("");
+  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const {
     data: fetchedPokemonData,
@@ -76,8 +80,43 @@ export default function PokedexGame() {
     }
   };
 
+  function handleGuess(input: string) {
+    if (!pokemon) return;
+
+    const normalizedInput = input.trim().toLowerCase();
+    const found = pokemon.find((poke) => poke.name.toLowerCase() === normalizedInput);
+
+    if (found && !guessedPokemon.includes(found.name)) {
+      setGuessedPokemon((prev) => [...prev, found.name]);
+    }
+
+    setGuess("");
+  }
+
+  function handleInstantSubmit(input: string) {
+    setGuess(input);
+
+    if (!pokemon) return;
+
+    const normalizedInput = input.trim().toLowerCase();
+
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    const newTimeout = setTimeout(() => {
+      const found = pokemon.find((poke) => poke.name.toLowerCase() === normalizedInput);
+
+      if (found) {
+        handleGuess(input);
+      }
+    }, 300);
+
+    setTypingTimeout(newTimeout);
+  }
+
   return (
-    <div className="grid content-start h-full max-w-2xl gap-4 mx-auto mb-4 overflow-hidden text-center">
+    <PageWrapper>
       <div className="fixed -z-50 inset-0 transform skew-x-[24deg] bg-zinc-500/10" />
       <div className="fixed -z-40 bg-zinc-500/10"></div>
 
@@ -99,27 +138,26 @@ export default function PokedexGame() {
             <span className="font-bold text-orange-500">{generations[gen - 1].specie_amount}</span>{" "}
             Pokémon
           </p>
-          <Board />
+
+          <p>
+            You have guessed {`${guessedPokemon.length} / ${generations[gen - 1].specie_amount}`}
+          </p>
+
+          <div className="relative max-w-2xl">
+            {/* Input Field */}
+            <input
+              type="text"
+              value={guess}
+              onChange={(e) => handleInstantSubmit(e.target.value)}
+              placeholder="Guess a Pokémon"
+              className="relative w-full p-2 text-white border-2 rounded-md bg-background"
+            />
+          </div>
+
+          {isLoading && <p>Loading Data...</p>}
+          <Board pokemon={pokemon} guessedPokemon={guessedPokemon} />
         </>
       )}
-    </div>
+    </PageWrapper>
   );
-
-  function Board() {
-    if (pokemon && pokemon.length > 0) {
-      const squares = pokemon.map((poke: PokemonData, index: number) => (
-        <div key={poke.name || index} className="border-b-2">
-          <div className="scale-150 size-12">
-            <img src={poke.sprite || "/pika.png"} alt={poke.name} />
-          </div>
-        </div>
-      ));
-      return (
-        <div className={cn("grid grid-cols-10 gap-1 p-4 bg-black w-full border-4 rounded-lg")}>
-          {squares}
-        </div>
-      );
-    }
-    return null;
-  }
 }
