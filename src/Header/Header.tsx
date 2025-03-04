@@ -5,7 +5,7 @@ export default function Header({ className }: { className?: string }) {
     <Link to={"/"}>
       <div className={`${className} flex items-center`}>
         <div className="w-12">
-          <img className="w-full" src={"/public/shit-pokeball.png"} />
+          <img className="w-full" src={"/shit-pokeball.png"} />
         </div>
         <p className="text-2xl font-bold tracking-wide heading ">PokèMenn</p>
       </div>
