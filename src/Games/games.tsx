@@ -10,7 +10,7 @@ const games = [
     title: "Who's That Pokémon?",
     description:
       "Guess the Pokémon based on its silhouette! Inspired by the classic 'Who's That Pokémon?' segment from the series.",
-    image: "/public/pokedex-game.png",
+    image: "/pokedex-game.png",
     link: "/who-is-that-pokemon-game",
   },
   {
@@ -18,7 +18,7 @@ const games = [
     title: "Pokèdex Challange",
     description:
       "Test your Pokémon knowledge by naming all the Pokémon from a selected generation. How many can you recall?",
-    image: "/public/guess-game.png",
+    image: "/guess-game.png",
     link: "/pokedex-game",
   },
 ];
