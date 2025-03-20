@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router";
 import { apiClient } from "../client/base";
-import { getTypeColor, getDamageClassColor } from "../data/colors";
+import { getDamageClassColor } from "../data/colors";
 import { Pokemon } from "../models";
+import TypeBadge from "../Components/ui/type-badge";
 
 function PokemonMoves() {
   const { id } = useParams<{ id: string }>();
@@ -248,12 +249,7 @@ function PokemonMoves() {
                     {moveData.name.replace(/-/g, " ")}
                   </td>
                   <td className="hidden md:table-cell px-4 py-2 text-white text-sm whitespace-nowrap">
-                    <span
-                      className={`${getTypeColor(
-                        moveData.type
-                      )} px-2 py-1 rounded-full text-xs uppercase font-bold`}>
-                      {moveData.type}
-                    </span>
+                    <TypeBadge type={moveData.type} className="max-w-28" />
                   </td>
                   <td className="hidden lg:table-cell px-4 py-2 text-white text-sm whitespace-nowrap">
                     <span

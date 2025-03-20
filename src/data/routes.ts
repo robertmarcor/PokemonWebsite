@@ -38,4 +38,9 @@ export const Pokedex: Route = {
   subroutes: [],
 };
 
+export const DESKTOP_ROUTES = [
+  { label: "Games", href: "/games" },
+  { label: "Pokedex", href: "/pokedex" },
+];
+
 export const ROUTES: Route[] = [Home, Games, Pokedex];

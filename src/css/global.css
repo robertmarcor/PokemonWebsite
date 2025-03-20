@@ -6,12 +6,23 @@
 } */
 @layer base {
   :root {
-    --background: 0, 100%, 100%;
-    --foreground: 0, 0%, 0%;
-    --primary: oklch(0.72 0.18 306);
+    --background: hsl(0, 0%, 95%);
+    --foreground: hsl(0, 0%, 2.5%);
+    --primary: oklch(0.51 0.2 17);
+    --primary-accent: oklch(0.82 0.11 346);
+    --secondary: oklch(0.77 0.2 131);
+
     --font-headings: "Doto", serif;
     --font-base: "Orbitron", serif;
     --font-base2: "Pixelify Sans", serif;
+  }
+
+  .dark {
+    --background: hsl(0, 0%, 3.5%);
+    --foreground: hsl(0, 100%, 100%);
+    --primary: oklch(0.59 0.22 18);
+    --primary-accent: oklch(0.82 0.11 346);
+    --secondary: oklch(0.77 0.2 131);
   }
 }
 
@@ -24,15 +35,9 @@
   font-family: var(--font-headings);
 }
 
-:root {
-  --background: hsl(0, 0%, 2.5%);
-  --foreground: hsl(0, 100%, 100%);
-}
-
-html{
+html {
   scroll-behavior: smooth;
 }
-
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -45,8 +50,7 @@ body {
   font-size: 16px;
   line-height: 1.6;
   letter-spacing: 0.1rem;
-  font-size: 1.5rem;
-  font-weight: 100;
+  font-weight: 400;
   min-width: 375px;
 }
 
@@ -78,6 +82,21 @@ li {
 
 .stroke {
   -webkit-text-stroke: 1px black;
+}
+
+.fade-border {
+  position: relative;
+}
+
+.fade-border::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -2px;
+  right: 2px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--foreground), transparent);
+  opacity: 0.8;
 }
 
 @keyframes score-popup {

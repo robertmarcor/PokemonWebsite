@@ -86,7 +86,7 @@ export default function Home() {
   return (
     <>
       <Portal>
-        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-10" />
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-10 bg-black" />
       </Portal>
       <PageWrapper className="mb-8">
         <header>

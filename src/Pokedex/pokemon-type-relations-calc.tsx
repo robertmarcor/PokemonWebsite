@@ -1,4 +1,4 @@
-import { getTypeColor } from "../data/colors";
+import TypeBadge from "../Components/ui/type-badge";
 import { pokemonDamageRelations } from "../data/type-damage-relations";
 import { Pokemon } from "../models/Pokemon";
 
@@ -72,8 +72,8 @@ const PokemonTypeRelations = ({ pokemon }: { pokemon: Pokemon }) => {
   const multiplierValues = [4, 2, 1, 0.5, 0.25, 0];
 
   return (
-    <div>
-      <div className="space-y-4 mb-6">
+    <>
+      <div>
         {multiplierValues.map((multiplierValue) => {
           const typesWithMultiplier = getTypesByMultiplier(multiplierValue);
           if (typesWithMultiplier.length === 0) return null;
@@ -91,11 +91,7 @@ const PokemonTypeRelations = ({ pokemon }: { pokemon: Pokemon }) => {
               </p>
               <div className="flex flex-wrap justify-center gap-2">
                 {typesWithMultiplier.map((type) => (
-                  <div key={type} className="relative">
-                    <span className={`px-3 py-1 rounded-xl text-white ${getTypeColor(type)}`}>
-                      <span className="capitalize">{type}</span>
-                    </span>
-                  </div>
+                  <TypeBadge key={type} type={type} />
                 ))}
               </div>
             </div>
@@ -106,18 +102,12 @@ const PokemonTypeRelations = ({ pokemon }: { pokemon: Pokemon }) => {
       <h2 className="mb-2 font-bold text-white text-xl">{"Strong against (2x)"}</h2>
       <div className="flex flex-wrap justify-center gap-2">
         {strengths.length > 0 ? (
-          strengths.map((type) => (
-            <span
-              key={type}
-              className={`px-3 py-1 rounded-xl text-white capitalize ${getTypeColor(type)}`}>
-              {type}
-            </span>
-          ))
+          strengths.map((type) => <TypeBadge key={type} type={type} />)
         ) : (
           <span className="text-gray-500">No specific strengths</span>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

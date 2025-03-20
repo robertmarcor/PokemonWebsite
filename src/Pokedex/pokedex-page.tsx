@@ -1,32 +1,23 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../client/base";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import PageWrapper from "../Components/page-wrapper";
-import { NamedAPIResourceList, Pokemon } from "../models";
+import { NamedAPIResourceList, Pokemon, PokemonSpecies } from "../models";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
-import { getTypeColor } from "../data/colors";
+import { getCardGradient } from "../data/colors";
+import PokedexPageSkeleton from "./components/page-skeleton";
+import TypeBadge from "../Components/ui/type-badge";
 
-// Type for the Pokemon list item
-type PokemonListItem = {
-  id: number;
-  name: string;
-  sprite: string | null;
-  types: string[];
-  generation: string;
-};
-
-// Type for the Pokemon species response
-interface PokemonSpeciesResponse {
-  generation: {
-    name: string;
-  };
+interface PokemonWithGeneration extends Partial<Pokemon> {
+  generation?: string;
+  sprite?: string | null;
 }
 
 function PokedexPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredPokemon, setFilteredPokemon] = useState<PokemonListItem[]>([]);
+  const [filteredPokemon, setFilteredPokemon] = useState<PokemonWithGeneration[]>([]);
   const pokemonPerPage = 20;
 
   // Fetch the list of all Pokemon
@@ -38,7 +29,7 @@ function PokedexPage() {
   });
 
   // Fetch details for the current page of Pokemon
-  const { data: pokemonDetails, isLoading: isLoadingDetails } = useQuery<PokemonListItem[]>({
+  const { data: pokemonDetails, isLoading: isLoadingDetails } = useQuery<PokemonWithGeneration[]>({
     queryKey: ["PokemonDetails", currentPage, searchTerm],
     queryFn: async () => {
       if (!pokemonList) return [];
@@ -57,21 +48,21 @@ function PokedexPage() {
       const detailsPromises = paginatedResults.map(async (pokemon) => {
         const id = parseInt(pokemon.url.split("/").filter(Boolean).pop() || "0");
         const details = await apiClient.fetchByEndpoint<Pokemon>(`pokemon/${id}`);
-        const speciesData = await apiClient.fetchByEndpoint<PokemonSpeciesResponse>(
+        const speciesData = await apiClient.fetchByEndpoint<PokemonSpecies>(
           `pokemon-species/${id}`
         );
 
         // Get generation
         const generation = speciesData.generation.name.replace("generation-", "").toUpperCase();
 
+        // Create a partial Pokemon object with the properties we need
         return {
-          id,
-          name: details.name,
+          ...details,
+          // Add the generation and sprite as custom properties
+          generation: generation,
           sprite:
             details.sprites.other?.["official-artwork"].front_default ||
             details.sprites.front_default,
-          types: details.types.map((type) => type.type.name),
-          generation,
         };
       });
 
@@ -141,36 +132,9 @@ function PokedexPage() {
     }
   };
 
-  // Handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset to first page when searching
-  };
-
-  // Get card gradient based on Pokemon type
-  const getCardGradient = (type: string) => {
-    const typeGradients: Record<string, string> = {
-      normal: "bg-gradient-to-br from-gray-300 to-gray-500",
-      fire: "bg-gradient-to-br from-red-400 to-orange-600",
-      water: "bg-gradient-to-br from-blue-400 to-blue-700",
-      electric: "bg-gradient-to-br from-yellow-300 to-amber-500",
-      grass: "bg-gradient-to-br from-green-400 to-emerald-700",
-      ice: "bg-gradient-to-br from-blue-100 to-cyan-500",
-      fighting: "bg-gradient-to-br from-red-600 to-red-900",
-      poison: "bg-gradient-to-br from-purple-400 to-purple-700",
-      ground: "bg-gradient-to-br from-yellow-600 to-amber-900",
-      flying: "bg-gradient-to-br from-indigo-200 to-indigo-500",
-      psychic: "bg-gradient-to-br from-pink-400 to-pink-700",
-      bug: "bg-gradient-to-br from-lime-400 to-green-600",
-      rock: "bg-gradient-to-br from-yellow-700 to-stone-900",
-      ghost: "bg-gradient-to-br from-purple-600 to-indigo-900",
-      dragon: "bg-gradient-to-br from-indigo-500 to-purple-900",
-      dark: "bg-gradient-to-br from-gray-700 to-gray-900",
-      steel: "bg-gradient-to-br from-gray-400 to-slate-600",
-      fairy: "bg-gradient-to-br from-pink-300 to-pink-500",
-    };
-
-    return typeGradients[type] || "bg-gradient-to-br from-slate-400 to-slate-700";
+    setCurrentPage(1);
   };
 
   return (
@@ -197,22 +161,19 @@ function PokedexPage() {
       </div>
 
       {/* Loading State */}
-      {(isLoadingList || isLoadingDetails) && (
-        <div className="flex justify-center items-center h-64">
-          <div className="border-t-2 border-b-2 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
-        </div>
-      )}
+      {(isLoadingList || isLoadingDetails) && <PokedexPageSkeleton />}
 
       {/* Pokemon Grid */}
       {!isLoadingList && !isLoadingDetails && (
         <>
-          <div className="gap-4 grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 mb-8">
+          {/* Pokemon List Card */}
+          <div className="gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mb-8">
             {filteredPokemon.map((pokemon) => (
               <Link
                 key={pokemon.id}
                 to={`/pokedex/${pokemon.id}`}
                 className={`${getCardGradient(
-                  pokemon.types[0]
+                  pokemon.types && pokemon.types.length > 0 ? pokemon.types[0].type.name : "normal"
                 )} shadow-lg hover:shadow-xl rounded-lg hover:ring-2 hover:ring-blue-500 overflow-hidden transition-all duration-300 transform hover:scale-105`}>
                 {/* Card Header with ID and Generation */}
                 <div className="flex justify-between items-center bg-black/30 p-2">
@@ -235,20 +196,14 @@ function PokedexPage() {
                 </div>
 
                 {/* Pokemon Name */}
-                <h2 className="drop-shadow-md mb-2 font-bold text-white text-xl text-center capitalize">
+                <h2 className="text-shadow mb-2 font-bold text-white text-xl text-center capitalize">
                   {pokemon.name}
                 </h2>
 
                 {/* Types */}
                 <div className="flex justify-center gap-2 bg-black/20 p-3">
-                  {pokemon.types.map((type) => (
-                    <span
-                      key={type}
-                      className={`${getTypeColor(
-                        type
-                      )} px-3 py-1 rounded-full text-white text-xs uppercase font-bold shadow-md`}>
-                      {type}
-                    </span>
+                  {pokemon.types?.map((type) => (
+                    <TypeBadge key={type.type.name} type={type.type.name} />
                   ))}
                 </div>
               </Link>

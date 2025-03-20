@@ -10,7 +10,7 @@ function PokemonFormsChain({ speciesData }: Props) {
   return (
     <div className="flex justify-center gap-8">
       {speciesData.varieties.map((form) => (
-        <PokemonForm name={extractIdFromUrl(form.pokemon.url)} />
+        <PokemonForm key={form.pokemon.name} name={extractIdFromUrl(form.pokemon.url)} />
       ))}
     </div>
   );

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import Header from "./Header/Header";
-import Nav from "./Nav";
+import MobileNav from "./Nav";
 import Footer from "./Footer/Footer";
 import WhosThatGame from "./WhosThatGame/whos-that-game";
 import About from "./About/about";
@@ -11,6 +11,7 @@ import { cn } from "./lib/utils";
 import GamesPage from "./Games/games";
 import PokedexPage from "./Pokedex/pokedex-page";
 import PokemonDetailPage from "./Pokedex/pokemon-detail";
+import ThemeToggleButton from "./Components/theme-toggler";
 
 function App() {
   return (
@@ -18,9 +19,17 @@ function App() {
       <PokemonServiceProvider>
         <div className={cn("min-h-svh z-50 min-w-[375px] flex flex-col")}>
           {/* Header */}
-          <header className="top-0 z-30 flex items-center bg-gradient-to-r from-rose-700 to-rose-400 px-2 min-h-[80px]">
+          <header
+            className={cn(
+              "flex items-center justify-between",
+              "top-0 z-30 min-h-[80px] text-white px-2",
+              "bg-gradient-to-r from-rose-700 to-rose-400"
+            )}>
             <Header />
-            <Nav className="ml-auto" />
+            <div className="flex gap-2 items-center">
+              <ThemeToggleButton />
+              <MobileNav />
+            </div>
           </header>
           {/* Main Content */}
           <main className="flex-1 min-w-full">

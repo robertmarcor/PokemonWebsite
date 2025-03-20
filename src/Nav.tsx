@@ -8,13 +8,8 @@ import { AnimatePresence, motion } from "framer-motion"; // ✅ Corrected Import
 
 type Props = { className?: string };
 
-export default function Nav({ className }: Props) {
-  // const [isMobile, setIsMobile] = useState(() => window.innerWidth > 768);
+export default function MobileNav({ className }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-
-  // useEffect(() => {
-  //   setIsMobile(window.innerWidth > 768);
-  // }, []);
 
   return (
     <nav className={cn(className, "flex items-center font-headings")}>

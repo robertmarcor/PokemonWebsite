@@ -18,7 +18,7 @@ const GitIcon = () => {
 
 export default function Footer({ className }: Props) {
   return (
-    <footer className={`${className} text-sm font-sans py-2`}>
+    <footer className={`${className} text-sm font-sans py-2 text-white`}>
       <div className="flex items-center justify-center gap-1">
         <p>Developed and maintained by</p>
         <a href="https://github.com/robertmarcor">

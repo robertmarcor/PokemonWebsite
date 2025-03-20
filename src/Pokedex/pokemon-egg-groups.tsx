@@ -17,9 +17,6 @@ function EggGroupItem({ groupName }: { groupName: string }) {
   const { data, isLoading } = UseGetEggGroupByName(groupName);
 
   if (isLoading) return <div>Loading...</div>;
-
-  console.log(data);
-
   return (
     <div className="flex flex-col">
       <div className="flex">

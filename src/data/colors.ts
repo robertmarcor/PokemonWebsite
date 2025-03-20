@@ -24,6 +24,31 @@ export const getTypeColor = (type: string) => {
   return typeColors[type] || "bg-gray-400";
 };
 
+export const getTypeColorDarker = (type: string) => {
+  const ringColors: Record<string, string> = {
+    normal: "ring-2 ring-gray-600",
+    fire: "ring-2 ring-red-700",
+    water: "ring-2 ring-blue-700",
+    electric: "ring-2 ring-yellow-600",
+    grass: "ring-2 ring-green-700",
+    ice: "ring-2 ring-blue-400",
+    fighting: "ring-2 ring-red-900",
+    poison: "ring-2 ring-purple-700",
+    ground: "ring-2 ring-yellow-900",
+    flying: "ring-2 ring-indigo-500",
+    psychic: "ring-2 ring-pink-700",
+    bug: "ring-2 ring-green-600",
+    rock: "ring-2 ring-yellow-900",
+    ghost: "ring-2 ring-purple-900",
+    dragon: "ring-2 ring-indigo-900",
+    dark: "ring-2 ring-gray-900",
+    steel: "ring-2 ring-gray-700",
+    fairy: "ring-2 ring-pink-500",
+  };
+
+  return ringColors[type] || "gray-600";
+};
+
 // Get card gradient based on Pokemon type
 export const getCardGradient = (type: string) => {
   const typeGradients: Record<string, string> = {

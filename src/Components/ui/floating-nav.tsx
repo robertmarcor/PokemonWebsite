@@ -4,50 +4,42 @@ import { useState } from "react";
 function FloatingNav() {
   const [quickRefVisible, setQuickRefVisible] = useState<boolean>(true);
 
+  const quickLinks = [
+    { label: "Basic Info", href: "#info" },
+    { label: "Stats", href: "#stats" },
+    { label: "Type Relations", href: "#type-relations" },
+    { label: "Evo Chain", href: "#evo-chain" },
+    { label: "Abilities", href: "#abilities" },
+    { label: "Moves", href: "#moves" },
+    { label: "Egg", href: "#egg-group" },
+    { label: "Location", href: "#location" },
+  ];
+
   return (
     <>
       {quickRefVisible ? (
-        <nav className="top-5 z-30 sticky bg-black/80 p-4 rounded-md font-mono shadow-lg">
+        <nav className="p-4 rounded-md font-mono shadow-lg sticky w-full bg-violet-500 top-0 z-40 bg-gradient-to-t from-red-500 to-rose-500">
           <div className="flex justify-between items-center mb-2">
-            <a
-              className="hover:text-blue-400 p-2 flex items-center gap-2 transition-colors"
-              href="#top">
-              <ArrowUp size={18} />
-              <p className="font-semibold">Quick Navigation</p>
-            </a>
             <button
-              className="bg-red-500/80 hover:bg-red-600/80 p-1.5 rounded-full transition-colors"
+              className="hover:bg-blue-600/80 p-1.5 rounded-full transition-colors absolute top-2 left-2 size-9 text-white"
+              aria-label="scroll top">
+              <a href="#top">
+                <ArrowUp size={18} className="m-auto" />
+              </a>
+            </button>
+            <button
+              className="hover:bg-red-600/80 p-1.5 rounded-full transition-colors absolute top-2 right-2 size-9 text-white"
               onClick={() => setQuickRefVisible(false)}
               aria-label="Hide navigation">
-              <X size={18} />
+              <X size={18} className="m-auto" />
             </button>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <a
-              className="bg-black hover:bg-gray-800 p-2 rounded-md transition-colors hover:text-blue-400 flex-grow text-center"
-              href="#evo-chain">
-              Evo Chain
-            </a>
-            <a
-              className="bg-black hover:bg-gray-800 p-2 rounded-md transition-colors hover:text-blue-400 flex-grow text-center"
-              href="#abilities">
-              Abilities
-            </a>
-            <a
-              className="bg-black hover:bg-gray-800 p-2 rounded-md transition-colors hover:text-blue-400 flex-grow text-center"
-              href="#moves">
-              Moves
-            </a>
-            <a
-              className="bg-black hover:bg-gray-800 p-2 rounded-md transition-colors hover:text-blue-400 flex-grow text-center"
-              href="#type-relations">
-              Type Relations
-            </a>
-            <a
-              className="bg-black hover:bg-gray-800 p-2 rounded-md transition-colors hover:text-blue-400 flex-grow text-center"
-              href="#egg-group">
-              Egg
-            </a>
+          <div className="flex flex-wrap gap-2 *:rounded-md ml-9 *:px-2 text-sm *:text-white">
+            {quickLinks.map((link, index) => (
+              <a key={index} className="hover:black/40 hover:ring-2 ring-white" href={link.href}>
+                {link.label}
+              </a>
+            ))}
           </div>
         </nav>
       ) : (
