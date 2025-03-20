@@ -8,7 +8,6 @@ import PokemonBaseStats from "./components/PokemonBaseStats";
 import TypeBadge from "../Components/ui/type-badge";
 import PokemonAbilities from "./pokemon-abilities";
 import CoolSpacer from "../Components/ui/cool-spacer";
-import DetailedViewInfoHeader from "./components/detailed-view-info-header";
 import { cn } from "../lib/utils";
 
 type Props = {
@@ -18,10 +17,10 @@ type Props = {
 
 function PokemonDetailCard({ pokemon, species }: Props) {
   return (
-    <article className="pokemon-card p-4 max-sm:p-2 transition-colors duration-300 border-t-2">
+    <article className="p-4 max-sm:p-2 transition-colors duration-300 border-t-2">
       {/* Card Header */}
-      <header className="card-header mb-4">
-        <PokemonHeader className="flex max-sm:flex-col gap-2 items-center py-2">
+      <header>
+        <PokemonHeader className="flex max-sm:flex-col gap-2 items-center">
           <span
             className={cn(
               "pokemon-id dark:bg-slate-400 dark:text-shadow shadow-md p-1.5 px-3 rounded-2xl font-bold text-xl max-sm:text-base"
@@ -39,42 +38,60 @@ function PokemonDetailCard({ pokemon, species }: Props) {
         </PokemonHeader>
       </header>
 
-      {/* Card Body - First Section */}
-      <section className="card-body mb-6">
-        <div className="grid grid-cols-2 gap-4 max-sm:gap-2 max-md:grid-cols-1">
-          <PokemonImages pokemon={pokemon} />
-          <PokemonBasicInfo pokemon={pokemon} species={species} />
-        </div>
-      </section>
-
-      {/* Spacer */}
       <CoolSpacer />
 
-      {/* Card Body - Second Section */}
-      <section className="card-body mt-2">
-        <DetailedViewInfoHeader title="General" className="text-left mb-4" />
-
-        {/* Content */}
-        <div className="card-content space-y-6">
-          {/* Abilities Section */}
-          <div className="p-4 rounded-lg bg-black/[0.01]">
-            <PokemonAbilities pokemon={pokemon} />
+      {/* Main content sections */}
+      <div className="content-container">
+        {/* Images and Basic Info Section */}
+        <section aria-labelledby="basic-info-section">
+          <h2 id="basic-info-section" className="sr-only">
+            Basic Information
+          </h2>
+          <div className="grid grid-cols-2 gap-4 max-sm:gap-2 max-md:grid-cols-1">
+            <PokemonImages pokemon={pokemon} />
+            <PokemonBasicInfo pokemon={pokemon} species={species} />
           </div>
+        </section>
 
-          {/* Training & Breeding Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg bg-black/[0.01]">
-              <PokemonTraining pokemon={pokemon} species={species} />
-            </div>
-            <div className="p-4 rounded-lg bg-black/[0.01]">
-              <PokemonBreeding species={species} />
-            </div>
-          </div>
+        <CoolSpacer />
 
-          {/* Base Stats Section */}
+        {/* Stats Section */}
+        <section aria-labelledby="stats-section">
+          <h2 id="stats-section" className="sr-only">
+            Base Stats
+          </h2>
           <PokemonBaseStats pokemon={pokemon} />
+        </section>
+
+        <CoolSpacer />
+
+        {/* Abilities Section */}
+        <section aria-labelledby="abilities-section" className="p-4 rounded-lg bg-black/[0.01]">
+          <h2 id="abilities-section" className="sr-only">
+            Abilities
+          </h2>
+          <PokemonAbilities pokemon={pokemon} />
+        </section>
+
+        <CoolSpacer />
+
+        {/* Training and Breeding Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <section aria-labelledby="training-section" className="p-4 rounded-lg bg-black/[0.01]">
+            <h2 id="training-section" className="sr-only">
+              Training
+            </h2>
+            <PokemonTraining pokemon={pokemon} species={species} />
+          </section>
+
+          <section aria-labelledby="breeding-section" className="p-4 rounded-lg bg-black/[0.01]">
+            <h2 id="breeding-section" className="sr-only">
+              Breeding
+            </h2>
+            <PokemonBreeding species={species} />
+          </section>
         </div>
-      </section>
+      </div>
     </article>
   );
 }

@@ -121,6 +121,7 @@ export default function PokedexGame() {
       <div className="-z-40 fixed bg-zinc-500/10"></div>
 
       <h1 className="my-8 font-extrabold text-5xl text-center tracking-widest">Fill the Dex</h1>
+      <p>Light mode not properly supported</p>
 
       {/* Desktop layout with side-by-side panels */}
       <div className="flex md:flex-row flex-col gap-6 w-full">

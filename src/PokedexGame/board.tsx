@@ -1,5 +1,5 @@
 import React from "react";
-import { PokemonData } from "./pokedex-game";
+import { PokemonData } from "./fill-the-dex-game";
 
 type BoardProps = {
   pokemon: PokemonData[] | null;

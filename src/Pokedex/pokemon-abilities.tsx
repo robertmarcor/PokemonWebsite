@@ -1,6 +1,7 @@
 import { Pokemon } from "../models";
 import { useQueries } from "@tanstack/react-query";
 import { apiClient } from "../client/base";
+import DetailedViewInfoHeader from "./components/detailed-view-info-header";
 
 interface AbilityDetail {
   effect_entries: {
@@ -44,26 +45,19 @@ function PokemonAbilities({ pokemon }: { pokemon: Pokemon }) {
   }
 
   return (
-    <div className="abilities-container space-y-3">
+    <div className="space-y-3 text-left">
       {/* Abilities Summary Line */}
-      <div className="flex flex-wrap items-center">
-        <span className="font-semibold mr-2">Abilities:</span>
-        <span className="abilities-list">
-          {regularAbilities.map((ability, index) => (
-            <span key={ability.ability.name}>
-              <span className="capitalize">{ability.ability.name.replace(/-/g, " ")}</span>
-              {index < regularAbilities.length - 1 && " - "}
-            </span>
-          ))}
-          {hiddenAbility && (
-            <span>
-              {regularAbilities.length > 0 && " - "}
-              <span className="capitalize">{hiddenAbility.ability.name.replace(/-/g, " ")}</span>
-              <span className="text-secondary ml-1">(Hidden Ability)</span>
-            </span>
-          )}
-        </span>
-      </div>
+      <header className="flex items-center gap-4 capitalize flex-wrap">
+        <DetailedViewInfoHeader title="Abilities - " className="text-left" />
+        <div className="flex flex-wrap items-center gap-4">
+          <span>{regularAbilities.map((ability) => ability.ability.name)}</span>
+          <span>{"-"}</span>
+          <span>
+            {hiddenAbility?.ability.name}
+            <span className="font-sans text-secondary">{"(Hidden)"}</span>
+          </span>
+        </div>
+      </header>
 
       {/* Ability Descriptions */}
       <div className="ability-descriptions space-y-3">
@@ -71,7 +65,7 @@ function PokemonAbilities({ pokemon }: { pokemon: Pokemon }) {
         {regularAbilities.map((ability, index) => {
           const abilityDetail = abilityQueries[index].data;
           return (
-            <div key={ability.ability.name} className="ability-description">
+            <div key={ability.ability.name}>
               <div className="font-medium capitalize">
                 {ability.ability.name.replace(/-/g, " ")}:
               </div>
@@ -82,7 +76,7 @@ function PokemonAbilities({ pokemon }: { pokemon: Pokemon }) {
 
         {/* Hidden Ability */}
         {hiddenAbility && (
-          <div className="ability-description">
+          <div>
             <div className="font-medium">
               <span className="text-secondary">Hidden Ability:</span>
             </div>

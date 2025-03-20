@@ -11,7 +11,7 @@ function PokedexPageSkeleton({ itemCount = 20 }: PokedexPageSkeletonProps) {
     return (
       <article
         key={index}
-        className="shadow-lg rounded-lg overflow-hidden bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-400 dark:to-slate-800 w-60"
+        className="shadow-lg rounded-lg overflow-hidden bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-400 dark:to-slate-800"
         aria-hidden="true">
         {/* Card Header with ID and Generation */}
         <div className="flex justify-between items-center bg-black/30 p-2">
@@ -40,7 +40,7 @@ function PokedexPageSkeleton({ itemCount = 20 }: PokedexPageSkeletonProps) {
   return (
     <section className="w-full" aria-label="Loading Pokémon content" role="status">
       <PageWrapper>
-        <div className="gap-4 grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 mb-8">
+        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
           {skeletonItems}
         </div>
       </PageWrapper>

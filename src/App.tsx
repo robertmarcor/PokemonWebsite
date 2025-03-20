@@ -5,7 +5,7 @@ import Footer from "./Footer/Footer";
 import WhosThatGame from "./WhosThatGame/whos-that-game";
 import About from "./About/about";
 import Home from "./Home/Home";
-import PokdexGame from "./PokedexGame/pokedex-game";
+import PokdexGame from "./PokedexGame/fill-the-dex-game";
 import { PokemonServiceProvider } from "./PokemonServiceProvider";
 import { cn } from "./lib/utils";
 import GamesPage from "./Games/games";

@@ -6,10 +6,8 @@ function FloatingNav() {
 
   const quickLinks = [
     { label: "Basic Info", href: "#info" },
-    { label: "Stats", href: "#stats" },
+    { label: "Evo/Form Chain", href: "#evo-chain" },
     { label: "Type Relations", href: "#type-relations" },
-    { label: "Evo Chain", href: "#evo-chain" },
-    { label: "Abilities", href: "#abilities" },
     { label: "Moves", href: "#moves" },
     { label: "Egg", href: "#egg-group" },
     { label: "Location", href: "#location" },

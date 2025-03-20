@@ -3,7 +3,7 @@ import { cn } from "../lib/utils";
 
 function PageWrapper({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <article
+    <div
       className={cn(
         className,
         "max-w-6xl max-lg:max-w-3xl max-md:max-w-xl",
@@ -11,7 +11,7 @@ function PageWrapper({ children, className }: { children: React.ReactNode; class
         "max-sm:mx-2"
       )}>
       {children}
-    </article>
+    </div>
   );
 }
 

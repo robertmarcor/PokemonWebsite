@@ -20,9 +20,10 @@ function PokemonBasicInfo({ pokemon, species }: Props) {
         <tbody>
           <InfoRow label="Color" value={species.color.name} />
           <InfoRow label="Species" value={getEnglishGenus(species.genera)?.genus || "Unknown"} />
-          <InfoRow label="Weight" value={pokemon.weight} />
-          <InfoRow label="Height" value={pokemon.height} />
-          <InfoRow label="Habitat" value={species.habitat.name} />
+          <InfoRow label="Weight" value={`${pokemon.weight}Kg`} />
+          <InfoRow label="Height" value={`${pokemon.height}m`} />
+          <InfoRow label="Habitat" value={species.habitat?.name || "Unknown"} />
+          <InfoRow label="Base Friendship" value={species.base_happiness} />
         </tbody>
       </table>
       <PokemonDescription species={species} className="col-span-2" />

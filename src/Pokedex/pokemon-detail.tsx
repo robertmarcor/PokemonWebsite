@@ -151,7 +151,7 @@ function PokemonDetailPage() {
 
       {/* Form chain */}
       {species.varieties.length > 1 && (
-        <DetailedViewSection id="form-chain" heading={"Forms Chain"}>
+        <DetailedViewSection id="evo-chain" heading={"Forms Chain"}>
           <PokemonFormsChain speciesData={species} />
         </DetailedViewSection>
       )}

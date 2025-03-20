@@ -25,7 +25,6 @@ function PokemonTraining({ pokemon, species }: Props) {
         <tbody>
           <InfoRow label="EV Yield" value={evYield || "None"} />
           <InfoRow label="Catch Rate" value={species.capture_rate} />
-          <InfoRow label="Base Friendship" value={species.base_happiness} />
           <InfoRow label="Base Exp" value={pokemon.base_experience} />
           <InfoRow label="Growth Rate" value={species.growth_rate.name} />
         </tbody>

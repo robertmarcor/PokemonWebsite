@@ -20,6 +20,7 @@ const DetailedViewSection: React.FC<DetailedViewSectionProps> = ({
       id={id}
       className={cn(
         className,
+        "scroll-m-12",
         " shadow-lg mb-8 p-6 border  rounded-lg w-full",
         "dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 dark:border-blue-500/20"
       )}>

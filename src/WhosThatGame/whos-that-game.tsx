@@ -266,7 +266,7 @@ export default memo(function WhosThatGame() {
         startGame();
       }
     },
-    [isMobile, skipPokemon, startGame, state.gameState]
+    [skipPokemon, startGame, state.gameState]
   );
 
   useEffect(() => {
@@ -310,6 +310,7 @@ export default memo(function WhosThatGame() {
       <div className="relative flex flex-col mx-auto max-w-screen-2xl min-h-full">
         <section className="content-center place-items-center grid px-4 pb-24 w-full">
           <h1 className="my-4 font-extrabold max-sm:text-3xl">{"Who's that Pokémon!?"}</h1>
+          <p>Light mode not properly supported</p>
           {/* UI stuff */}
           {!isMobile && (
             <div className="flex justify-start gap-2 w-full">
@@ -371,7 +372,7 @@ export default memo(function WhosThatGame() {
             {state.gameState === ACTION.IDLE && (
               <div className="flex justify-center items-center gap-2 mt-8">
                 Press
-                <SpaceBarIcon />
+                <SpaceBarIcon color="fill-foreground" />
                 to
                 <button
                   className="bg-gradient-to-t from-black to-slate-800 px-4 border-2 hover:border-blue-400 rounded-md text-3xl"

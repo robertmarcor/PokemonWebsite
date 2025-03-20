@@ -3,7 +3,7 @@ import { cn } from "../lib/utils";
 export const SpaceBarIcon = ({ color = "white", size = 20 }: { color?: string; size?: number }) => {
   return (
     <svg
-      className={cn(`fill-${color} size-${size}`)}
+      className={cn(`${color} size-${size}`)}
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"

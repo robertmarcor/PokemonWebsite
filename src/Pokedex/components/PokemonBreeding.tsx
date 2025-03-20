@@ -13,12 +13,14 @@ function PokemonBreeding({ species }: Props) {
 
   return (
     <div>
-      <DetailedViewInfoHeader title="Breeding" className="text-left" />
-      <table className="w-full border-collapse text-left font-mono">
+      <a href="#egg-group">
+        <DetailedViewInfoHeader title="Breeding" className="text-left" />
+      </a>
+      <table className="w-full border-collapse text-left">
         <tbody>
+          <InfoRow label="Egg Cycle" value={species.hatch_counter} />
           <InfoRow label="Egg Groups" value={eggGroups} />
           <InfoRow label="Gender Rate" value={getGenderRate(species.gender_rate)} />
-          <InfoRow label="Egg Cycle" value={species.hatch_counter} />
         </tbody>
       </table>
     </div>
