@@ -10,7 +10,7 @@ import PokemonMoves from "./pokemon-moves";
 import PokemonEggGroup from "./pokemon-egg-groups";
 import FloatingNav from "../Components/ui/floating-nav";
 import PokemonFormsChain from "./pokemon-form-chain";
-import BasicInfo from "./basic-info";
+import PokemonDetailCard from "./basic-info";
 import { extractIdFromUrl } from "../utils/utils";
 import { useEffect, useState, useRef } from "react";
 import PokemonDetailsLoadingSkeleton from "./loading-skeleton";
@@ -119,18 +119,26 @@ function PokemonDetailPage() {
       <div className="grid w-full">
         <DetailedViewSection id="info" heading={"Forms"}>
           <div className="flex justify-evenly translate-y-1">
-            {species.varieties.map((form) => (
-              <button
-                key={form.pokemon.name}
-                className={`border-t p-1.5 m-1 w-full border-x-2 rounded-t-lg capitalize ${
-                  pokemon.name === form.pokemon.name ? " font-bold" : ""
-                }`}
-                onClick={() => handleFormChange(form.pokemon.url)}>
-                {form.pokemon.name}
-              </button>
-            ))}
+            {species.varieties.map((form) => {
+              const isSelected = pokemon.name === form.pokemon.name;
+              return (
+                <button
+                  key={form.pokemon.name}
+                  className={`border-t p-1.5 m-1 w-full border-x-2 rounded-t-lg capitalize transition-all duration-200 ${
+                    isSelected
+                      ? "font-bold bg-gradient-to-b from-transparent to-blue-500/20 border-blue-500/50 border-b-2"
+                      : "hover:bg-black/5"
+                  }`}
+                  onClick={() => handleFormChange(form.pokemon.url)}>
+                  <div className="flex items-center justify-center gap-1">
+                    {isSelected && <span className="text-blue-400 text-sm">•</span>}
+                    <span>{form.pokemon.name.replace(/-/g, " ")}</span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
-          <BasicInfo species={species} pokemon={pokemon} />
+          <PokemonDetailCard species={species} pokemon={pokemon} />
         </DetailedViewSection>
       </div>
 

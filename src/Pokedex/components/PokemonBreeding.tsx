@@ -14,7 +14,7 @@ function PokemonBreeding({ species }: Props) {
   return (
     <div>
       <DetailedViewInfoHeader title="Breeding" className="text-left" />
-      <table className="w-full border-collapse text-left">
+      <table className="w-full border-collapse text-left font-mono">
         <tbody>
           <InfoRow label="Egg Groups" value={eggGroups} />
           <InfoRow label="Gender Rate" value={getGenderRate(species.gender_rate)} />
