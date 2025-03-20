@@ -1,5 +1,3 @@
-import { Pokemon } from "../../models";
-
 type Props = {
   className?: string;
   children: React.ReactNode;
