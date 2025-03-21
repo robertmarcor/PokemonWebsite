@@ -1,17 +1,57 @@
 import { ArrowUp, X, Menu } from "lucide-react";
 import { useState } from "react";
+import { RefObject } from "react";
 
-function FloatingNav() {
+interface FloatingNavProps {
+  sectionRefs: {
+    topRef: RefObject<HTMLDivElement | null>;
+    infoRef: RefObject<HTMLDivElement | null>;
+    evoChainRef: RefObject<HTMLDivElement | null>;
+    formsChainRef?: RefObject<HTMLDivElement | null>;
+    typeRelationsRef: RefObject<HTMLDivElement | null>;
+    movesRef: RefObject<HTMLDivElement | null>;
+    eggGroupRef: RefObject<HTMLDivElement | null>;
+    locationRef?: RefObject<HTMLDivElement | null>; // Optional as it might not exist in all views
+  };
+}
+
+function FloatingNav({ sectionRefs }: FloatingNavProps) {
   const [quickRefVisible, setQuickRefVisible] = useState<boolean>(true);
 
+  const scrollToSection = (ref: RefObject<HTMLDivElement | null>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Build quick links array based on available refs
   const quickLinks = [
-    { label: "Basic Info", href: "#info" },
-    { label: "Evo/Form Chain", href: "#evo-chain" },
-    { label: "Type Relations", href: "#type-relations" },
-    { label: "Moves", href: "#moves" },
-    { label: "Egg", href: "#egg-group" },
-    { label: "Location", href: "#location" },
+    { label: "Basic Info", onClick: () => scrollToSection(sectionRefs.infoRef) },
+    { label: "Evolution Chain", onClick: () => scrollToSection(sectionRefs.evoChainRef) },
   ];
+
+  // Add Forms Chain link if the ref exists
+  if (sectionRefs.formsChainRef) {
+    quickLinks.push({
+      label: "Forms Chain",
+      onClick: () => scrollToSection(sectionRefs.formsChainRef!),
+    });
+  }
+
+  // Add remaining links
+  quickLinks.push(
+    { label: "Type Relations", onClick: () => scrollToSection(sectionRefs.typeRelationsRef) },
+    { label: "Moves", onClick: () => scrollToSection(sectionRefs.movesRef) },
+    { label: "Egg", onClick: () => scrollToSection(sectionRefs.eggGroupRef) }
+  );
+
+  // Add Location link if the ref exists
+  if (sectionRefs.locationRef) {
+    quickLinks.push({
+      label: "Location",
+      onClick: () => scrollToSection(sectionRefs.locationRef!),
+    });
+  }
 
   return (
     <>
@@ -20,10 +60,9 @@ function FloatingNav() {
           <div className="flex justify-between items-center mb-2">
             <button
               className="hover:bg-blue-600/80 p-1.5 rounded-full transition-colors absolute top-2 left-2 size-9 text-white"
+              onClick={() => scrollToSection(sectionRefs.topRef)}
               aria-label="scroll top">
-              <a href="#top">
-                <ArrowUp size={18} className="m-auto" />
-              </a>
+              <ArrowUp size={18} className="m-auto" />
             </button>
             <button
               className="hover:bg-red-600/80 p-1.5 rounded-full transition-colors absolute top-2 right-2 size-9 text-white"
@@ -34,9 +73,12 @@ function FloatingNav() {
           </div>
           <div className="flex flex-wrap gap-2 *:rounded-md ml-9 *:px-2 text-sm *:text-white">
             {quickLinks.map((link, index) => (
-              <a key={index} className="hover:black/40 hover:ring-2 ring-white" href={link.href}>
+              <button
+                key={index}
+                className="hover:black/40 hover:ring-2 ring-white text-white"
+                onClick={link.onClick}>
                 {link.label}
-              </a>
+              </button>
             ))}
           </div>
         </nav>

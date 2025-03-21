@@ -1,4 +1,5 @@
 import { cn } from "../../lib/utils";
+import { forwardRef } from "react";
 
 interface DetailedViewSectionProps {
   id?: string;
@@ -8,15 +9,12 @@ interface DetailedViewSectionProps {
   children: React.ReactNode;
 }
 
-const DetailedViewSection: React.FC<DetailedViewSectionProps> = ({
-  id,
-  heading,
-  img,
-  className,
-  children,
-}) => {
+const DetailedViewSection = forwardRef<HTMLDivElement, DetailedViewSectionProps>((props, ref) => {
+  const { id, heading, img, className, children } = props;
+
   return (
     <div
+      ref={ref}
       id={id}
       className={cn(
         className,
@@ -34,5 +32,6 @@ const DetailedViewSection: React.FC<DetailedViewSectionProps> = ({
       {children}
     </div>
   );
-};
+});
+
 export default DetailedViewSection;

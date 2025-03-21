@@ -27,6 +27,7 @@ export default {
       },
       textShadow: {
         default: "1px 1px 1px var(--tw-shadow-color)",
+        blowOut: "0px 0px 1px var(--tw-shadow-color)",
         xl: "0px 0px 1px var(--tw-shadow-color)",
       },
     },

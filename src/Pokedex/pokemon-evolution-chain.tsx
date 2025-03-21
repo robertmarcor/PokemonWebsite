@@ -1,71 +1,41 @@
-import React from "react";
-import { EvolutionChain, EvolutionDetail, PokemonSpecies, Pokemon } from "../models";
-import { Link } from "react-router";
+import { EvolutionChain, EvolutionDetail, Pokemon } from "../models";
 import { apiClient } from "../client/base";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
 import ItemSprite from "../Components/sprites/item-sprite";
+import React from "react";
+import { Link } from "react-router-dom";
+import { extractIdFromUrl } from "../utils/utils";
 
 interface Props {
-  speciesData: PokemonSpecies;
+  evoChain: EvolutionChain;
 }
 
-function PokemonEvolutionChain({ speciesData }: Props) {
-  // Extract evolution chain ID from the species data
-  const getEvolutionChainId = (species: PokemonSpecies | undefined): number | null => {
-    if (!species || !species.evolution_chain) return null;
-
-    const urlParts = species.evolution_chain.url.split("/");
-    const id = urlParts[urlParts.length - 2]; // Get the ID from the URL
-    return parseInt(id);
-  };
-
-  // Fetch evolution chain data
-  const { data: evolutionChain, isLoading: isLoadingEvolutionChain } = useQuery<EvolutionChain>({
-    queryKey: ["EvolutionChain", getEvolutionChainId(speciesData)],
-    queryFn: async () => {
-      const chainId = getEvolutionChainId(speciesData);
-      if (!chainId) throw new Error("Evolution chain ID not found");
-      return apiClient.fetchByEndpoint<EvolutionChain>(`evolution-chain/${chainId}`);
-    },
-    enabled: !!speciesData && !!speciesData.evolution_chain,
-  });
-
-  // Check if the Pokemon has evolutions or evolves from another Pokemon
-  const hasEvolutions = () => {
-    if (!evolutionChain) return false;
-
-    // Check if this Pokemon evolves from another Pokemon
-    if (speciesData.evolves_from_species) return true;
-
-    // Check if this Pokemon can evolve into other Pokemon
-    if (evolutionChain.chain.evolves_to.length > 0) return true;
-
-    return false;
-  };
-
-  // Component to display a single evolution stage
+function PokemonevoChain({ evoChain }: Props) {
   interface EvolutionStageProps {
+    id: number;
     speciesName: string;
     isBaby?: boolean;
     evolutionDetails?: EvolutionDetail;
   }
 
-  const EvolutionStage: React.FC<EvolutionStageProps> = ({
+  const EvolutionStage = ({
+    id,
     speciesName,
     isBaby = false,
     evolutionDetails,
-  }) => {
+  }: EvolutionStageProps) => {
     const { data: pokemonData } = useQuery<Pokemon>({
-      queryKey: ["PokemonEvolution", speciesName],
+      queryKey: ["pokemon", speciesName],
       queryFn: async () => {
-        return apiClient.fetchByEndpoint<Pokemon>(`pokemon/${speciesName}`);
+        return apiClient.fetchByEndpoint<Pokemon>(`pokemon/${id}`);
       },
     });
 
+    console.log(pokemonData);
     // Format evolution details
     const getEvolutionTriggerText = () => {
-      if (!evolutionDetails) return "";
+      if (!evolutionDetails) return { text: "", icon: null };
 
       let triggerText = "";
       let itemIdentifier = null;
@@ -73,6 +43,7 @@ function PokemonEvolutionChain({ speciesData }: Props) {
       // Level-based evolution
       if (evolutionDetails.min_level) {
         triggerText = `Level ${evolutionDetails.min_level}`;
+        itemIdentifier = "rare-candy";
       }
       // Item-based evolution
       else if (evolutionDetails.item) {
@@ -81,7 +52,7 @@ function PokemonEvolutionChain({ speciesData }: Props) {
       }
       // Happiness-based evolution
       else if (evolutionDetails.min_happiness) {
-        triggerText = `Happiness ≥ ${evolutionDetails.min_happiness}`;
+        triggerText = `💞 Happiness > ${evolutionDetails.min_happiness}`;
       }
       // Trade evolution
       else if (evolutionDetails.trigger.name === "trade") {
@@ -91,103 +62,131 @@ function PokemonEvolutionChain({ speciesData }: Props) {
           itemIdentifier = evolutionDetails.held_item.name;
         }
       }
-
-      return (
-        <div>
-          {itemIdentifier && <ItemSprite identifier={itemIdentifier} />}
-          <p>{triggerText}</p>
-        </div>
-      );
+      return { text: triggerText, icon: itemIdentifier };
     };
 
     return (
-      <div className="flex flex-col justify-start items-center min-h-44">
-        {/* Pokemon Image */}
-        <div className="">
-          {pokemonData ? (
-            <img
-              src={
-                pokemonData.sprites.front_default ||
-                pokemonData.sprites.other?.["official-artwork"].front_default ||
-                "/pika.png"
-              }
-              alt={speciesName}
-              className="size-24"
-            />
-          ) : (
-            <div></div>
-          )}
-        </div>
-
-        {/* Pokemon Name */}
-        <div>
-          <Link to={`/pokedex/${pokemonData?.id}`}>
-            <p className="px-2 hover:underline capitalize">{speciesName.replace("-", " ")}</p>
-          </Link>
-          {isBaby && <span>Baby</span>}
-        </div>
-
-        {/* Evolution Trigger */}
-        {evolutionDetails && (
-          <div className="text-blue-300 text-xs text-center">{getEvolutionTriggerText()}</div>
-        )}
-      </div>
+      <>
+        <EvoCard
+          id={pokemonData?.id || 1}
+          speciesName={speciesName}
+          spriteUrl={
+            pokemonData?.sprites.front_default ||
+            pokemonData?.sprites.other?.["official-artwork"].front_default ||
+            null
+          }
+          isBaby={isBaby}
+          trigger={getEvolutionTriggerText()}
+        />
+      </>
     );
   };
+
   return (
     <>
-      {isLoadingEvolutionChain ? (
-        <div className="flex justify-center items-center h-24">
-          <div className="border-t-2 border-b-2 border-blue-500 rounded-full w-8 h-8 animate-spin"></div>
-        </div>
-      ) : !evolutionChain ? (
-        <div className="text-gray-400 text-center">No evolution data available</div>
-      ) : !hasEvolutions() ? (
-        <div className="text-gray-400 text-center">This Pokémon does not evolve</div>
-      ) : (
-        <div className="flex justify-center items-center">
-          {/* Base Pokemon */}
+      {evoChain.chain.evolves_to.length < 3 ? (
+        <div className="flex justify-center items-center overflow-x-auto">
+          {/* Base Pokemon Lowest */}
           <EvolutionStage
-            speciesName={evolutionChain.chain.species.name}
-            isBaby={evolutionChain.chain.is_baby}
+            id={parseInt(extractIdFromUrl(evoChain.chain.species.url))}
+            speciesName={evoChain.chain.species.name}
+            isBaby={evoChain.chain.is_baby}
           />
-
           {/* First evolution */}
-          {evolutionChain.chain.evolves_to.length > 0 && (
+          {evoChain?.chain?.evolves_to?.length > 0 && (
             <>
-              <ChevronRight className="text-blue-400" size={24} />
-              {evolutionChain.chain.evolves_to.map((evo, index) => (
-                <div key={index} className="flex items-center">
+              <ChevronRight className="text-secondary" size={24} />
+              {evoChain.chain.evolves_to.map((evo, index) => (
+                <React.Fragment key={`evo-${index}-${evo.species.name}`}>
                   <EvolutionStage
+                    id={parseInt(extractIdFromUrl(evo.species.url))}
                     speciesName={evo.species.name}
                     isBaby={evo.is_baby}
-                    evolutionDetails={evo.evolution_details[0]}
+                    evolutionDetails={evo.evolution_details?.[0] ?? null}
                   />
 
-                  {/* Second evolution */}
-                  <ChevronRight className="my-1 text-blue-400" size={24} />
-                  {evo.evolves_to.length > 0 && (
-                    <div className="flex flex-col items-center">
-                      <div className="flex flex-wrap justify-center gap-4">
-                        {evo.evolves_to.map((secondEvo, secondIndex) => (
+                  {/* Can evolve further ? */}
+                  {evo?.evolves_to?.length > 0 && (
+                    <>
+                      <ChevronRight className="text-secondary" size={24} />
+                      {evo.evolves_to.map((secondEvo, secondIndex) => (
+                        <React.Fragment
+                          key={`evo-${index}-${secondIndex}-${secondEvo.species.name}`}>
                           <EvolutionStage
-                            key={secondIndex}
+                            id={parseInt(extractIdFromUrl(secondEvo.species.url))}
                             speciesName={secondEvo.species.name}
                             isBaby={secondEvo.is_baby}
-                            evolutionDetails={secondEvo.evolution_details[0]}
+                            evolutionDetails={secondEvo.evolution_details?.[0] ?? null}
                           />
-                        ))}
-                      </div>
-                    </div>
+                          {/* Add OR between final evolutions, but not after the last one */}
+                          {secondIndex < evo.evolves_to.length - 1 && (
+                            <div className="mx-2 font-medium">OR</div>
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </>
                   )}
-                </div>
+                </React.Fragment>
               ))}
             </>
           )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 place-items-center">
+          {evoChain.chain.evolves_to.map((evo, index) => (
+            <div key={index} className="flex items-center bg-black/10">
+              <EvolutionStage
+                id={parseInt(extractIdFromUrl(evoChain.chain.species.url))}
+                speciesName={evoChain.chain.species.name}
+                isBaby={evoChain.chain.is_baby}
+              />
+              <ChevronRight className="text-secondary mb-20" size={24} />
+              <EvolutionStage
+                key={`evo-${index}-${evo.species.name}`}
+                id={parseInt(extractIdFromUrl(evo.species.url))}
+                speciesName={evo.species.name}
+                isBaby={evo.is_baby}
+                evolutionDetails={evo.evolution_details[0]}
+              />
+            </div>
+          ))}
         </div>
       )}
     </>
   );
 }
 
-export default PokemonEvolutionChain;
+interface EvoCardProps {
+  id: number;
+  speciesName: string;
+  spriteUrl: string | null;
+  isBaby: boolean;
+  trigger: { text: string; icon: string | null };
+}
+function EvoCard({ id, spriteUrl, speciesName, isBaby, trigger }: EvoCardProps) {
+  return (
+    <div className="flex flex-col justify-start items-center h-72">
+      <img
+        src={spriteUrl || "/pika.png"}
+        alt={speciesName}
+        className="max-w-24 xl:max-w-52 size-24 xl:size-52"
+      />
+
+      {/* Pokemon Name */}
+      <div>
+        <Link to={`/pokedex/${id}`} className="px-2 hover:underline capitalize">
+          {speciesName.replace("-", " ")}
+        </Link>
+      </div>
+      {isBaby && <span className="font-sans text-secondary text-center">Baby</span>}
+
+      {/* Evolution Trigger */}
+      <div className="font-sans text-secondary text-center">
+        {trigger.text}
+        {trigger.icon && <ItemSprite identifier={trigger.icon} className="inline ml-1" />}
+      </div>
+    </div>
+  );
+}
+
+export default PokemonevoChain;

@@ -12,6 +12,7 @@ import GamesPage from "./Games/games";
 import PokedexPage from "./Pokedex/pokedex-page";
 import PokemonDetailPage from "./Pokedex/pokemon-detail";
 import ThemeToggleButton from "./Components/theme-toggler";
+import TestPokemon from "./Pokedex/test";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
               <Route path="/games" element={<GamesPage />} />
               <Route path="/pokedex" element={<PokedexPage />} />
               <Route path="/pokedex/:id" element={<PokemonDetailPage />} />
+              <Route path="/test/:id" element={<TestPokemon />} />
             </Routes>
           </main>
 

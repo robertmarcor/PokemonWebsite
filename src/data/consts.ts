@@ -34,6 +34,11 @@ export const generations: RawGeneration[] = [
   { id: 9, range: [906, 1025], specie_amount: 120, label: "Generation 9", icon: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/912.png" },
 ];
 
+export const pokemonCount = 1025;
+export const pokemonCountRange = [1, 1025];
+export const pokemonVariants = 277;
+export const pokemonVariantsRange = [10001, 10277];
+
 export const allNames = [
   "Bulbasaur",
   "Charmander",

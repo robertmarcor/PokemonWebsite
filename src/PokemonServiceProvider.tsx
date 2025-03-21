@@ -1,41 +1,40 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useGetPokemonCount } from "./client/pokemon.client";
-
-type ContextProps = {
-  count?: number;
-  allNames?: string[];
-};
-
-const PokemonContext = createContext<ContextProps>({ count: 0, allNames: [] });
+import { PokemonContext } from "./PokemonServiceContext";
 
 export const PokemonServiceProvider = ({ children }: { children: React.ReactNode }) => {
-  const { data, refetch } = useGetPokemonCount();
-  const [count, setCount] = useState<number | null>(null);
-  const countRef = useRef<number | null>(null);
+  const { data, refetch, isError } = useGetPokemonCount();
+  const POKEMON_COUNT = "PokemonCount";
 
   useEffect(() => {
-    const key = "PokemonCount";
-    const storedData = localStorage.getItem(key);
+    const loadData = () => {
+      const storedCount = localStorage.getItem(POKEMON_COUNT);
+      if (storedCount) {
+        try {
+          JSON.parse(storedCount);
+        } catch (error) {
+          console.error("Failed to parse stored Pokemon count", error);
+          refetch();
+        }
+      } else {
+        refetch();
+      }
+    };
 
-    if (storedData) {
-      countRef.current = JSON.parse(storedData);
-      setCount(countRef.current);
-    } else {
-      refetch();
-    }
+    loadData();
   }, []);
 
   useEffect(() => {
-    if (data && data !== countRef.current) {
-      localStorage.setItem("PokemonCount", JSON.stringify(data));
-      setCount(data);
-      countRef.current = data;
+    if (data !== undefined) {
+      localStorage.setItem(POKEMON_COUNT, JSON.stringify(data));
     }
   }, [data]);
 
-  return (
-    <PokemonContext.Provider value={{ count: count ?? 0, allNames: [] }}>
-      {children}
-    </PokemonContext.Provider>
-  );
+  useEffect(() => {
+    if (isError) {
+      console.error("Error fetching Pokemon count from API");
+    }
+  }, [isError]);
+
+  return <PokemonContext.Provider value={{}}>{children}</PokemonContext.Provider>;
 };

@@ -80,7 +80,7 @@ const PokemonTypeRelations = ({ pokemon }: { pokemon: Pokemon }) => {
 
           return (
             <div key={multiplierValue} className="mb-2">
-              <p key={multiplierValue} className="py-2 font-semibold text-white text-xl">
+              <p key={multiplierValue} className="py-2 font-semibold text-xl">
                 {multiplierValue === 0
                   ? `Immune (x${multiplierValue})`
                   : multiplierValue === 1
@@ -99,7 +99,9 @@ const PokemonTypeRelations = ({ pokemon }: { pokemon: Pokemon }) => {
         })}
       </div>
 
-      <h2 className="mb-2 font-bold text-white text-xl">{"Strong against (2x)"}</h2>
+      <p className="mb-2 font-bold text-xl text-shadow-blowOut shadow-secondary">
+        {"Strong against (2x)"}
+      </p>
       <div className="flex flex-wrap justify-center gap-2">
         {strengths.length > 0 ? (
           strengths.map((type) => <TypeBadge key={type} type={type} />)

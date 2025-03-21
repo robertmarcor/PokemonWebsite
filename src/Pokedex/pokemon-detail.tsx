@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../client/base";
-import { Link, useParams, useNavigate } from "react-router";
+import { Link, useParams } from "react-router";
 import PageWrapper from "../Components/page-wrapper";
-import { Pokemon, PokemonSpecies } from "../models";
+import { EvolutionChain, Pokemon, PokemonSpecies } from "../models";
 import PokemonTypeRelations from "./pokemon-type-relations-calc";
 import DetailedViewSection from "../Components/ui/pokemon-detailed-view-section";
 import PokemonEvolutionChain from "./pokemon-evolution-chain";
@@ -16,59 +16,62 @@ import { useEffect, useState, useRef } from "react";
 import PokemonDetailsLoadingSkeleton from "./loading-skeleton";
 
 function PokemonDetailPage() {
-  const { id } = useParams<{ id: string }>();
-  const pokemonId = parseInt(id || "1");
+  const { id } = useParams();
+  let pokemonId = parseInt(id || "1");
   const [pokemon, setPokemon] = useState<Pokemon>();
   const [species, setSpecies] = useState<PokemonSpecies>();
-  // Initialize with empty string, will be set after first Pokemon fetch
-  const [currentFormUrl, setCurrentFormUrl] = useState<string>("");
-  const navigate = useNavigate();
 
-  const { data: pokemonData, isLoading: isLoadingPokemon } = useQuery<Pokemon>({
-    queryKey: ["PokemonDetail", pokemonId, currentFormUrl],
-    queryFn: async () => {
-      if (currentFormUrl) {
-        return apiClient.fetchByUrl<Pokemon>(currentFormUrl);
-      }
-      return apiClient.fetchByEndpoint<Pokemon>(`pokemon/${pokemonId}`);
-    },
+  // Create refs for each section
+  const topRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const evoChainRef = useRef<HTMLDivElement>(null);
+  const formsChainRef = useRef<HTMLDivElement>(null);
+  const typeRelationsRef = useRef<HTMLDivElement>(null);
+  const movesRef = useRef<HTMLDivElement>(null);
+  const eggGroupRef = useRef<HTMLDivElement>(null);
+
+  const sectionRefs = {
+    topRef,
+    infoRef,
+    evoChainRef,
+    formsChainRef,
+    typeRelationsRef,
+    movesRef,
+    eggGroupRef,
+  };
+
+  const {
+    data: pokemonData,
+    isLoading: isLoadingPokemon,
+    refetch,
+  } = useQuery<Pokemon>({
+    queryKey: ["pokemon", pokemonId],
+    queryFn: () => apiClient.fetchByEndpoint(`pokemon/${pokemonId}`),
   });
 
-  // Use a ref to track if we've initialized the form URL
-  const initializedRef = useRef(false);
-
   useEffect(() => {
-    if (pokemonData) {
-      setPokemon(pokemonData);
-
-      // If this is the initial load, set the current form URL
-      if (!initializedRef.current) {
-        initializedRef.current = true;
-        setCurrentFormUrl(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
-      }
-    }
-  }, [pokemonData, pokemonId]);
+    if (pokemonData) setPokemon(pokemonData);
+  }, [pokemonData]);
 
   const { data: speciesData, isLoading: isLoadingSpecies } = useQuery<PokemonSpecies>({
-    queryKey: ["PokemonSpecies", pokemonId, currentFormUrl],
-    queryFn: async () => {
-      return apiClient.fetchByUrl<PokemonSpecies>(pokemon!.species.url);
-    },
-    enabled: !!pokemon,
+    queryKey: ["pokemon-species", pokemon?.species?.url],
+    queryFn: () => apiClient.fetchByUrl(pokemon?.species?.url || ""),
+    enabled: !!pokemon?.species?.url,
   });
 
   useEffect(() => {
     if (speciesData) setSpecies(speciesData);
   }, [speciesData]);
 
-  // Handle form change without page reload
-  const handleFormChange = (pokemonUrl: string) => {
-    // Update URL for bookmarking/sharing without reloading
-    const formId = extractIdFromUrl(pokemonUrl);
-    navigate(`/pokedex/${formId}`, { replace: true });
+  const { data: evoData } = useQuery<EvolutionChain>({
+    queryKey: ["evolution-chain", species?.evolution_chain?.url],
+    queryFn: () => apiClient.fetchByUrl(species?.evolution_chain?.url || ""),
+    enabled: !!species?.evolution_chain?.url,
+  });
 
-    // Set the form URL to trigger a new Pokemon data fetch
-    setCurrentFormUrl(pokemonUrl);
+  const handleFormChange = (url: string) => {
+    pokemonId = parseInt(extractIdFromUrl(url));
+    refetch();
   };
 
   // Loading state with skeleton UI
@@ -95,29 +98,28 @@ function PokemonDetailPage() {
   }
 
   const hasEvolutions = () => {
-    if (!species) return false;
-
-    // If it evolves from another Pokémon, it's part of an evolution chain
-    if (species.evolves_from_species) return true;
+    if (!evoData) return false;
+    if (species.evolves_from_species || evoData.chain.evolves_to.length !== 0) return true;
     return false;
   };
 
   return (
     <PageWrapper className="*:my-4">
       {/* Back Button */}
-      <Link
-        id="top"
-        to="/pokedex"
-        className="flex items-center text-4xl hover:underline hover:text-sky-500 transition-colors">
-        {"< Back to Pokédex"}
-      </Link>
+      <div ref={topRef}>
+        <Link
+          to="/pokedex"
+          className="flex items-center text-4xl hover:underline hover:text-sky-500 transition-colors">
+          {"< Back to Pokédex"}
+        </Link>
+      </div>
 
       {/* Floating Nav */}
-      <FloatingNav />
+      <FloatingNav sectionRefs={sectionRefs} />
 
       {/* Pokemon Header */}
       <div className="grid w-full">
-        <DetailedViewSection id="info" heading={"Forms"}>
+        <DetailedViewSection ref={infoRef} heading={"Forms"}>
           <div className="flex justify-evenly translate-y-1">
             {species.varieties.map((form) => {
               const isSelected = pokemon.name === form.pokemon.name;
@@ -144,29 +146,29 @@ function PokemonDetailPage() {
 
       {/* Evolution chain - only shown if the Pokemon has evolutions */}
       {hasEvolutions() && (
-        <DetailedViewSection id="evo-chain" heading={"Evolution Chain"}>
-          <PokemonEvolutionChain speciesData={species} />
+        <DetailedViewSection ref={evoChainRef} heading={"Evolution Chain"}>
+          <PokemonEvolutionChain evoChain={evoData!} />
         </DetailedViewSection>
       )}
 
       {/* Form chain */}
       {species.varieties.length > 1 && (
-        <DetailedViewSection id="evo-chain" heading={"Forms Chain"}>
+        <DetailedViewSection ref={formsChainRef} heading={"Forms Chain"}>
           <PokemonFormsChain speciesData={species} />
         </DetailedViewSection>
       )}
 
       {/* Type Relations */}
-      <DetailedViewSection id="type-relations" heading={"Type relations"}>
+      <DetailedViewSection ref={typeRelationsRef} heading={"Type relations"}>
         <PokemonTypeRelations pokemon={pokemon} />
       </DetailedViewSection>
 
       {/* Moves */}
-      <DetailedViewSection id="moves" heading={"Moves"}>
+      <DetailedViewSection ref={movesRef} heading={"Moves"}>
         <PokemonMoves />
       </DetailedViewSection>
 
-      <DetailedViewSection id="egg-group" heading="Egg Groups" img="/egg.png">
+      <DetailedViewSection ref={eggGroupRef} heading="Egg Groups" img="/egg.png">
         <PokemonEggGroup species={species} />
       </DetailedViewSection>
     </PageWrapper>
