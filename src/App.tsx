@@ -11,14 +11,15 @@ import { cn } from "./lib/utils";
 import GamesPage from "./Games/games";
 import PokedexPage from "./Pokedex/pokedex-page";
 import PokemonDetailPage from "./Pokedex/pokemon-detail";
-import ThemeToggleButton from "./Components/theme-toggler";
 import TestPokemon from "./Pokedex/test";
+import MenuBar from "./Components/menubar";
 
 function App() {
   return (
     <>
       <PokemonServiceProvider>
         <div className={cn("min-h-svh z-50 min-w-[375px] flex flex-col")}>
+          <MenuBar />
           {/* Header */}
           <header
             className={cn(
@@ -27,8 +28,7 @@ function App() {
               "bg-gradient-to-r from-rose-700 to-rose-400"
             )}>
             <Header />
-            <div className="flex gap-2 items-center">
-              <ThemeToggleButton />
+            <div className="flex items-center gap-2 mr-32">
               <MobileNav />
             </div>
           </header>

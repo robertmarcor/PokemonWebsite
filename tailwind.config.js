@@ -10,6 +10,7 @@ export default {
         primary: "var(--primary)",
         "primary-accent": "var(--primary-accent)",
         secondary: "var(--secondary)",
+        menu: "var(--menu)",
       },
       fontFamily: {
         headings: "var(--font-headings)",

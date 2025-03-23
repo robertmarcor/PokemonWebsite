@@ -7,7 +7,7 @@ export default function Header({ className }: { className?: string }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth > 425);
+      setIsDesktop(window.innerWidth > 630);
     };
 
     handleResize();

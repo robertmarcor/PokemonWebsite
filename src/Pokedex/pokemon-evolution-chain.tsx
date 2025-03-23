@@ -1,7 +1,7 @@
 import { EvolutionChain, EvolutionDetail, Pokemon } from "../models";
 import { apiClient } from "../client/base";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ChevronDown } from "lucide-react";
 import ItemSprite from "../Components/sprites/item-sprite";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -62,6 +62,10 @@ function PokemonevoChain({ evoChain }: Props) {
           itemIdentifier = evolutionDetails.held_item.name;
         }
       }
+      // Time of day evolution
+      else if (evolutionDetails.time_of_day) {
+        triggerText = `During ${evolutionDetails.time_of_day}time`;
+      }
       return { text: triggerText, icon: itemIdentifier };
     };
 
@@ -98,12 +102,38 @@ function PokemonevoChain({ evoChain }: Props) {
               <ChevronRight className="text-secondary" size={24} />
               {evoChain.chain.evolves_to.map((evo, index) => (
                 <React.Fragment key={`evo-${index}-${evo.species.name}`}>
-                  <EvolutionStage
-                    id={parseInt(extractIdFromUrl(evo.species.url))}
-                    speciesName={evo.species.name}
-                    isBaby={evo.is_baby}
-                    evolutionDetails={evo.evolution_details?.[0] ?? null}
-                  />
+                  <div className="flex flex-col items-center">
+                    <EvolutionStage
+                      id={parseInt(extractIdFromUrl(evo.species.url))}
+                      speciesName={evo.species.name}
+                      isBaby={evo.is_baby}
+                      evolutionDetails={evo.evolution_details?.[0] ?? null}
+                    />
+
+                    {/* Show additional evolution details if there are more than one */}
+                    {evo.evolution_details && evo.evolution_details.length > 1 && (
+                      <div className="flex flex-col items-center mt-2">
+                        {evo.evolution_details.slice(1).map((detail, detailIndex) => (
+                          <div
+                            key={`detail-${index}-${detailIndex}`}
+                            className="flex flex-col items-center">
+                            <ChevronDown className="text-secondary my-1" size={20} />
+                            <div className="text-sm text-secondary px-2 py-1 bg-black/5 rounded">
+                              {detail.time_of_day
+                                ? `During ${detail.time_of_day}time`
+                                : detail.min_level
+                                ? `Level ${detail.min_level}`
+                                : detail.item
+                                ? `Use ${detail.item.name.replace("-", " ")}`
+                                : detail.trigger?.name === "trade"
+                                ? "Trade"
+                                : "Special"}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
                   {/* Can evolve further ? */}
                   {evo?.evolves_to?.length > 0 && (
@@ -112,12 +142,41 @@ function PokemonevoChain({ evoChain }: Props) {
                       {evo.evolves_to.map((secondEvo, secondIndex) => (
                         <React.Fragment
                           key={`evo-${index}-${secondIndex}-${secondEvo.species.name}`}>
-                          <EvolutionStage
-                            id={parseInt(extractIdFromUrl(secondEvo.species.url))}
-                            speciesName={secondEvo.species.name}
-                            isBaby={secondEvo.is_baby}
-                            evolutionDetails={secondEvo.evolution_details?.[0] ?? null}
-                          />
+                          <div className="flex flex-col items-center">
+                            <EvolutionStage
+                              id={parseInt(extractIdFromUrl(secondEvo.species.url))}
+                              speciesName={secondEvo.species.name}
+                              isBaby={secondEvo.is_baby}
+                              evolutionDetails={secondEvo.evolution_details?.[0] ?? null}
+                            />
+
+                            {/* Show additional evolution details if there are more than one */}
+                            {secondEvo.evolution_details &&
+                              secondEvo.evolution_details.length > 1 && (
+                                <div className="flex flex-col items-center mt-2">
+                                  {secondEvo.evolution_details
+                                    .slice(1)
+                                    .map((detail, detailIndex) => (
+                                      <div
+                                        key={`detail-${index}-${secondIndex}-${detailIndex}`}
+                                        className="flex flex-col items-center">
+                                        <ChevronDown className="text-secondary my-1" size={20} />
+                                        <div className="text-sm text-secondary px-2 py-1 bg-black/5 rounded">
+                                          {detail.time_of_day
+                                            ? `During ${detail.time_of_day}time`
+                                            : detail.min_level
+                                            ? `Level ${detail.min_level}`
+                                            : detail.item
+                                            ? `Use ${detail.item.name.replace("-", " ")}`
+                                            : detail.trigger?.name === "trade"
+                                            ? "Trade"
+                                            : "Special"}
+                                        </div>
+                                      </div>
+                                    ))}
+                                </div>
+                              )}
+                          </div>
                           {/* Add OR between final evolutions, but not after the last one */}
                           {secondIndex < evo.evolves_to.length - 1 && (
                             <div className="mx-2 font-medium">OR</div>
@@ -141,13 +200,39 @@ function PokemonevoChain({ evoChain }: Props) {
                 isBaby={evoChain.chain.is_baby}
               />
               <ChevronRight className="text-secondary mb-20" size={24} />
-              <EvolutionStage
-                key={`evo-${index}-${evo.species.name}`}
-                id={parseInt(extractIdFromUrl(evo.species.url))}
-                speciesName={evo.species.name}
-                isBaby={evo.is_baby}
-                evolutionDetails={evo.evolution_details[0]}
-              />
+              <div className="flex flex-col items-center">
+                <EvolutionStage
+                  key={`evo-${index}-${evo.species.name}`}
+                  id={parseInt(extractIdFromUrl(evo.species.url))}
+                  speciesName={evo.species.name}
+                  isBaby={evo.is_baby}
+                  evolutionDetails={evo.evolution_details[0]}
+                />
+
+                {/* Show additional evolution details if there are more than one */}
+                {evo.evolution_details && evo.evolution_details.length > 1 && (
+                  <div className="flex flex-col items-center mt-2">
+                    {evo.evolution_details.slice(1).map((detail, detailIndex) => (
+                      <div
+                        key={`detail-${index}-${detailIndex}`}
+                        className="flex flex-col items-center">
+                        <ChevronDown className="text-secondary my-1" size={20} />
+                        <div className="text-sm text-secondary px-2 py-1 bg-black/5 rounded">
+                          {detail.time_of_day
+                            ? `During ${detail.time_of_day}time`
+                            : detail.min_level
+                            ? `Level ${detail.min_level}`
+                            : detail.item
+                            ? `Use ${detail.item.name.replace("-", " ")}`
+                            : detail.trigger?.name === "trade"
+                            ? "Trade"
+                            : "Special"}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>

@@ -11,6 +11,7 @@
     --primary: oklch(0.51 0.2 17);
     --primary-accent: oklch(0.82 0.11 346);
     --secondary: oklch(0.5 0.12 243);
+    --menu: #141914;
 
     --font-headings: "Doto", serif;
     --font-base: "Orbitron", serif;
@@ -35,6 +36,10 @@
   font-family: var(--font-headings);
 }
 
+.menu-corner {
+  mask: linear-gradient(To bottom, #0000 5%, #000 5%);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -51,7 +56,7 @@ body {
   line-height: 1.6;
   letter-spacing: 0.1rem;
   font-weight: 400;
-  min-width: 375px;
+  overflow-x: hidden;
 }
 
 li {
