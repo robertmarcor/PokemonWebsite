@@ -37,7 +37,8 @@ function App() {
     <>
       <PokemonServiceProvider>
         <div className={cn("min-h-svh flex flex-col")}>
-          <div className="absolute w-full bg-red-800 h-px top-[820px]" />
+          {/* LAPTOP SCREEN SCREEN HEIGHT */}
+          {/* <div className="absolute w-full bg-red-800 h-px top-[820px]" /> */}
           {!isLaptop && <MenuBar isMobile={isMobile} />}
           {isLaptop && (
             <header className="bg-primary p-2 flex items-center">

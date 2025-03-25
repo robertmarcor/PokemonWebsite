@@ -2,6 +2,7 @@ import { Gamepad2 } from "lucide-react";
 import { Link } from "react-router";
 import PageWrapper from "../Components/page-wrapper";
 import { cn } from "../lib/utils";
+import MyButton from "@/Components/ui/myButton";
 
 // Sample game data - replace with your actual games
 const games = [
@@ -64,17 +65,17 @@ function GameCard({ game }: { game: Game }) {
       </div>
       <div className="flex flex-col flex-grow p-4">
         <h2 className="mb-2 font-semibold text-lg">{game.title}</h2>
-        <p className="mb-4 text-slate-600 text-sm">{game.description}</p>
-        <button
+        <p className="mb-4 text-slate-600 text-sm font-sans">{game.description}</p>
+        <MyButton
           className={cn(
-            "w-full px-4 py-2 mt-auto font-medium",
+            "w-full mt-auto font-medium",
             "transition-colors duration-200 rounded-lg",
-            "bg-gradient-to-tl from-amber-500 to-yellow-400 hover:ring-4 ring-pink-400"
+            "bg-primary hover:bg-primary-foreground"
           )}>
           <Link to={game.link} className="flex justify-center items-center whitespace-nowrap">
             {game.title}
           </Link>
-        </button>
+        </MyButton>
       </div>
     </div>
   );

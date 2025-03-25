@@ -13,7 +13,7 @@ function MyButton({ children, className }: Props) {
         className,
         "p-4 text-foreground",
         "transition-colors duration-200 rounded-lg",
-        "hover:bg-black/20 hover:ring-4"
+        "hover:ring-4"
       )}>
       {children}
     </button>
