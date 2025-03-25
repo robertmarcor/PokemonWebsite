@@ -5,12 +5,11 @@ import GenerationSelector from "../Components/generation-dropdown";
 import { getRandomBetweenMinMax } from "../utils/utils";
 import ScoreDisplay from "./score-display";
 import { MoonLoader } from "react-spinners";
-// import GameTimer, { TimerRef } from "./game-timer";
 import WhosThatGameInput from "./whos-that-input";
 import WhosThatGameTooltips from "./whos-that-tooltips";
 import WhosThatGameMobileInput from "./whos-that-mobile-input";
 import { SpaceBarIcon } from "../assets/icons";
-import ToggleSwitch from "../Components/toggle-switch";
+import ToggleSwitch from "../Components/menus/toggle-switch";
 
 const ACTION = {
   IDLE: "IDLE",

@@ -1,27 +1,22 @@
-import { ROUTES } from "./data/routes";
+import { ROUTES } from "../../data/routes";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { cn } from "./lib/utils";
-import Portal from "./Portal";
-import SidebarComp from "./Components/sidebar";
+import { cn } from "../../lib/utils";
+import Portal from "../../Portal";
+import SidebarComp from "./sidebar";
 import { AnimatePresence, motion } from "framer-motion"; // ✅ Corrected Import
 
-type Props = { className?: string };
-
-export default function MobileNav({ className }: Props) {
+export default function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className={cn(className, "flex items-center font-headings")}>
-      <button
-        className="z-10 p-2 text-black"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu">
+    <nav className={cn("fixed top-2 right-2 flex items-center font-headings")}>
+      <button className="z-50 p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
         {isOpen ? <X size={32} /> : <Menu size={32} />}
       </button>
 
-      {/* Keep Portal Always Rendered, Animate Sidebar Inside */}
       <Portal>
+        {/* Keep Portal Always Rendered, Animate Sidebar Inside */}
         <AnimatePresence>
           {isOpen && (
             <motion.div

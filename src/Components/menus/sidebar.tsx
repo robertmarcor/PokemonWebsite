@@ -1,7 +1,7 @@
 import { X, ChevronRight } from "lucide-react";
-import { Route } from "../data/routes";
-import { NavLink } from "react-router-dom"; // ✅ Fixed Import
-import { cn } from "../lib/utils";
+import { Route } from "../../data/routes";
+import { NavLink } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 type Props = {
   routes: Route[];

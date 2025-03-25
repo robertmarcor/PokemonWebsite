@@ -1,14 +1,16 @@
 import { cn } from "../../lib/utils";
 
 type InfoRowProps = {
+  className?: string;
   label: string;
   value: React.ReactNode;
 };
 
-export const InfoRow = ({ label, value }: InfoRowProps) => {
+export const InfoRow = ({ label, value, className }: InfoRowProps) => {
   return (
     <tr
       className={cn(
+        className,
         "fade-border",
         "odd:bg-black/[.05] even:bg-black/[.01] dark:odd:bg-black/30 dark:even:bg-black/10"
       )}>

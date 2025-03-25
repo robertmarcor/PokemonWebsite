@@ -104,23 +104,23 @@ function PokedexPage() {
       {/* Search Bar */}
       <div className="relative mx-auto mb-8 w-full max-w-md">
         <div className="left-0 absolute inset-y-0 flex items-center pl-3 pointer-events-none">
-          <Search className="w-5 h-5 text-secondary" />
+          <Search className="w-5 h-5 text-black z-20" />
         </div>
         <input
           type="text"
           placeholder="Search Pokémon..."
           className={cn(
-            "relative z-20",
-            "bg-gradient-to-r dark:from-slate-800 dark:to-slate-900 border-secondary",
+            "relative placeholder:dark:text-neutral-300",
+            "dark:bg-gradient-to-r dark:from-primary dark:to-black border-primary",
             "shadow-lg py-3 pr-4 pl-10 border-2 rounded-lg w-full",
-            "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primaryh"
+            "focus:outline-none focus:border-primary-foreground"
           )}
           value={searchTerm}
           onChange={handleSearch}
         />
 
         <div className="right-0 absolute inset-y-0 flex items-center pr-3 pointer-events-none z-20">
-          <span className="text-secondary text-xs font-semibold">{allPokemon.length} results</span>
+          <span className="text-primary text-xs font-semibold">{filtered.length} results</span>
         </div>
       </div>
 
