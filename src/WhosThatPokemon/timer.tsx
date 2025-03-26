@@ -1,17 +1,27 @@
-import React, { useState, useEffect, useRef, memo } from "react";
-import { useTimerContext } from "../contexts/WhosThatPokemonContext";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useImperativeHandle,
+  ForwardedRef,
+  forwardRef,
+} from "react";
 
-const WhosThatPokemonTimer = memo(function WhosThatPokemonTimer() {
-  // Use the specific context for timer
-  const { setTimer } = useTimerContext();
+interface TimerProps {
+  setTime: (value: number) => void;
+}
+
+export interface TimerFunctions {
+  startTimer: () => void;
+  stopTimer: () => void;
+}
+
+function WhosThatPokemonTimer(props: TimerProps, ref: ForwardedRef<TimerFunctions>) {
   const [myTimer, setMyTimer] = useState<number>(0);
-
   const startTimeRef = useRef<number | null>(null);
   const intervalRef = useRef<number | null>(null);
 
-  console.log("Timer component rendered");
-
-  function startTimer() {
+  const startTimer = () => {
     startTimeRef.current = Date.now();
 
     if (intervalRef.current !== null) {
@@ -22,18 +32,22 @@ const WhosThatPokemonTimer = memo(function WhosThatPokemonTimer() {
       if (startTimeRef.current !== null) {
         const elapsed = Date.now() - startTimeRef.current;
         setMyTimer(elapsed);
-        // Convert to string for the context
-        setTimer(elapsed.toString());
       }
     }, 100);
-  }
+  };
 
-  function stopTimer() {
+  const stopTimer = () => {
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-  }
+    props.setTime(myTimer);
+  };
+
+  useImperativeHandle(ref, () => ({
+    startTimer,
+    stopTimer,
+  }));
 
   useEffect(() => {
     return () => {
@@ -44,14 +58,11 @@ const WhosThatPokemonTimer = memo(function WhosThatPokemonTimer() {
   }, []);
 
   return (
-    <div className="timer-container">
-      <p>Time: {(myTimer / 1000).toFixed(1)} seconds</p>
-      <div className="timer-buttons">
-        <button onClick={startTimer}>Start</button>
-        <button onClick={stopTimer}>Stop</button>
-      </div>
+    <div className="flex justify-end mr-7 font-semibold">
+      <p>{(myTimer / 1000).toFixed(1)} s</p>
+      <p className="absolute right-4 animate-[spin_3s_linear_infinite]">⏳</p>
     </div>
   );
-});
+}
 
-export default WhosThatPokemonTimer;
+export default forwardRef(WhosThatPokemonTimer);

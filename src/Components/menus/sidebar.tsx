@@ -27,11 +27,11 @@ function SidebarComp({ setIsOpen, routes }: Props) {
           "fixed top-0 left-0 z-50 h-screen",
           "w-[280px] md:w-[320px] overflow-y-auto",
           "bg-background",
-          "border-r border-primary",
+          "border-r-4 border-primary",
           "shadow-2xl transition-all duration-300"
         )}>
         {/* Header with Close Button */}
-        <div className={cn("flex items-center justify-between p-5", "border-b border-primary")}>
+        <div className={cn("flex items-center justify-between p-5", "border-b-4 border-primary")}>
           <h2 className={cn("text-xl font-bold text-primary")}>Menu</h2>
           <button
             className={cn("p-2 rounded-full text-foreground", "transition-all hover:bg-primary")}
@@ -74,7 +74,7 @@ function SidebarComp({ setIsOpen, routes }: Props) {
                   <ul
                     className={cn(
                       "flex flex-col gap-4 ml-4 p-2",
-                      "border-l-2 border-primary pl-2"
+                      "border-l-4 border-primary pl-2"
                     )}>
                     {route.subroutes?.map((subroute) => (
                       <li key={subroute.href}>
@@ -105,7 +105,7 @@ function SidebarComp({ setIsOpen, routes }: Props) {
         <div
           className={cn(
             "absolute bottom-0 left-0 right-0 p-5",
-            "border-t border-primary",
+            "border-t-4 border-primary",
             "bg-background/80 backdrop-blur-sm"
           )}>
           <button

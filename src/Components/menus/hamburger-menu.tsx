@@ -6,12 +6,12 @@ import Portal from "../../Portal";
 import SidebarComp from "./sidebar";
 import { AnimatePresence, motion } from "framer-motion"; // ✅ Corrected Import
 
-export default function HamburgerMenu() {
+export default function HamburgerMenu({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className={cn("fixed top-2 right-2 flex items-center font-headings")}>
-      <button className="z-50 p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+    <nav className={cn(className, "flex items-center font-headings z-40")}>
+      <button className="p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
         {isOpen ? <X size={32} /> : <Menu size={32} />}
       </button>
 

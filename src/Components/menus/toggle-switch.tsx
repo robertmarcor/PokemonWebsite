@@ -1,3 +1,5 @@
+import React from "react";
+
 type Props = {
   isChecked: boolean;
   setIsChecked: (checked: boolean) => void;
@@ -23,4 +25,4 @@ const ToggleSwitch = ({ isChecked, setIsChecked }: Props) => {
   );
 };
 
-export default ToggleSwitch;
+export default React.memo(ToggleSwitch);

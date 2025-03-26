@@ -1,11 +1,11 @@
 import { createContext, useContext } from "react";
 
 type ContextProps = {
-  count?: number;
-  allNames?: string[];
+  isMobile: boolean;
+  isLaptop: boolean;
 };
 
-export const PokemonContext = createContext<ContextProps>({});
+export const PokemonContext = createContext<ContextProps>({ isLaptop: false, isMobile: false });
 
 // Hook to use the Pokemon context
 export const usePokemonContext = () => {

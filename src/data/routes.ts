@@ -28,6 +28,7 @@ export const Games: Route = {
   subroutes: [
     { label: "WhosThatPokèmon?", href: "/who-is-that-pokemon-game", icon: "/pika-hidden.png" },
     { label: "Pokedex Game", href: "/pokedex-game", icon: "/pokedex.webp" },
+    { label: "WHO IS THAT?", href: "/whosthatpokemon", icon: "/pokedex.webp" },
   ],
 };
 

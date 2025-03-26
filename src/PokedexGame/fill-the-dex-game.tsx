@@ -135,7 +135,7 @@ export default function PokedexGame() {
 
           {isModalOpen && (
             <Portal>
-              <PickGen setGeneration={setGen} onClose={() => setIsModalOpen(!isModalOpen)} />
+              <PickGen setGeneration={setGen} toggleModal={() => setIsModalOpen(!isModalOpen)} />
             </Portal>
           )}
 

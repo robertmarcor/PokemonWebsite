@@ -1,12 +1,28 @@
-import React, { memo } from "react";
+import { cn } from "@/lib/utils";
+import { memo } from "react";
 
-// Using memo to prevent re-renders when parent components re-render
-const WhosThatPokemonImage = memo(function WhosThatPokemonImage() {
-  console.log("Image component rendered");
+interface Props {
+  pokemonId: number;
+  reveal: boolean;
+}
+const WhosThatPokemonImage = memo(function WhosThatPokemonImage({ pokemonId, reveal }: Props) {
+  const spriteUrl =
+    "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/other/official-artwork";
+
+  const makeSpriteUrl = (id: number) => {
+    return `${spriteUrl}/${id}.png`;
+  };
 
   return (
     <>
-      <img src="/pika.png" alt="silhouette of pokemon" />
+      <img
+        src={makeSpriteUrl(pokemonId)}
+        alt="silhouette of pokemon"
+        className={cn(
+          "pointer-events-none cursor-none",
+          `filter ${reveal ? "brightness-100" : "brightness-0"}`
+        )}
+      />
     </>
   );
 });
