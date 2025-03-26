@@ -120,8 +120,9 @@ export default function PokedexGame() {
       <div className="-z-50 fixed inset-0 bg-zinc-500/10 skew-x-[24deg] transform" />
       <div className="-z-40 fixed bg-zinc-500/10"></div>
 
-      <h1 className="my-8 font-extrabold text-5xl text-center tracking-widest">Fill the Dex</h1>
-      <p>Light mode not properly supported</p>
+      <h1 className="my-8 font-extrabold text-5xl text-center tracking-widest">
+        UNDER CONSTRUCTION
+      </h1>
 
       {/* Desktop layout with side-by-side panels */}
       <div className="flex md:flex-row flex-col gap-6 w-full">
@@ -135,7 +136,7 @@ export default function PokedexGame() {
 
           {isModalOpen && (
             <Portal>
-              <PickGen setGeneration={setGen} toggleModal={() => setIsModalOpen(!isModalOpen)} />
+              <PickGen toggleModal={() => setIsModalOpen(!isModalOpen)} />
             </Portal>
           )}
 
