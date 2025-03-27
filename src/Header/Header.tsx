@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { DESKTOP_ROUTES } from "../data/routes";
 
 export default function NavLinks() {

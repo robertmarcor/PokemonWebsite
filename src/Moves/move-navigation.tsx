@@ -1,5 +1,5 @@
 import { Button } from "@/Components/ui/button";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 interface MoveNavigationProps {
   moveId: number;

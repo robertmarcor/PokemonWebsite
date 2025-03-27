@@ -259,7 +259,7 @@ function EvoCard({ id, spriteUrl, speciesName, isBaby, trigger }: EvoCardProps) 
 
       {/* Pokemon Name */}
       <div>
-        <Link to={`/pokedex/${id}`} className="px-2 hover:underline capitalize">
+        <Link to={`/pokemon/${id}`} className="px-2 hover:underline capitalize">
           {speciesName.replace("-", " ")}
         </Link>
       </div>

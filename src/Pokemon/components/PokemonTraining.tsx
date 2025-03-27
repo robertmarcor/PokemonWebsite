@@ -21,7 +21,7 @@ function PokemonTraining({ pokemon, species }: Props) {
   return (
     <div>
       <DetailedViewInfoHeader title="Training" className="text-left" />
-      <table className="w-full border-collapse text-left font-mono">
+      <table className="w-full border-collapse text-left">
         <tbody>
           <InfoRow label="EV Yield" value={evYield || "None"} />
           <InfoRow label="Catch Rate" value={species.capture_rate} />
