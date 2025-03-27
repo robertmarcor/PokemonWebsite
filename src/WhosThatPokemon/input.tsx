@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { memo, useCallback, useEffect, useState } from "react";
 
 interface InputProps {
-  inputRef: React.RefObject<HTMLInputElement | null>;
+  inputRef: React.RefObject<HTMLInputElement>;
   word: string;
 }
 

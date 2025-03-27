@@ -10,7 +10,7 @@ function WhosThatGameInput({
   handleKeyDown,
 }: {
   word: string;
-  inputRef: React.RefObject<HTMLInputElement | null>;
+  inputRef: React.RefObject<HTMLInputElement>;
   inputValue: string;
   setInputValue: (value: string) => void;
   handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;

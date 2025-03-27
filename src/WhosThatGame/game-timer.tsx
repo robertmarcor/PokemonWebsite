@@ -40,9 +40,15 @@ const GuessTimer = ({
   }, [stopTimer]);
 
   useEffect(() => {
-    if (timerRef) {
-      timerRef.current = { startTimer, stopTimer, resetTimer };
+    // Create a mutable ref object that can be assigned
+    if (timerRef && timerRef.current !== null) {
+      // Update the properties of the existing object instead of reassigning
+      Object.assign(timerRef.current, { startTimer, stopTimer, resetTimer });
+    } else if (timerRef) {
+      // For the initial assignment, use a workaround to bypass the readonly constraint
+      (timerRef as { current: TimerRef }).current = { startTimer, stopTimer, resetTimer };
     }
+
     if (onTimeUpdate) {
       onTimeUpdate(timeElapsed);
     }
