@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { generations } from "../data/consts";
+import { generations } from "../data/generation";
 import { cn } from "../lib/utils";
 
 type PickGenProps = {

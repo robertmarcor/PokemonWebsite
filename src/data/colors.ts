@@ -24,7 +24,7 @@ export const getTypeColor = (type: string) => {
   return typeColors[type] || "bg-gray-400";
 };
 
-export const getTypeColorDarker = (type: string) => {
+export const getTypeRingColor = (type: string) => {
   const ringColors: Record<string, string> = {
     normal: "ring-2 ring-gray-600",
     fire: "ring-2 ring-red-700",
@@ -49,8 +49,33 @@ export const getTypeColorDarker = (type: string) => {
   return ringColors[type] || "gray-600";
 };
 
+export const getTypeBorderColor = (type: string) => {
+  const borderColor: Record<string, string> = {
+    normal: "border-gray-400",
+    fire: "border-red-500",
+    water: "border-blue-500",
+    electric: "border-yellow-400",
+    grass: "border-green-500",
+    ice: "border-blue-200",
+    fighting: "border-red-700",
+    poison: "border-purple-500",
+    ground: "border-yellow-700",
+    flying: "border-indigo-300",
+    psychic: "border-pink-500",
+    bug: "border-green-400",
+    rock: "border-yellow-800",
+    ghost: "border-purple-700",
+    dragon: "border-indigo-700",
+    dark: "border-gray-800",
+    steel: "border-gray-500",
+    fairy: "border-pink-300",
+  };
+
+  return borderColor[type] || "bg-gray-400";
+};
+
 // Get card gradient based on Pokemon type
-export const getCardGradient = (type: string) => {
+export const getTypeGradient = (type: string) => {
   const typeGradients: Record<string, string> = {
     normal: "bg-gradient-to-br from-gray-300 to-gray-500",
     fire: "bg-gradient-to-br from-red-400 to-orange-600",

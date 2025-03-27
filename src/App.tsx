@@ -1,22 +1,27 @@
 import { Route, Routes } from "react-router";
 import Footer from "./Footer/Footer";
 import WhosThatGame from "./WhosThatGame/whos-that-game";
-import About from "./About/about";
 import Home from "./Home/Home";
 import PokdexGame from "./PokedexGame/fill-the-dex-game";
 import { PokemonServiceProvider } from "./PokemonServiceProvider";
 import GamesPage from "./Games/games";
-import PokedexPage from "./Pokedex/pokedex-page";
-import PokemonDetailPage from "./Pokedex/pokemon-detail";
-import TestPokemon from "./Pokedex/test";
+import PokemonViewPage from "@/Pokemon/pokemon-view-page";
+import PokemonDetailedView from "@/Pokemon/detailed-view";
 import MenuBar from "./Components/menus/menubar";
 import WhosThatPokemon from "./WhosThatPokemon/game";
 import DebugLines from "./Components/debug-lines";
+import Pokedex from "./Pokedex/pokedex-page";
+import EggGroupPage from "./EggGroups/egg-group-page";
+import MoveDetailedView from "./Moves/move-detailed-view";
+import NotFoundPage from "./not-found-page";
+import MovePage from "./Moves/move-view-page";
+import PokemonCommandPalette from "./CommandPalette/CommandPalette";
 
 function App() {
   return (
     <>
       <PokemonServiceProvider>
+        <PokemonCommandPalette />
         <MenuBar />
         <DebugLines />
 
@@ -24,15 +29,23 @@ function App() {
         <main className="flex-1 min-w-full">
           <Routes>
             <Route index element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            {/* GAMES */}
+            <Route path="/games" element={<GamesPage />} />
             <Route path="/who-is-that-pokemon-game" element={<WhosThatGame />} />
             <Route path="/whosthatpokemon" element={<WhosThatPokemon />} />
             <Route path="/pokedex-game" element={<PokdexGame />} />
-            <Route path="/games" element={<GamesPage />} />
-            <Route path="/pokedex" element={<PokedexPage />} />
-            <Route path="/pokedex/:id" element={<PokemonDetailPage />} />
-            <Route path="/test/:id" element={<TestPokemon />} />
+            {/* KNOWLEDGE BASES */}
+            <Route path="/pokedex" element={<Pokedex />} />
+            {/* POKEMON */}
+            <Route path="/pokemon" element={<PokemonViewPage />} />
+            <Route path="/pokemon/:id" element={<PokemonDetailedView />} />
+            {/* MOVES */}
+            <Route path="/move" element={<MovePage />} />
+            <Route path="/move/:id" element={<MoveDetailedView />} />
+            {/* EGG GROUPS */}
+            <Route path="/egg-group/:id" element={<EggGroupPage />} />
+
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
         {/* Footer */}

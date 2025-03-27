@@ -1,11 +1,14 @@
 import { Link } from "react-router";
 import { cn } from "../lib/utils";
 import PageWrapper from "../Components/page-wrapper";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Command } from "lucide-react";
 import ParticlesBackdrop from "../Components/particles-backdrop";
 import MyButton from "../Components/ui/myButton";
+import { KeyboardShortcut } from "@/assets/icons";
+import { usePokemonContext } from "@/PokemonServiceContext";
 
 export default function Home() {
+  const { isMobile } = usePokemonContext();
   return (
     <>
       <ParticlesBackdrop />
@@ -29,10 +32,32 @@ export default function Home() {
             </a>
           )}
         </section>
-        <section className="pb-18">
-          <h2 id="cta" className="mb-6 text-2xl font-semibold text-white">
+
+        {!isMobile && (
+          <section className="text-center bg-primary/40 rounded-lg p-6">
+            <h2 className="font-bold text-yellow-400 mb-6">Power users</h2>
+            <div className="flex flex-col justify-center items-center font-sans text-xl gap-2">
+              <p className="flex center items-center gap-2">
+                Press{" "}
+                <span className="p-1 bg-black/40 rounded border border-border">
+                  <Command size={20} className="text-white" />
+                </span>
+                +<KeyboardShortcut>K</KeyboardShortcut>
+                on Mac
+              </p>
+              <span className="flex items-center gap-1">
+                <KeyboardShortcut>Ctrl</KeyboardShortcut>+<KeyboardShortcut>K</KeyboardShortcut> on
+                Windows
+              </span>
+              <p className="">Access the command menu to quickly navigate and perform actions.</p>
+            </div>
+          </section>
+        )}
+
+        <section className="pb-18 mt-8">
+          <h3 id="cta" className="mb-6 text-2xl font-semibold text-yellow-400">
             Choose Your Adventure
-          </h2>
+          </h3>
           <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-2">
             <Card
               title="Pokémon Games"

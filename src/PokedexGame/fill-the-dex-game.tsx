@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGetMultiplePokemonById } from "../client/pokemon.client";
 import PickGen from "../Components/pick-gen";
-import { generations } from "../data/consts";
+import { generations } from "../data/generation";
 import Portal from "../Portal";
 import PageWrapper from "../Components/page-wrapper";
 import Board from "./board";
@@ -118,16 +118,16 @@ export default function PokedexGame() {
   return (
     <PageWrapper>
       <div className="-z-50 fixed inset-0 bg-zinc-500/10 skew-x-[24deg] transform" />
-      <div className="-z-40 fixed bg-zinc-500/10"></div>
+      <div className="fixed -z-40 bg-zinc-500/10"></div>
 
-      <h1 className="my-8 font-extrabold text-5xl text-center tracking-widest">
+      <h1 className="my-8 text-5xl font-extrabold tracking-widest text-center">
         UNDER CONSTRUCTION
       </h1>
 
       {/* Desktop layout with side-by-side panels */}
-      <div className="flex md:flex-row flex-col gap-6 w-full">
+      <div className="flex flex-col w-full gap-6 md:flex-row">
         {/* Left panel - Controls and info */}
-        <div className="flex flex-col gap-4 bg-black/20 p-4 border-2 rounded-lg md:w-1/3">
+        <div className="flex flex-col gap-4 p-4 border-2 rounded-lg bg-black/20 md:w-1/3">
           <button
             className="bg-black/20 shadow-[0px_2px_5px_5px] shadow-white mx-auto px-4 py-2 border-2"
             onClick={() => setIsModalOpen(!isModalOpen)}>
@@ -142,8 +142,8 @@ export default function PokedexGame() {
 
           {gen && (
             <>
-              <div className="bg-black/30 p-4 rounded-lg">
-                <h2 className="mb-2 font-bold text-xl">Generation {gen}</h2>
+              <div className="p-4 rounded-lg bg-black/30">
+                <h2 className="mb-2 text-xl font-bold">Generation {gen}</h2>
                 <p className="mb-2">
                   There are{" "}
                   <span className="font-bold text-orange-500">
@@ -153,9 +153,9 @@ export default function PokedexGame() {
                 </p>
 
                 {/* ProgressBar */}
-                <div className="bg-gray-700 mb-4 rounded-full w-full h-4 overflow-hidden">
+                <div className="w-full h-4 mb-4 overflow-hidden bg-gray-700 rounded-full">
                   <div
-                    className="bg-gradient-to-r from-green-400 to-green-600 rounded-full h-4 transition-all duration-500"
+                    className="h-4 transition-all duration-500 rounded-full bg-gradient-to-r from-green-400 to-green-600"
                     style={{
                       width: `${
                         (guessedPokemon.length / generations[gen - 1].specie_amount) * 100
@@ -175,12 +175,12 @@ export default function PokedexGame() {
                   value={guess}
                   onChange={(e) => handleInstantSubmit(e.target.value)}
                   placeholder="Guess a Pokémon"
-                  className="relative bg-background p-3 border-2 rounded-md outline-none ring-blue-500 focus:ring-2 w-full text-white"
+                  className="relative w-full p-3 text-white border-2 rounded-md outline-none bg-background ring-blue-500 focus:ring-2"
                 />
               </div>
 
               {isLoading && (
-                <div className="bg-black/30 mt-4 p-4 rounded-lg text-center">
+                <div className="p-4 mt-4 text-center rounded-lg bg-black/30">
                   <p className="animate-pulse">Loading Pokémon Data...</p>
                 </div>
               )}

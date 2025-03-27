@@ -10,12 +10,13 @@ import PokemonMoves from "./pokemon-moves";
 import PokemonEggGroup from "./pokemon-egg-groups";
 import FloatingNav from "../Components/ui/floating-nav";
 import PokemonFormsChain from "./pokemon-form-chain";
-import PokemonDetailCard from "./basic-info";
+import PokemonDetailCard from "./detailed-view-card";
 import { extractIdFromUrl } from "../utils/utils";
 import { useEffect, useState, useRef } from "react";
 import PokemonDetailsLoadingSkeleton from "./loading-skeleton";
+import { Button } from "@/Components/ui/button";
 
-function PokemonDetailPage() {
+function PokemonDetailedView() {
   const { id } = useParams();
   let pokemonId = parseInt(id || "1");
   const [pokemon, setPokemon] = useState<Pokemon>();
@@ -88,7 +89,7 @@ function PokemonDetailPage() {
     return (
       <PageWrapper>
         <div className="text-center">
-          <h1 className="font-bold text-2xl">Pokémon Not Found</h1>
+          <h1 className="text-2xl font-bold">Pokémon Not Found</h1>
           <Link to="/pokedex" className="text-blue-500 hover:underline">
             Return to Pokédex
           </Link>
@@ -108,8 +109,8 @@ function PokemonDetailPage() {
       {/* Back Button */}
       <div ref={topRef}>
         <Link
-          to="/pokedex"
-          className="flex items-center text-4xl hover:underline hover:text-sky-500 transition-colors">
+          to="/pokemon"
+          className="flex items-center text-4xl transition-colors hover:underline hover:text-sky-500">
           {"< Back to Pokédex"}
         </Link>
       </div>
@@ -120,7 +121,7 @@ function PokemonDetailPage() {
       {/* Pokemon Header */}
       <div className="grid w-full">
         <DetailedViewSection ref={infoRef} heading={"Forms"}>
-          <div className="flex justify-evenly translate-y-1">
+          <div className="flex translate-y-1 justify-evenly">
             {species.varieties.map((form) => {
               const isSelected = pokemon.name === form.pokemon.name;
               return (
@@ -133,7 +134,7 @@ function PokemonDetailPage() {
                   }`}
                   onClick={() => handleFormChange(form.pokemon.url)}>
                   <div className="flex items-center justify-center gap-1">
-                    {isSelected && <span className="text-blue-400 text-sm">•</span>}
+                    {isSelected && <span className="text-sm text-blue-400">•</span>}
                     <span>{form.pokemon.name.replace(/-/g, " ")}</span>
                   </div>
                 </button>
@@ -175,4 +176,4 @@ function PokemonDetailPage() {
   );
 }
 
-export default PokemonDetailPage;
+export default PokemonDetailedView;

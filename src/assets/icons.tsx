@@ -15,3 +15,20 @@ export const SpaceBarIcon = ({ color = "white", size = 20 }: { color?: string; s
     </svg>
   );
 };
+
+interface KeyboardShortcutProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function KeyboardShortcut({ children, className }: KeyboardShortcutProps) {
+  return (
+    <kbd
+      className={cn(
+        "items-center justify-center rounded border border-border bg-black/40 px-2 text-white",
+        className
+      )}>
+      {children}
+    </kbd>
+  );
+}

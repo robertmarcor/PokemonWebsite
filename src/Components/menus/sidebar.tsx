@@ -51,7 +51,7 @@ function SidebarComp({ setIsOpen, routes }: Props) {
                   onClick={setIsOpen}
                   className={({ isActive }) =>
                     cn(
-                      "flex items-center p-3 rounded-lg",
+                      "flex items-center p-2 rounded-lg",
                       "transition-all duration-200",
                       isActive
                         ? "bg-primary/15 text-primary font-medium"
@@ -84,7 +84,7 @@ function SidebarComp({ setIsOpen, routes }: Props) {
                           className={({ isActive }) =>
                             cn(
                               "p-2 text-sm rounded-md",
-                              "transition-all duration-200 ring-2 ring-primary-accent",
+                              "transition-all duration-200",
                               isActive
                                 ? "bg-primary/10 text-primary font-medium"
                                 : "text-foreground hover:bg-primary"

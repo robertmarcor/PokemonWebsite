@@ -6,7 +6,7 @@ import PokemonTraining from "./components/PokemonTraining";
 import PokemonBreeding from "./components/PokemonBreeding";
 import PokemonBaseStats from "./components/PokemonBaseStats";
 import TypeBadge from "../Components/ui/type-badge";
-import PokemonAbilities from "./pokemon-abilities";
+import PokemonAbilities from "./abilities";
 import CoolSpacer from "../Components/ui/cool-spacer";
 import { cn } from "../lib/utils";
 

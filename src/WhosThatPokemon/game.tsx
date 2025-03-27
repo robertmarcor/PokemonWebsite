@@ -101,6 +101,8 @@ function WhosThatPokemon() {
           "relative w-full flex flex-col justify-start items-center",
           "2xl:h-3/4 2xl:justify-center"
         )}>
+        <button onClick={() => gameTimerRef.current?.startTimer()}>START ME</button>
+        <button onClick={() => gameTimerRef.current?.stopTimer()}>STOP</button>
         <HUD />
         <GenerationPicker />
         <ImageDisplay />

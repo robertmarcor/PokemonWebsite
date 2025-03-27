@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { toPascalCase } from "../utils/utils";
 
 type Props = {
   word: string;
@@ -67,9 +66,9 @@ function WhosThatGameMobileInput({ word, handleGuess }: Props) {
               ? "hover:text-purple-700 active:bg-orange-400"
               : "opacity-70 cursor-not-allowed"
           }
-          bg-gradient-to-r from-slate-900 to-slate-700`}
+          bg-gradient-to-r from-slate-900 to-slate-700 capitalize`}
           onClick={() => handleButtonClick(choice)}>
-          {toPascalCase(choice)}
+          {choice}
         </button>
       ))}
     </div>

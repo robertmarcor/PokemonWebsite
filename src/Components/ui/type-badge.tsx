@@ -1,4 +1,4 @@
-import { getTypeColor, getTypeColorDarker } from "../../data/colors";
+import { getTypeColor, getTypeRingColor } from "../../data/colors";
 
 type Props = {
   type: string;
@@ -7,7 +7,7 @@ type Props = {
 
 function TypeBadge({ type, className }: Props) {
   const color = getTypeColor(type);
-  const ring = getTypeColorDarker(type);
+  const ring = getTypeRingColor(type);
 
   return (
     <div

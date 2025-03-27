@@ -14,9 +14,9 @@
     --foreground: 0 0% 3.9%;
     --menu: #141914;
 
-    --primary: 0.59 0.22 18;
+    --primary: 0.68 0.15 237;
     --primary-foreground: 0.65 0.22 198;
-    --secondary: 0.68 0.15 237;
+    --secondary: 0.68 0.15 57;
     --secondary-foreground: 0.68 0.15 57;
 
     --card: 0 0% 100%;
@@ -101,7 +101,7 @@ body {
 
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: hsl(var(--font-base));
+  font-family: var(--font-base);
   font-size: 16px;
   line-height: 1.6;
   letter-spacing: 0.1rem;

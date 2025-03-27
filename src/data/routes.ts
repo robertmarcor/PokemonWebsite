@@ -36,9 +36,11 @@ export const Pokedex: Route = {
   label: "Pokèdex",
   href: "/pokedex",
   icon: ballIcon,
-  subroutes: [],
+  subroutes: [
+    { label: "Pokèmon", href: "/pokemon" },
+    { label: "Moves", href: "/move" },
+  ],
 };
-
 export const DESKTOP_ROUTES = [
   { label: "Games", href: "/games" },
   { label: "Pokedex", href: "/pokedex" },

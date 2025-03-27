@@ -1,57 +1,14 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import ThemeToggleButton from "./theme-toggler";
-import { allPokemon } from "../../data/pokemonList";
-import { Link } from "react-router";
-import { extractIdFromUrl } from "../../utils/utils";
 import NavLinks from "../../Header/Header";
 import Logo from "../logo";
 import { usePokemonContext } from "@/PokemonServiceContext";
 import HamburgerMenu from "./hamburger-menu";
 import { cn } from "@/lib/utils";
+import SearchBar from "./search-bar";
 
 function MenuBar() {
   const { isMobile, isLaptop } = usePokemonContext();
-  const [searchDropdown, setSearchDropdown] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const filteredPokemon = allPokemon.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const SearchField = () => {
-    return (
-      <>
-        {!isMobile && <p className="text-white">Search</p>}
-        <div className="">
-          <input
-            className="rounded-md z-20 w-36 h-6 relative text-black font-sans"
-            placeholder={`🔎 ${isMobile ? "Search" : ""}`}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => setSearchDropdown(!searchDropdown)}
-            onBlur={() => {
-              setTimeout(() => {
-                setSearchDropdown(false);
-                setSearchTerm("");
-              }, 500);
-            }}
-          />
-          {searchDropdown && (
-            <div className="absolute bg-white w-36 border-2 border-black z-10 -translate-y-2 text-left max-h-56 overflow-y-auto">
-              {filteredPokemon.map((pokemon) => (
-                <li className="p-2 border-t-1 first:border-t-0 border-black hover:bg-black/20">
-                  <Link to={`/pokedex/${extractIdFromUrl(pokemon.url)}`}>
-                    <p className="text-black capitalize font-sans truncate text-xs ">
-                      {pokemon.name} {"Pokemon"}
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </div>
-          )}
-        </div>
-      </>
-    );
-  };
 
   const UI = ({ children }: { children: ReactNode }) => {
     return (
@@ -86,8 +43,8 @@ function MenuBar() {
 
           <Logo />
         </div>
-        <div className="flex absolute right-2 top-6 items-center gap-2">
-          {!isMobile && <SearchField />}
+        <div className="flex absolute right-2 top-6 items-center gap-2 z-50">
+          {!isMobile && <SearchBar />}
           <ThemeToggleButton className="-translate-y-[2px]" size={16} />
         </div>
       </UI>

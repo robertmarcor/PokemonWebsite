@@ -49,12 +49,18 @@ function PokemonAbilities({ pokemon }: { pokemon: Pokemon }) {
       {/* Abilities Summary Line */}
       <header className="flex items-center gap-4 capitalize flex-wrap">
         <DetailedViewInfoHeader title="Abilities - " className="text-left" />
-        <div className="flex flex-wrap items-center gap-4 *:ring-2 *:ring-secondary dark:*:bg-black/30 *:px-2 *:rounded-lg">
-          <span>{regularAbilities.map((ability) => ability.ability.name)}</span>
-          <span>
-            {hiddenAbility?.ability.name}
-            <span className="font-sans text-secondary font-bold">{" (Hidden)"}</span>
-          </span>
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex gap-2 *:ring-2 *:ring-secondary *:px-2 *:rounded-lg dark:*:bg-black/30">
+            {regularAbilities.map((ability) => (
+              <span>{ability.ability.name}</span>
+            ))}
+          </div>
+          <div className="flex *:ring-2 *:ring-secondary *:px-2 *:rounded-lg dark:*:bg-black/30">
+            <span>
+              {hiddenAbility?.ability.name}
+              <span className="font-sans text-secondary font-bold">{" (Hidden)"}</span>
+            </span>
+          </div>
         </div>
       </header>
 

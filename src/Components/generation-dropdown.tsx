@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { generations } from "../data/consts";
+import { generations } from "../data/generation";
 
 function GenerationSelector({
   className,
@@ -51,7 +51,7 @@ function GenerationSelector({
           role="button"
           aria-selected={activeGenerations.includes(generation.id)}>
           <div className="flex items-center px-2">
-            <p className="text-sm w-16">Gen {generation.id}</p>
+            <p className="w-16 text-sm">Gen {generation.id}</p>
             {generation.icon && (
               <img
                 className="w-8 h-8 scale-[2] pointer-events-none"
