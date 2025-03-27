@@ -23,7 +23,7 @@ function App() {
       <PokemonServiceProvider>
         <PokemonCommandPalette />
         <MenuBar />
-        <DebugLines />
+        {/* <DebugLines /> */}
 
         {/* Main Content */}
         <main className="flex-1 min-w-full">
