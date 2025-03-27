@@ -14,3 +14,15 @@ export function getText<T extends { language: { name: string } }>(
 ) {
   return text.find((entry) => entry.language.name === language);
 }
+
+export function sanitizeText(input?: string): string | undefined {
+  if (!input) return input;
+
+  // Replace control characters (e.g. form feed, newline, etc.) with a space.
+  let sanitized = input.replace(/[\x7F-\x9F]/g, " ");
+
+  // Normalize multiple spaces into a single space and trim leading/trailing whitespace.
+  sanitized = sanitized.replace(/\s+/g, " ").trim();
+
+  return sanitized;
+}

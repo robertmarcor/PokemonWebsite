@@ -7,18 +7,16 @@ import PokemonTypeRelations from "./pokemon-type-relations-calc";
 import DetailedViewSection from "../Components/ui/pokemon-detailed-view-section";
 import PokemonEvolutionChain from "./pokemon-evolution-chain";
 import PokemonMoves from "./pokemon-moves";
-import PokemonEggGroup from "./pokemon-egg-groups";
 import FloatingNav from "../Components/ui/floating-nav";
 import PokemonFormsChain from "./pokemon-form-chain";
 import PokemonDetailCard from "./detailed-view-card";
-import { extractIdFromUrl } from "../utils/utils";
 import { useEffect, useState, useRef } from "react";
 import PokemonDetailsLoadingSkeleton from "./loading-skeleton";
-import { Button } from "@/Components/ui/button";
+import { UseGetPokemon } from "@/client/pokemon.client";
 
 function PokemonDetailedView() {
   const { id } = useParams();
-  let pokemonId = parseInt(id || "1");
+  const [pokemonIdentifier, setPokemonIdentifier] = useState<string>(id || "1"); // The id parameter can be either a numeric ID or a name
   const [pokemon, setPokemon] = useState<Pokemon>();
   const [species, setSpecies] = useState<PokemonSpecies>();
 
@@ -30,6 +28,11 @@ function PokemonDetailedView() {
   const typeRelationsRef = useRef<HTMLDivElement>(null);
   const movesRef = useRef<HTMLDivElement>(null);
   const eggGroupRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (id) {
+      setPokemonIdentifier(id);
+    }
+  }, [id]);
 
   const sectionRefs = {
     topRef,
@@ -41,14 +44,8 @@ function PokemonDetailedView() {
     eggGroupRef,
   };
 
-  const {
-    data: pokemonData,
-    isLoading: isLoadingPokemon,
-    refetch,
-  } = useQuery<Pokemon>({
-    queryKey: ["pokemon", pokemonId],
-    queryFn: () => apiClient.fetchByEndpoint(`pokemon/${pokemonId}`),
-  });
+  // Use the UseGetPokemon hook with the pokemonIdentifier state
+  const { data: pokemonData, isLoading: isLoadingPokemon } = UseGetPokemon(pokemonIdentifier);
 
   useEffect(() => {
     if (pokemonData) setPokemon(pokemonData);
@@ -70,9 +67,9 @@ function PokemonDetailedView() {
     enabled: !!species?.evolution_chain?.url,
   });
 
-  const handleFormChange = (url: string) => {
-    pokemonId = parseInt(extractIdFromUrl(url));
-    refetch();
+  const handleFormChange = (pokemonName: string) => {
+    setPokemonIdentifier(pokemonName);
+    // No need to manually refetch, the query will automatically refetch when pokemonIdentifier changes
   };
 
   // Loading state with skeleton UI
@@ -90,7 +87,7 @@ function PokemonDetailedView() {
       <PageWrapper>
         <div className="text-center">
           <h1 className="text-2xl font-bold">Pokémon Not Found</h1>
-          <Link to="/pokedex" className="text-blue-500 hover:underline">
+          <Link to="/pokemon" className="text-blue-500 hover:underline">
             Return to Pokédex
           </Link>
         </div>
@@ -132,7 +129,7 @@ function PokemonDetailedView() {
                       ? "font-bold bg-gradient-to-b from-transparent to-blue-500/20 border-blue-500/50 border-b-2"
                       : "hover:bg-black/5"
                   }`}
-                  onClick={() => handleFormChange(form.pokemon.url)}>
+                  onClick={() => handleFormChange(form.pokemon.name)}>
                   <div className="flex items-center justify-center gap-1">
                     {isSelected && <span className="text-sm text-blue-400">•</span>}
                     <span>{form.pokemon.name.replace(/-/g, " ")}</span>
@@ -166,11 +163,12 @@ function PokemonDetailedView() {
 
       {/* Moves */}
       <DetailedViewSection ref={movesRef} heading={"Moves"}>
-        <PokemonMoves />
+        <PokemonMoves currentPokemonId={pokemonIdentifier} />
       </DetailedViewSection>
 
       <DetailedViewSection ref={eggGroupRef} heading="Egg Groups" img="/egg.png">
-        <PokemonEggGroup species={species} />
+        {/* <PokemonEggGroup species={species} /> */}
+        <p>Comming soon</p>
       </DetailedViewSection>
     </PageWrapper>
   );

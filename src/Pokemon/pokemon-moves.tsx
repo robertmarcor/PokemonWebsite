@@ -1,19 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { apiClient } from "../client/base";
 import { getDamageClassColor } from "../data/colors";
 import { Pokemon } from "../models";
 import TypeBadge from "../Components/ui/type-badge";
 
-function PokemonMoves() {
-  const { id } = useParams<{ id: string }>();
-  const pokemonId = parseInt(id || "1");
+interface PokemonMovesProps {
+  currentPokemonId?: string;
+}
+
+function PokemonMoves({ currentPokemonId }: PokemonMovesProps) {
+  const { id } = useParams<{ id?: string }>();
+  const [pokemonIdentifier, setPokemonIdentifier] = useState<string>(id || currentPokemonId || "1");
+
+  // Update pokemonIdentifier when id or currentPokemonId changes
+  useEffect(() => {
+    if (id) {
+      setPokemonIdentifier(id);
+    } else if (currentPokemonId) {
+      setPokemonIdentifier(currentPokemonId);
+    }
+  }, [id, currentPokemonId]);
 
   const { data: pokemon } = useQuery<Pokemon>({
-    queryKey: ["PokemonDetail", pokemonId],
+    queryKey: ["PokemonDetail", pokemonIdentifier],
     queryFn: async () => {
-      return apiClient.fetchByEndpoint<Pokemon>(`pokemon/${pokemonId}`);
+      return apiClient.fetchByEndpoint<Pokemon>(`pokemon/${pokemonIdentifier}`);
     },
   });
 
@@ -30,7 +43,7 @@ function PokemonMoves() {
 
   // Fetch move details
   const { data: moveDetails } = useQuery({
-    queryKey: ["MoveDetails", pokemonId],
+    queryKey: ["MoveDetails", pokemonIdentifier],
     queryFn: async () => {
       if (!pokemon || !pokemon.moves) return {};
 

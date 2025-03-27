@@ -13,7 +13,7 @@ export function useGetPokemonCount() {
 
 export function UseGetPokemon(identifier: string | number) {
   return useQuery<Pokemon>({
-    queryKey: ["Pokemon", identifier.toString()],
+    queryKey: ["Pokemon", identifier],
     queryFn: async () => apiClient.fetchByEndpoint(`pokemon/${identifier}`),
   });
 }

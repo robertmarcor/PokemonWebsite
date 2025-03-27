@@ -171,7 +171,7 @@ const PokemonCommandPalette = () => {
           id: pokemon.name,
           children: pokemon.name,
           onClick: () => {
-            navigate(`pokemon/${pokemon.name}`);
+            navigate(`/pokemon/${pokemon.name}`);
             setOpen(false);
           },
         })),
@@ -195,7 +195,7 @@ const PokemonCommandPalette = () => {
           id: move.name,
           children: move.name,
           onClick: () => {
-            navigate(`move/${move.name}`);
+            navigate(`/move/${move.name}`);
             setOpen(false);
           },
         })),

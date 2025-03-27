@@ -30,7 +30,7 @@ function PokemonBreeding({ species }: Props) {
       </a>
       <table className="w-full border-collapse text-left">
         <tbody className="relative">
-          <div className="absolute -top-6 right-0 text-xs font-serif text-secondary-foreground flex">
+          <div className="absolute -top-4 right-0 text-[0.6rem] font-serif text-secondary-foreground flex">
             <p>Gen</p>
             {["II-III", "IV", "V-VI", "*"].map((group) => (
               <button key={group} onClick={() => setSelectedGroup(group)} className="ml-2">
