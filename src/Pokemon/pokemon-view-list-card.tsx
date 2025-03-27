@@ -2,7 +2,7 @@ import TypeBadge from "@/Components/ui/type-badge";
 import { getTypeGradient } from "@/data/colors";
 import { Pokemon } from "@/models";
 import React, { memo } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 type Props = {
   pokemon: Pokemon[];

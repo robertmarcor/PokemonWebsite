@@ -1,5 +1,5 @@
 import { Gamepad2 } from "lucide-react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import PageWrapper from "../Components/page-wrapper";
 import { cn } from "../lib/utils";
 import MyButton from "@/Components/ui/myButton";

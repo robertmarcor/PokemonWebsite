@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../client/base";
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import PageWrapper from "../Components/page-wrapper";
 import { EvolutionChain, Pokemon, PokemonSpecies } from "../models";
 import PokemonTypeRelations from "./pokemon-type-relations-calc";
