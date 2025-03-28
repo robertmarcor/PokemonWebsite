@@ -1,10 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./css/global.css";
-import "./css/typography.css";
-import "./css/shadows.css";
 import App from "./App.tsx";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./providers/ThemeProvider.tsx";
 

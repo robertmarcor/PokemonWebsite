@@ -13,7 +13,7 @@ function PokemonDisplay({
 }) {
   return (
     <div className={`${className} flex justify-center items-center relative`}>
-      <div className="absolute size-[28rem] rounded-full bg-gradient-radial from-red-950 blur-2xl -z-50" />
+      <div className="absolute size-[28rem] rounded-full bg-gradient-radial dark:from-primary from-primary blur-2xl -z-50" />
       <img
         src={pokemonSprite}
         alt={`Sprite of ${pokemonName}`}

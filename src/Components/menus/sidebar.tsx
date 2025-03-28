@@ -1,6 +1,6 @@
 import { X, ChevronRight } from "lucide-react";
 import { Route } from "../../data/routes";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { cn } from "@/lib/utils";
 
 type Props = {

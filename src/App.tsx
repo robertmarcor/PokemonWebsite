@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import Footer from "./Footer/Footer";
 import WhosThatGame from "./WhosThatGame/whos-that-game";
 import Home from "./Home/Home";
@@ -15,14 +15,14 @@ import EggGroupPage from "./EggGroups/egg-group-page";
 import MoveDetailedView from "./Moves/move-detailed-view";
 import NotFoundPage from "./not-found-page";
 import MovePage from "./Moves/move-view-page";
-import PokemonCommandPalette from "./CommandPalette/CommandPalette";
-
+import { CommandMenu } from "@/Components/menus/command-menu";
+import WavyBg from "./Components/layouts/backgrounds";
 function App() {
   return (
     <>
       <PokemonServiceProvider>
-        <PokemonCommandPalette />
         <MenuBar />
+        <CommandMenu />
         {/* <DebugLines /> */}
 
         {/* Main Content */}
@@ -49,9 +49,10 @@ function App() {
           </Routes>
         </main>
         {/* Footer */}
-        <footer className="flex justify-center items-center bg-gray-950 text-center">
+        <footer className="flex items-center justify-center text-center bg-gray-950">
           <Footer />
         </footer>
+        <WavyBg />
       </PokemonServiceProvider>
     </>
   );

@@ -6,7 +6,7 @@ import { allMoves } from "@/data/movesList";
 import { Move, MoveFlavorText, VerboseEffect } from "@/models";
 import { getText } from "@/utils/utils";
 import { useQueries } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 function MovePage() {
   const pageLimit = 20;

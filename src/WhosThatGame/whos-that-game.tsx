@@ -4,12 +4,12 @@ import PokemonDisplay from "./pokemon-display";
 import GenerationSelector from "../Components/generation-dropdown";
 import { getRandomBetweenMinMax } from "../utils/utils";
 import ScoreDisplay from "./score-display";
-import { MoonLoader } from "react-spinners";
 import WhosThatGameInput from "./whos-that-input";
 import WhosThatGameTooltips from "./whos-that-tooltips";
 import WhosThatGameMobileInput from "./whos-that-mobile-input";
 import { SpaceBarIcon } from "../assets/icons";
 import ToggleSwitch from "../Components/menus/toggle-switch";
+import { cn } from "@/lib/utils";
 
 const ACTION = {
   IDLE: "IDLE",
@@ -134,15 +134,15 @@ export default memo(function WhosThatGame() {
   const [isSkipLocked, setIsSkipLocked] = useState(false);
 
   const skipPokemon = useCallback(() => {
-    // Prevent skipping if already locked
-    if (isSkipLocked) return;
+    // Prevent skipping if already locked or not in STARTED state
+    if (isSkipLocked || state.gameState !== "STARTED") return;
 
     // Lock skipping immediately
     setIsSkipLocked(true);
+    dispatch({ type: ACTION.SKIPPING });
 
     setGuessFeedback(`Sucks to suck, it was '${word.toUpperCase()}'`);
     setTimeout(() => setGuessFeedback(""), 5000);
-    // timerRef.current?.resetTimer();
     const skipPenality = 500;
     dispatch({ type: ACTION.DECREMENT_SCORE, payload: skipPenality });
     setScoreChange(-skipPenality);
@@ -150,11 +150,11 @@ export default memo(function WhosThatGame() {
     handleFetchPokemon();
     setInputValue("");
 
-    // Unlock skipping after a delay
+    // Unlock skipping after a longer delay to ensure new Pokemon is loaded
     setTimeout(() => {
       setIsSkipLocked(false);
-    }, 500);
-  }, [handleFetchPokemon, word, isSkipLocked]);
+    }, 1000);
+  }, [handleFetchPokemon, word, isSkipLocked, state.gameState]);
 
   const startGame = useCallback(() => {
     if (state.gameState === ACTION.STARTED) return;
@@ -176,8 +176,8 @@ export default memo(function WhosThatGame() {
 
   const handleGuess = useCallback(
     (guess: string) => {
-      // Prevent guessing if already in SKIPPING or GUESSING state
-      if (state.gameState === "SKIPPING" || state.gameState === "GUESSING") return;
+      // Prevent guessing if not in STARTED state
+      if (state.gameState !== "STARTED") return;
 
       dispatch({ type: ACTION.GUESSING });
 
@@ -188,7 +188,6 @@ export default memo(function WhosThatGame() {
         setHotStreak((prev) => prev + 1);
         dispatch({ type: ACTION.INCREMENT_GUESS });
         setScoreChange(points);
-        // timerRef.current?.resetTimer();
         setGuessFeedback(`✅ Correct guess in #⌛`);
         setTimeout(() => setGuessFeedback(""), 5000);
         setSpriteHidden(false);
@@ -300,31 +299,33 @@ export default memo(function WhosThatGame() {
       // Ensure we're in STARTED state when new Pokemon is loaded
       if (state.gameState === "SKIPPING" || state.gameState === "GUESSING") {
         dispatch({ type: ACTION.STARTED });
+        // Refocus the input after state changes
+        setTimeout(() => inputRef.current?.focus(), 0);
       }
     }
   }, [pokemonData, dispatch, state.gameState]);
 
   return (
     <>
-      <div className="relative flex flex-col mx-auto max-w-screen-2xl min-h-full">
-        <section className="content-center place-items-center grid px-4 pb-24 w-full">
+      <div className="relative flex flex-col min-h-full mx-auto max-w-screen-2xl">
+        <section className="grid content-center w-full px-4 pb-24 place-items-center">
           <h1 className="my-4 font-extrabold max-sm:text-3xl">{"Who's that Pokémon!?"}</h1>
           <p>Light mode not properly supported</p>
           {/* UI stuff */}
           {!isMobile && (
-            <div className="flex justify-start gap-2 w-full">
+            <div className="flex justify-start w-full gap-2">
               <ToggleSwitch isChecked={isEasyMode} setIsChecked={setIsEasyMode} />
               <p className={`${isEasyMode && "text-sky-400"} font-mono`}>PussyMode</p>
             </div>
           )}
-          <div className="relative my-8 w-full">
-            <aside className="top-0 max-sm:-top-20 left-0 max-sm:-left-5 z-40 absolute">
+          <div className="relative w-full my-8">
+            <aside className="absolute top-0 left-0 z-40 max-sm:-top-20 max-sm:-left-5">
               <GenerationSelector
                 className="max-sm:scale-75"
                 updateSelectedRanges={setSelectionRange}
               />
             </aside>
-            <aside className="top-0 max-sm:-top-8 right-0 absolute">
+            <aside className="absolute top-0 right-0 max-sm:-top-8">
               <ScoreDisplay
                 className="text-2xl"
                 score={state.score}
@@ -335,8 +336,8 @@ export default memo(function WhosThatGame() {
           </div>
           {/* Image of the Pokemon */}
           {isLoading ? (
-            <div className="flex justify-center items-center size-36 sm:size-72 lg:size-96">
-              <MoonLoader color="#FFF" />
+            <div className="flex items-center justify-center size-36 sm:size-72 lg:size-96">
+              Loading...
             </div>
           ) : (
             <PokemonDisplay
@@ -355,26 +356,26 @@ export default memo(function WhosThatGame() {
 
         {/* Non-Mobile (Desktop) UI */}
         {!isMobile && !isEasyMode && (
-          <section className="relative content-start place-items-center grid w-full h-full">
+          <section className="relative grid content-start w-full h-full place-items-center">
             <WhosThatGameTooltips />
 
             {state.gameState === ACTION.STARTED && (
-              <WhosThatGameInput
+              <GameInput
                 inputRef={inputRef}
                 inputValue={inputValue}
                 setInputValue={setInputValue}
                 word={word}
-                handleKeyDown={handleInputKeyDown}
+                handleInputKeyDown={handleInputKeyDown}
               />
             )}
 
             {state.gameState === ACTION.IDLE && (
-              <div className="flex justify-center items-center gap-2 mt-8">
+              <div className="flex items-center justify-center gap-2 mt-8">
                 Press
                 <SpaceBarIcon color="fill-foreground" />
                 to
                 <button
-                  className="bg-gradient-to-t from-black to-slate-800 px-4 border-2 hover:border-blue-400 rounded-md text-3xl"
+                  className="px-4 text-3xl rounded-md ring ring-primary hover:border-blue-400"
                   onClick={() => dispatch({ type: ACTION.START })}>
                   START
                 </button>
@@ -390,10 +391,10 @@ export default memo(function WhosThatGame() {
 
         {/* Mobile UI */}
         {(isMobile || isEasyMode) && (
-          <section className="relative flex-1 place-items-center grid w-full h-full">
-            <div className="place-items-center grid w-full h-full">
+          <section className="relative grid flex-1 w-full h-full place-items-center">
+            <div className="grid w-full h-full place-items-center">
               {state.gameState === ACTION.IDLE && (
-                <div className="place-items-center gap-2 grid">
+                <div className="grid gap-2 place-items-center">
                   <p>Finger Pika to Start</p>
                   <button onClick={startGame}>
                     <img className="size-20" src="/pika.png" alt="" />
@@ -404,7 +405,7 @@ export default memo(function WhosThatGame() {
               {(state.gameState === "STARTED" ||
                 state.gameState === "SKIPPING" ||
                 state.gameState === "GUESSING") && (
-                <div className="flex flex-col justify-center items-center w-full h-full">
+                <div className="flex flex-col items-center justify-center w-full h-full">
                   <WhosThatGameMobileInput word={word} handleGuess={handleGuess} />
                   <p>{inputValue}</p>
                 </div>
@@ -418,11 +419,14 @@ export default memo(function WhosThatGame() {
 
   function ScorePopupAnim() {
     return (
-      <div
-        className={`absolute top-1/2 text-6xl font-semibold animate-ping z-50 stroke ${
-          scoreChange !== null && scoreChange < 0 ? "text-red-500" : "text-green-500"
-        }`}>
-        {scoreChange !== null && (scoreChange > 0 ? `+${scoreChange}` : scoreChange)}
+      <div className={"fixed flex items-center justify-center inset-0 -top-20 z-50"}>
+        <p
+          className={cn(
+            "text-6xl font-semibold animate-ping",
+            scoreChange !== null && scoreChange < 0 ? "text-red-500" : "text-green-500"
+          )}>
+          2000 {scoreChange !== null && (scoreChange > 0 ? `+${scoreChange}` : scoreChange)}
+        </p>
       </div>
     );
   }
@@ -445,7 +449,7 @@ export default memo(function WhosThatGame() {
         <p>Final Score</p>
         <p className="font-bold text-green-500">{state.score}</p>
         <button
-          className="bg-gradient-to-t from-black to-slate-800 px-4 border-2 hover:border-blue-400 rounded-md title"
+          className="px-4 border-2 rounded-md bg-gradient-to-t from-black to-slate-800 hover:border-blue-400 title"
           onClick={() => dispatch({ type: ACTION.START })}>
           Retry
         </button>
@@ -453,3 +457,28 @@ export default memo(function WhosThatGame() {
     );
   }
 });
+
+interface GameInputProps {
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  word: string;
+  handleInputKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+}
+function GameInput({
+  inputRef,
+  inputValue,
+  setInputValue,
+  word,
+  handleInputKeyDown,
+}: GameInputProps) {
+  return (
+    <WhosThatGameInput
+      inputRef={inputRef}
+      inputValue={inputValue}
+      setInputValue={setInputValue}
+      word={word}
+      handleKeyDown={handleInputKeyDown}
+    />
+  );
+}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { cn } from "../lib/utils";
 import PageWrapper from "../Components/page-wrapper";
 import { ChevronDown, Command } from "lucide-react";

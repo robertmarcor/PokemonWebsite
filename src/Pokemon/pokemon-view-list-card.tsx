@@ -1,16 +1,18 @@
 import TypeBadge from "@/Components/ui/type-badge";
 import { getTypeGradient } from "@/data/colors";
+import { cn } from "@/lib/utils";
 import { Pokemon } from "@/models";
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type Props = {
   pokemon: Pokemon[];
+  className?: string;
 };
 
-function PokemonViewListCard({ pokemon }: Props) {
+function PokemonViewListCard({ pokemon, className }: Props) {
   return (
-    <div className="grid grid-cols-1 gap-4 mb-8 md:grid-cols-3 lg:grid-cols-5">
+    <div className={cn(className)}>
       {pokemon.map((pokemon) => (
         <Link
           key={pokemon.id}
@@ -21,9 +23,9 @@ function PokemonViewListCard({ pokemon }: Props) {
           {/* Card Header with ID and Generation */}
           <div className="flex flex-col items-center h-full">
             <div className="flex w-full p-2 bg-black/30">
-              <h2 className="px-2 py-1 text-xs font-bold text-white capitalize rounded-full bg-white/20">
+              <p className="px-2 py-1 text-xs font-bold text-foreground capitalize rounded-full bg-white/20">
                 {`#${pokemon.id} - ${pokemon.species.name}`}
-              </h2>
+              </p>
             </div>
 
             {/* Pokemon Image */}

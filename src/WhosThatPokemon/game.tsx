@@ -93,8 +93,8 @@ function WhosThatPokemon() {
 
   return (
     <PageWrapper className="2xl:h-screen">
-      <div className="absolute top-0 h-full w-full bg-black/10 -z-50 bgMask1 " />
-      <div className="absolute top-0 h-full w-full bg-black/10 -z-50 bgMask2 " />
+      <div className="absolute top-0 w-full h-full bg-black/10 -z-50 bgMask1 " />
+      <div className="absolute top-0 w-full h-full bg-black/10 -z-50 bgMask2 " />
       <H1 text="Whos That Pokèmon!?" />
       <article
         className={cn(

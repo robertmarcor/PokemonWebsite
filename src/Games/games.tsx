@@ -1,5 +1,5 @@
 import { Gamepad2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import PageWrapper from "../Components/page-wrapper";
 import { cn } from "../lib/utils";
 import MyButton from "@/Components/ui/myButton";
@@ -36,7 +36,7 @@ export default function GamesPage() {
         <p className="text-xl">Check out the games I developed with the pokeAPI.</p>
       </section>
 
-      <div className="gap-8 grid grid-cols-1 md:grid-cols-2 m-6">
+      <div className="grid grid-cols-1 gap-8 m-6 md:grid-cols-2">
         {games.map((game) => (
           <GameCard key={game.id} game={game} />
         ))}
@@ -64,15 +64,15 @@ function GameCard({ game }: { game: Game }) {
         />
       </div>
       <div className="flex flex-col flex-grow p-4">
-        <h2 className="mb-2 font-semibold text-lg">{game.title}</h2>
-        <p className="mb-4 text-slate-600 text-sm font-sans">{game.description}</p>
+        <h2 className="mb-2 font-semibold">{game.title}</h2>
+        <p className="mb-4">{game.description}</p>
         <MyButton
           className={cn(
             "w-full mt-auto font-medium",
             "transition-colors duration-200 rounded-lg",
             "bg-primary hover:bg-primary-foreground"
           )}>
-          <Link to={game.link} className="flex justify-center items-center whitespace-nowrap">
+          <Link to={game.link} className="flex items-center justify-center whitespace-nowrap">
             {game.title}
           </Link>
         </MyButton>

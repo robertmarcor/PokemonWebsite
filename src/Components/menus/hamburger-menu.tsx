@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 import Portal from "../../Portal";
 import SidebarComp from "./sidebar";
-import { AnimatePresence, motion } from "framer-motion"; // ✅ Corrected Import
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function HamburgerMenu({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = useState(false);

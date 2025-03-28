@@ -11,12 +11,13 @@ import { RawGeneration } from "../data/generation";
 import PokemonViewPaginationControls from "./components/pokemon-view-pagination-controls";
 import PokemonViewListCard from "./pokemon-view-list-card";
 import PokemonFilterControls from "./components/pokemon-filter-controls";
-
+import { usePokemonContext } from "../PokemonServiceContext";
 function PokemonViewPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGenerations, setSelectedGenerations] = useState<RawGeneration[]>([]);
   const pokemonPerPage = 20;
+  const { isUltraWide } = usePokemonContext();
 
   // Calculate total Pokemon count from selected generations
   const totalSelectedPokemon = selectedGenerations.reduce(
@@ -129,13 +130,13 @@ function PokemonViewPage() {
   };
 
   return (
-    <PageWrapper>
+    <PageWrapper className={cn(isUltraWide && "min-w-full")}>
       <h1 className="mb-6 text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
         Pokédex
       </h1>
 
       {/* Search and Filter Section */}
-      <div className="flex flex-col gap-4 mb-8 w-full mx-auto max-w-xl">
+      <div className="flex flex-col w-full max-w-xl gap-4 mx-auto mb-8">
         {/* Search Bar */}
         <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -188,9 +189,15 @@ function PokemonViewPage() {
 
       {/* Pokemon Grid */}
       {!isLoading && (
-        <>
+        <section className="w-full">
           {/* Pokemon List Card */}
-          <PokemonViewListCard pokemon={filteredPokemon} />
+          <PokemonViewListCard
+            pokemon={filteredPokemon}
+            className={cn(
+              "grid gap-4 mb-8 grid-cols-1 w-full",
+              isUltraWide ? "grid-cols-40" : "grid-cols-1 md:grid-cols-3 lg:grid-cols-5"
+            )}
+          />
 
           {/* Pagination Controls */}
           <PokemonViewPaginationControls
@@ -201,7 +208,7 @@ function PokemonViewPage() {
             goToNextPage={goToNextPage}
             goToLastPage={goToLastPage}
           />
-        </>
+        </section>
       )}
     </PageWrapper>
   );

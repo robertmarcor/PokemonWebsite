@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../client/base";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import PageWrapper from "../Components/page-wrapper";
 import { EvolutionChain, Pokemon, PokemonSpecies } from "../models";
 import PokemonTypeRelations from "./pokemon-type-relations-calc";
@@ -13,7 +13,6 @@ import PokemonDetailCard from "./detailed-view-card";
 import { useEffect, useState, useRef } from "react";
 import PokemonDetailsLoadingSkeleton from "./loading-skeleton";
 import { UseGetPokemon } from "@/client/pokemon.client";
-
 function PokemonDetailedView() {
   const { id } = useParams();
   const [pokemonIdentifier, setPokemonIdentifier] = useState<string>(id || "1"); // The id parameter can be either a numeric ID or a name

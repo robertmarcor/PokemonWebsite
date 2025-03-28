@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import ItemSprite from "../Components/sprites/item-sprite";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { extractIdFromUrl } from "../utils/utils";
 
 interface Props {

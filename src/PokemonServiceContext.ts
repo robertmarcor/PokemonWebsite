@@ -3,9 +3,14 @@ import { createContext, useContext } from "react";
 type ContextProps = {
   isMobile: boolean;
   isLaptop: boolean;
+  isUltraWide: boolean;
 };
 
-export const PokemonContext = createContext<ContextProps>({ isLaptop: false, isMobile: false });
+export const PokemonContext = createContext<ContextProps>({
+  isLaptop: false,
+  isMobile: false,
+  isUltraWide: false,
+});
 
 // Hook to use the Pokemon context
 export const usePokemonContext = () => {

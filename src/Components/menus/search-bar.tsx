@@ -3,13 +3,14 @@ import { allPokemon } from "@/data/pokemonList";
 import { usePokemonContext } from "@/PokemonServiceContext";
 import { extractIdFromUrl } from "@/utils/utils";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function SearchBar() {
   const [searchDropdown, setSearchDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { isMobile } = usePokemonContext();
   const searchAble = [...allPokemon, ...allMoves];
+
   const filteredSearch = searchAble.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -24,7 +25,7 @@ export default function SearchBar() {
       {!isMobile && <p className="text-white">Search</p>}
       <div className="relative">
         <input
-          className="rounded-md z-[41] w-36 h-6 relative text-black font-sans cursor-text p-4"
+          className="rounded-md z-[41] w-36 h-6 relative text-black font-sans cursor-text p-4 bg-white"
           placeholder={`🔎 ${isMobile ? "Search" : ""}`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
