@@ -5,26 +5,27 @@ import Home from "./Home/Home";
 import PokdexGame from "./PokedexGame/fill-the-dex-game";
 import { PokemonServiceProvider } from "./PokemonServiceProvider";
 import GamesPage from "./Games/games";
-import PokemonViewPage from "@/Pokemon/pokemon-view-page";
+import PokemonPage from "@/Pokemon/pokemon-page";
 import PokemonDetailedView from "@/Pokemon/detailed-view";
 import MenuBar from "./Components/menus/menubar";
 import WhosThatPokemon from "./WhosThatPokemon/game";
 import DebugLines from "./Components/debug-lines";
 import Pokedex from "./Pokedex/pokedex-page";
 import EggGroupPage from "./EggGroups/egg-group-page";
-import MoveDetailedView from "./Moves/move-detailed-view";
 import NotFoundPage from "./not-found-page";
-import MovePage from "./Moves/move-view-page";
+import MovePage from "@/Moves/move-page";
 import { CommandMenu } from "@/Components/menus/command-menu";
 import WavyBg from "./Components/layouts/backgrounds";
+import ItemPage from "./Item/item-page";
+import MoveDetailedView from "@/Moves/slug/move-detailed-view";
 function App() {
   return (
     <>
       <PokemonServiceProvider>
         <MenuBar />
         <CommandMenu />
-        {/* <DebugLines /> */}
-
+        {/*         <DebugLines />
+         */}
         {/* Main Content */}
         <main className="flex-1 min-w-full">
           <Routes>
@@ -37,11 +38,14 @@ function App() {
             {/* KNOWLEDGE BASES */}
             <Route path="/pokedex" element={<Pokedex />} />
             {/* POKEMON */}
-            <Route path="/pokemon" element={<PokemonViewPage />} />
+            <Route path="/pokemon" element={<PokemonPage />} />
             <Route path="/pokemon/:id" element={<PokemonDetailedView />} />
             {/* MOVES */}
             <Route path="/move" element={<MovePage />} />
             <Route path="/move/:id" element={<MoveDetailedView />} />
+            {/* ITEMS */}
+            <Route path="/item" element={<ItemPage />} />
+            <Route path="/item/:slug" element={<ItemPage />} />
             {/* EGG GROUPS */}
             <Route path="/egg-group/:id" element={<EggGroupPage />} />
 

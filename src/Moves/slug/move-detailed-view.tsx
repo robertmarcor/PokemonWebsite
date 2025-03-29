@@ -1,7 +1,7 @@
 import { UseGetMove } from "@/client/move.client";
 import { useParams } from "react-router";
-import MoveDetailedViewCard from "./move-detailed-view-card";
-import MoveNavigation from "./move-navigation";
+import MoveDetailedViewCard from "@/Moves/slug/move-detailed-view-card";
+import MoveNavigation from "@/Moves/move-navigation";
 import PageWrapper from "@/Components/page-wrapper";
 
 export default function MoveDetailedView() {

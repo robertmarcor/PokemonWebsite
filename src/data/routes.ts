@@ -39,6 +39,8 @@ export const Pokedex: Route = {
   subroutes: [
     { label: "Pokèmon", href: "/pokemon" },
     { label: "Moves", href: "/move" },
+    { label: "Egg Groups", href: "/egg-group" },
+    { label: "Items", href: "/item" },
   ],
 };
 export const DESKTOP_ROUTES = [

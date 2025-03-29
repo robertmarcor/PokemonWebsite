@@ -6,6 +6,7 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/Components/ui/command";
+import { allItems } from "@/data/itemsList";
 import { allMoves } from "@/data/movesList";
 import { allPokemon } from "@/data/pokemonList";
 import { extractIdFromUrl } from "@/utils/utils";
@@ -28,16 +29,20 @@ export function CommandMenu() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  const pokemonSearch = allPokemon.filter((item) =>
+  const pokemonSearch = allPokemon.results.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const moveSearch = allMoves.filter((item) =>
+  const moveSearch = allMoves.results.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const itemSearch = allItems.results.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getItemType = (item: { url: string }): string => {
     if (item.url.includes("/move/")) return "Move";
     if (item.url.includes("/pokemon/")) return "Pokemon";
+    if (item.url.includes("/item/")) return "Item";
     else return "";
   };
 
@@ -59,7 +64,7 @@ export function CommandMenu() {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Pokemon">
-          {pokemonSearch.slice(0, 50).map((pokemon) => {
+          {pokemonSearch.slice(0, 10).map((pokemon) => {
             const itemType = getItemType(pokemon);
             return (
               <CommandItem key={pokemon.name}>
@@ -72,12 +77,25 @@ export function CommandMenu() {
           })}
         </CommandGroup>
         <CommandGroup heading="Moves">
-          {moveSearch.slice(0, 50).map((move) => {
+          {moveSearch.slice(0, 10).map((move) => {
             const itemType = getItemType(move);
             return (
               <CommandItem key={move.name}>
                 <Link to={`/move/${move.name}`} onClick={() => setOpen(false)}>
                   <span className="capitalize mr-1">{move.name} </span>
+                  <span className="text-primary">{`(${itemType})`}</span>
+                </Link>
+              </CommandItem>
+            );
+          })}
+        </CommandGroup>
+        <CommandGroup heading="Items">
+          {itemSearch.slice(0, 10).map((item) => {
+            const itemType = getItemType(item);
+            return (
+              <CommandItem key={item.name}>
+                <Link to={`/item/${item.name}`} onClick={() => setOpen(false)}>
+                  <span className="capitalize mr-1">{item.name} </span>
                   <span className="text-primary">{`(${itemType})`}</span>
                 </Link>
               </CommandItem>

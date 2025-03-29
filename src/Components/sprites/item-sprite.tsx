@@ -1,4 +1,4 @@
-import { UseGetItemBy } from "../../client/item.client";
+import { UseGetItem } from "../../client/item.client";
 
 type Props = {
   identifier: string | number;
@@ -6,6 +6,6 @@ type Props = {
 };
 
 export default function ItemSprite({ identifier, className }: Props) {
-  const { data } = UseGetItemBy(identifier);
+  const { data } = UseGetItem(identifier);
   return <img className={className} src={data?.sprites.default} alt={`${data?.name}-sprite`} />;
 }

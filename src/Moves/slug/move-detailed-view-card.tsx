@@ -1,6 +1,6 @@
 import { Move, MoveFlavorText, VerboseEffect } from "@/models";
 import { getTypeGradient, getTypeColor, getTypeBorderColor } from "@/data/colors";
-import MoveInfoItem from "./move-info-item";
+import MoveInfoItem from "@/Moves/slug/move-info-item";
 import TypeBadge from "@/Components/ui/type-badge";
 import { getText } from "@/utils/utils";
 

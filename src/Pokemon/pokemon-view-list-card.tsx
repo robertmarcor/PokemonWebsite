@@ -10,7 +10,7 @@ type Props = {
   className?: string;
 };
 
-function PokemonViewListCard({ pokemon, className }: Props) {
+function PokemonListCard({ pokemon, className }: Props) {
   return (
     <div className={cn(className)}>
       {pokemon.map((pokemon) => (
@@ -23,7 +23,7 @@ function PokemonViewListCard({ pokemon, className }: Props) {
           {/* Card Header with ID and Generation */}
           <div className="flex flex-col items-center h-full">
             <div className="flex w-full p-2 bg-black/30">
-              <p className="px-2 py-1 text-xs font-bold text-foreground capitalize rounded-full bg-white/20">
+              <p className="px-2 py-1 text-xs font-bold text-white capitalize rounded-full bg-white/20">
                 {`#${pokemon.id} - ${pokemon.species.name}`}
               </p>
             </div>
@@ -56,4 +56,4 @@ function PokemonViewListCard({ pokemon, className }: Props) {
   );
 }
 
-export default memo(PokemonViewListCard);
+export default memo(PokemonListCard);

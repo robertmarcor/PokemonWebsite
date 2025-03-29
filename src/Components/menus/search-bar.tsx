@@ -1,3 +1,4 @@
+import { allItems } from "@/data/itemsList";
 import { allMoves } from "@/data/movesList";
 import { allPokemon } from "@/data/pokemonList";
 import { usePokemonContext } from "@/PokemonServiceContext";
@@ -9,7 +10,7 @@ export default function SearchBar() {
   const [searchDropdown, setSearchDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { isMobile } = usePokemonContext();
-  const searchAble = [...allPokemon, ...allMoves];
+  const searchAble = [...allPokemon.results, ...allMoves.results, ...allItems.results];
 
   const filteredSearch = searchAble.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -17,6 +18,7 @@ export default function SearchBar() {
   const getItemType = (item: { url: string }): string => {
     if (item.url.includes("/move/")) return "Move";
     if (item.url.includes("/pokemon/")) return "Pokemon";
+    if (item.url.includes("/item/")) return "Item";
     return "";
   };
 
@@ -38,7 +40,7 @@ export default function SearchBar() {
         />
         {searchDropdown && (
           <div className="absolute bg-white w-36 border-2 border-black z-40 -translate-y-2 text-left max-h-56 overflow-y-auto py-4">
-            {filteredSearch.slice(0, 50).map((item) => {
+            {filteredSearch.slice(0, 25).map((item) => {
               const itemType = getItemType(item);
               return (
                 <li

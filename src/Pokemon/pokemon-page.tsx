@@ -9,10 +9,12 @@ import { allPokemon } from "../data/pokemonList";
 import { cn } from "../lib/utils";
 import { RawGeneration } from "../data/generation";
 import PokemonViewPaginationControls from "./components/pokemon-view-pagination-controls";
-import PokemonViewListCard from "./pokemon-view-list-card";
+import PokemonListCard from "./pokemon-view-list-card";
 import PokemonFilterControls from "./components/pokemon-filter-controls";
 import { usePokemonContext } from "../PokemonServiceContext";
-function PokemonViewPage() {
+import H1 from "@/Components/layouts/page-header";
+
+function PokemonPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGenerations, setSelectedGenerations] = useState<RawGeneration[]>([]);
@@ -26,7 +28,7 @@ function PokemonViewPage() {
   );
 
   // Filter Pokemon based on name and generations
-  const filtered = allPokemon.filter((pokemon) => {
+  const filtered = allPokemon.results.filter((pokemon) => {
     // Filter by name
     const nameMatch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase());
 
@@ -131,9 +133,7 @@ function PokemonViewPage() {
 
   return (
     <PageWrapper className={cn(isUltraWide && "min-w-full")}>
-      <h1 className="mb-6 text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
-        Pokédex
-      </h1>
+      <H1 text="Pokémon" />
 
       {/* Search and Filter Section */}
       <div className="flex flex-col w-full max-w-xl gap-4 mx-auto mb-8">
@@ -160,7 +160,7 @@ function PokemonViewPage() {
               {(() => {
                 // No search, no generations selected: show total count
                 if (!searchTerm && selectedGenerations.length === 0) {
-                  return `${allPokemon.length} results`;
+                  return `${allPokemon.results.length} results`;
                 }
                 // Generations selected, no search: show total from selected generations
                 else if (!searchTerm && selectedGenerations.length > 0) {
@@ -191,7 +191,7 @@ function PokemonViewPage() {
       {!isLoading && (
         <section className="w-full">
           {/* Pokemon List Card */}
-          <PokemonViewListCard
+          <PokemonListCard
             pokemon={filteredPokemon}
             className={cn(
               "grid gap-4 mb-8 grid-cols-1 w-full",
@@ -214,4 +214,4 @@ function PokemonViewPage() {
   );
 }
 
-export default PokemonViewPage;
+export default PokemonPage;

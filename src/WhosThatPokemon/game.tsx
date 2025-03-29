@@ -5,7 +5,7 @@ import WhosThatPokemonTimer, { TimerFunctions } from "./timer";
 import WhosTHatPokemonHud from "./hud";
 import WhosTHatPokemonEasyMode from "./easy-mode";
 import PageWrapper from "../Components/page-wrapper";
-import H1 from "@/Components/ui/main-header";
+import H1 from "@/Components/layouts/page-header";
 import { cn } from "@/lib/utils";
 import { usePokemonContext } from "@/PokemonServiceContext";
 import ToggleSwitch from "@/Components/menus/toggle-switch";

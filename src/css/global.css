@@ -14,7 +14,7 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
+  --accent: oklch(0.75 0.183 55.934);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
@@ -26,12 +26,12 @@
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --primary: oklch(0.59 0.22 18);
-  --primary-foreground: oklch(0.65 0.22 198);
-  --secondary: oklch(0.77 0.2 131);
+  --primary-foreground: oklch(0.08 0 0);
+  --secondary: oklch(0.768 0.233 130.85);
   --secondary-foreground: oklch(0.77 0.2 311);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.65 0.35 198);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -87,8 +87,11 @@ html {
 /* prettier-ignore */
 h1,h2,h3,h4,h5,h6 {
   font-family: var(--font-heading);
-  color: var(--primary);
   letter-spacing:0.15em;
+}
+/* prettier-ignore */
+h2,h3,h4,h5,h6 {
+  color: var(--primary);
 }
 
 h1 {
