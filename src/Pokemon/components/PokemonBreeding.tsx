@@ -25,26 +25,31 @@ function PokemonBreeding({ species }: Props) {
 
   return (
     <div>
-      <a href="#egg-group">
-        <DetailedViewInfoHeader title="Breeding" className="text-left" />
-      </a>
+      <header className="flex flex-col sm:flex-row justify-between">
+        <a href="#egg-group">
+          <DetailedViewInfoHeader title="Breeding" className="text-left" />
+        </a>
+        <div className="text-xs font-serif text-secondary text-left">
+          <p>Gen</p>
+          {["II-III", "IV", "V-VI", "*"].map((group) => (
+            <button
+              key={group}
+              onClick={() => setSelectedGroup(group)}
+              className="ml-2 hover:text-foreground">
+              {`[${group}]`}
+            </button>
+          ))}
+        </div>
+      </header>
       <table className="w-full border-collapse text-left">
-        <tbody className="relative">
-          <div className="absolute -top-4 right-0 text-[0.6rem] font-serif text-secondary-foreground flex">
-            <p>Gen</p>
-            {["II-III", "IV", "V-VI", "*"].map((group) => (
-              <button key={group} onClick={() => setSelectedGroup(group)} className="ml-2">
-                {`[${group}]`}
-              </button>
-            ))}
-          </div>
+        <tbody>
           <InfoRow
             label="Egg Cycle"
             value={
               <>
-                <span className="text-primary-foreground">{`${species.hatch_counter}`}</span>
+                <span className="text-secondary">{`${species.hatch_counter}`}</span>
                 -Cycles,
-                <span className="text-primary-foreground">{` ${
+                <span className="text-secondary">{` ${
                   species.hatch_counter * eggCycleSteps
                 }`}</span>
                 -Steps

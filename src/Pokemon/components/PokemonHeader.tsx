@@ -1,10 +1,24 @@
+import H1 from "@/Components/layouts/h1-header";
+import { Badge } from "@/Components/ui/badge";
+import TypeBadge from "@/Components/ui/type-badge";
+import { Pokemon } from "@/models";
+
 type Props = {
-  className?: string;
-  children: React.ReactNode;
+  pokemon: Pokemon;
 };
 
-function PokemonHeader({ className, children }: Props) {
-  return <div className={className}>{children}</div>;
+function PokemonHeader({ pokemon }: Props) {
+  return (
+    <header className="flex flex-col sm:flex-row items-start sm:items-center gap-2 my-2">
+      <Badge variant={"id"}>#{pokemon.id}</Badge>
+      <H1 text={pokemon.name} />
+      <div className="pokemon-types flex flex-wrap gap-1">
+        {pokemon.types.map((type) => (
+          <TypeBadge key={type.type.name} type={type.type.name} />
+        ))}
+      </div>{" "}
+    </header>
+  );
 }
 
 export default PokemonHeader;

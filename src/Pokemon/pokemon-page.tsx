@@ -12,7 +12,7 @@ import PokemonViewPaginationControls from "./components/pokemon-view-pagination-
 import PokemonListCard from "./pokemon-view-list-card";
 import PokemonFilterControls from "./components/pokemon-filter-controls";
 import { usePokemonContext } from "../PokemonServiceContext";
-import H1 from "@/Components/layouts/page-header";
+import H1 from "@/Components/layouts/h1-header";
 
 function PokemonPage() {
   const [searchTerm, setSearchTerm] = useState("");

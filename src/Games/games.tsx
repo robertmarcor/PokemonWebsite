@@ -3,8 +3,8 @@ import { Link } from "react-router";
 import PageWrapper from "../Components/page-wrapper";
 import { cn } from "../lib/utils";
 import MyButton from "@/Components/ui/myButton";
+import H1 from "@/Components/layouts/h1-header";
 
-// Sample game data - replace with your actual games
 const games = [
   {
     id: "game1",
@@ -26,15 +26,13 @@ const games = [
 
 export default function GamesPage() {
   return (
-    <PageWrapper>
-      <section>
-        <div className="flex items-center gap-2">
-          <Gamepad2 className="size-8" />
-          <h1 className="font-semibold">Games Collection</h1>
-          <Gamepad2 className="size-8" />
-        </div>
-        <p className="text-xl">Check out the games I developed with the pokeAPI.</p>
-      </section>
+    <PageWrapper className="mb-8">
+      <div className="flex items-center gap-2">
+        <Gamepad2 className="size-8" />
+        <H1 text="Games" />
+        <Gamepad2 className="size-8" />
+      </div>
+      <p className="text-xl">Check out the games I developed with the pokeAPI.</p>
 
       <div className="grid grid-cols-1 gap-8 m-6 md:grid-cols-2">
         {games.map((game) => (

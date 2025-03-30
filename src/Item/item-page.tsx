@@ -1,5 +1,5 @@
 import PageWrapper from "@/Components/page-wrapper";
-import H1 from "@/Components/layouts/page-header";
+import H1 from "@/Components/layouts/h1-header";
 import { useEffect, useState } from "react";
 import { allItems } from "@/data/itemsList";
 import { Item, NamedAPIResource, VersionGroupFlavorText } from "@/models";

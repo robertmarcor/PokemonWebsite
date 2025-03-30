@@ -7,7 +7,7 @@ function PageWrapper({ children, className }: { children: React.ReactNode; class
       className={cn(
         className,
         "max-w-6xl max-lg:max-w-3xl max-md:max-w-xl",
-        "flex flex-col text-center gap-2 items-center mx-auto my-4",
+        "flex flex-col text-center gap-2 items-center mx-auto",
         "max-sm:mx-2"
       )}>
       {children}

@@ -29,7 +29,7 @@ function PokemonBaseStats({ pokemon }: Props) {
               <span className={cn("capitalize")}>{stat.stat.name.replace("-", " ")}</span>
               <span className={cn("font-bold")}>{stat.base_stat}</span>
             </div>
-            <div className={cn("w-full h-2.5 overflow-hidden bg-black/20")}>
+            <div className={cn("w-full h-2.5 overflow-hidden bg-black/20 dark:bg-white/5")}>
               <div
                 className={`${getStatColor(stat.base_stat)} h-2.5 transition-all`}
                 style={{ width: `${Math.min(100, (stat.base_stat / 255) * 100)}%` }}></div>

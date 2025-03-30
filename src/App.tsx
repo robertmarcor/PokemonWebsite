@@ -6,7 +6,7 @@ import PokdexGame from "./PokedexGame/fill-the-dex-game";
 import { PokemonServiceProvider } from "./PokemonServiceProvider";
 import GamesPage from "./Games/games";
 import PokemonPage from "@/Pokemon/pokemon-page";
-import PokemonDetailedView from "@/Pokemon/detailed-view";
+import PokemonDetailedView from "@/Pokemon/pokemon-detailed-view";
 import MenuBar from "./Components/menus/menubar";
 import WhosThatPokemon from "./WhosThatPokemon/game";
 import DebugLines from "./Components/debug-lines";
@@ -18,6 +18,7 @@ import { CommandMenu } from "@/Components/menus/command-menu";
 import WavyBg from "./Components/layouts/backgrounds";
 import ItemPage from "./Item/item-page";
 import MoveDetailedView from "@/Moves/slug/move-detailed-view";
+import Test from "./__test__/test";
 function App() {
   return (
     <>
@@ -39,16 +40,17 @@ function App() {
             <Route path="/pokedex" element={<Pokedex />} />
             {/* POKEMON */}
             <Route path="/pokemon" element={<PokemonPage />} />
-            <Route path="/pokemon/:id" element={<PokemonDetailedView />} />
+            <Route path="/pokemon/:slug" element={<PokemonDetailedView />} />
             {/* MOVES */}
             <Route path="/move" element={<MovePage />} />
-            <Route path="/move/:id" element={<MoveDetailedView />} />
+            <Route path="/move/:slug" element={<MoveDetailedView />} />
             {/* ITEMS */}
             <Route path="/item" element={<ItemPage />} />
             <Route path="/item/:slug" element={<ItemPage />} />
             {/* EGG GROUPS */}
-            <Route path="/egg-group/:id" element={<EggGroupPage />} />
+            <Route path="/egg-group/:slug" element={<EggGroupPage />} />
 
+            <Route path="/test" element={<Test />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

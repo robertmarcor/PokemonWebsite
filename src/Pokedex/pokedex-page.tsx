@@ -1,4 +1,4 @@
-import H1 from "@/Components/layouts/page-header";
+import H1 from "@/Components/layouts/h1-header";
 import { Zap, Database, Egg, Dna, Award, Heart } from "lucide-react";
 import { Link } from "react-router";
 import PokedexCategoryCard from "./pokedex-category-card";

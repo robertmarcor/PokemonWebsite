@@ -10,7 +10,7 @@
   --foreground: oklch(0.129 0.042 264.695);
   --primary: oklch(0.68 0.15 237);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --secondary: oklch(0.769 0.188 70.08);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -81,7 +81,10 @@ html {
 
   font-size: 16px;
   font-weight: 400;
-  overflow-x: hidden;
+}
+
+button {
+  cursor: pointer;
 }
 
 /* prettier-ignore */
@@ -95,22 +98,17 @@ h2,h3,h4,h5,h6 {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
+  @apply max-lg:text-2xl max-md:text-xl;
 }
 h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 h3 {
-  font-size: 1.875rem;
+  font-size: 1.25rem;
 }
 h4 {
   font-size: 1.5rem;
-}
-h5 {
-  font-size: 1.25rem;
-}
-h6 {
-  font-size: 1.125rem;
 }
 
 li {
@@ -119,6 +117,15 @@ li {
 
 p {
   font-family: var(--font-body);
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.text-shadow {
+  text-shadow: 0px 0px 2px var(--tw-shadow-color);
 }
 
 .glow {

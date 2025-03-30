@@ -1,5 +1,5 @@
 import { apiClient } from "@/client/base";
-import H1 from "@/Components/layouts/page-header";
+import H1 from "@/Components/layouts/h1-header";
 import PageWrapper from "@/Components/page-wrapper";
 import { allMoves } from "@/data/movesList";
 import { Move, MoveFlavorText, VerboseEffect } from "@/models";

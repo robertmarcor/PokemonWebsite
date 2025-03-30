@@ -16,7 +16,7 @@ export type Route = {
 
 export const Home: Route = {
   label: "Home",
-  href: "/home",
+  href: "/",
   icon: ballIcon,
   subroutes: [],
 };
@@ -46,6 +46,7 @@ export const Pokedex: Route = {
 export const DESKTOP_ROUTES = [
   { label: "Games", href: "/games" },
   { label: "Pokedex", href: "/pokedex" },
+  { label: "Test", href: "/test" },
 ];
 
 export const ROUTES: Route[] = [Home, Games, Pokedex];

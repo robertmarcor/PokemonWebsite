@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { getTypeColor, getTypeRingColor } from "../../data/colors";
 
 type Props = {
@@ -10,11 +11,15 @@ function TypeBadge({ type, className }: Props) {
   const ring = getTypeRingColor(type);
 
   return (
-    <div
-      key={type}
-      className={`${className} uppercase px-4 ${color} rounded-md text-white font-bold shadow-md ${ring}`}>
-      <span className={`text-shadow shadow-black`}>{type}</span>
-    </div>
+    <span
+      className={cn(
+        className,
+        ring,
+        color,
+        "uppercase px-2 rounded-md text-white font-semibold text-shadow shadow-black"
+      )}>
+      {type}
+    </span>
   );
 }
 

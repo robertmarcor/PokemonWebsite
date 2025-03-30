@@ -9,14 +9,16 @@ import {
 import { allItems } from "@/data/itemsList";
 import { allMoves } from "@/data/movesList";
 import { allPokemon } from "@/data/pokemonList";
-import { extractIdFromUrl } from "@/utils/utils";
 import { SearchIcon, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import Fuse from "fuse.js";
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [threshold, setThreshold] = useState<number>(0.4);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -29,15 +31,20 @@ export function CommandMenu() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  const pokemonSearch = allPokemon.results.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const moveSearch = allMoves.results.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const itemSearch = allItems.results.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  let fuseOptions = {
+    threshold: 0.4,
+    minMatchCharLength: 4,
+    isCaseSensetive: false,
+    keys: ["name"],
+  };
+
+  const pokemonFuse = new Fuse(allPokemon.results, fuseOptions);
+  const moveFuse = new Fuse(allMoves.results, fuseOptions);
+  const itemFuse = new Fuse(allItems.results, fuseOptions);
+
+  const pokemonSearch = pokemonFuse.search(searchTerm);
+  const moveSearch = moveFuse.search(searchTerm);
+  const itemSearch = itemFuse.search(searchTerm);
 
   const getItemType = (item: { url: string }): string => {
     if (item.url.includes("/move/")) return "Move";
@@ -48,7 +55,7 @@ export function CommandMenu() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <div className="flex h-9 items-center gap-2 border-b p-4 py-6">
+      <div className="flex h-9 items-center gap-2 border-b p-4 py-6 relative">
         <SearchIcon className="size-4 shrink-0 opacity-50" />
         <input
           type="text"
@@ -61,15 +68,21 @@ export function CommandMenu() {
           <X size={24} />
         </button>
       </div>
+
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Pokemon">
           {pokemonSearch.slice(0, 10).map((pokemon) => {
-            const itemType = getItemType(pokemon);
+            const itemType = getItemType(pokemon.item);
             return (
-              <CommandItem key={pokemon.name}>
-                <Link to={`/pokemon/${pokemon.name}`} onClick={() => setOpen(false)}>
-                  <span className="capitalize mr-1">{pokemon.name}</span>
+              <CommandItem
+                key={pokemon.item.name}
+                onSelect={() => {
+                  navigate(`/pokemon/${pokemon.item.name}`);
+                  setOpen(false);
+                }}>
+                <Link to={`/pokemon/${pokemon.item.name}`} onClick={() => setOpen(false)}>
+                  <span className="capitalize mr-1">{pokemon.item.name}</span>
                   <span className="text-primary">{`(${itemType})`}</span>
                 </Link>
               </CommandItem>
@@ -78,11 +91,16 @@ export function CommandMenu() {
         </CommandGroup>
         <CommandGroup heading="Moves">
           {moveSearch.slice(0, 10).map((move) => {
-            const itemType = getItemType(move);
+            const itemType = getItemType(move.item);
             return (
-              <CommandItem key={move.name}>
-                <Link to={`/move/${move.name}`} onClick={() => setOpen(false)}>
-                  <span className="capitalize mr-1">{move.name} </span>
+              <CommandItem
+                key={move.item.name}
+                onSelect={() => {
+                  navigate(`/move/${move.item.name}`);
+                  setOpen(false);
+                }}>
+                <Link to={`/move/${move.item.name}`} onClick={() => setOpen(false)}>
+                  <span className="capitalize mr-1">{move.item.name} </span>
                   <span className="text-primary">{`(${itemType})`}</span>
                 </Link>
               </CommandItem>
@@ -91,11 +109,16 @@ export function CommandMenu() {
         </CommandGroup>
         <CommandGroup heading="Items">
           {itemSearch.slice(0, 10).map((item) => {
-            const itemType = getItemType(item);
+            const itemType = getItemType(item.item);
             return (
-              <CommandItem key={item.name}>
-                <Link to={`/item/${item.name}`} onClick={() => setOpen(false)}>
-                  <span className="capitalize mr-1">{item.name} </span>
+              <CommandItem
+                key={item.item.name}
+                onSelect={() => {
+                  navigate(`/item/${item.item.name}`);
+                  setOpen(false);
+                }}>
+                <Link to={`/item/${item.item.name}`} onClick={() => setOpen(false)}>
+                  <span className="capitalize mr-1">{item.item.name} </span>
                   <span className="text-primary">{`(${itemType})`}</span>
                 </Link>
               </CommandItem>
