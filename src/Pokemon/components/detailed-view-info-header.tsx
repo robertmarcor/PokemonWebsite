@@ -6,7 +6,7 @@ type Props = {
 };
 
 function DetailedViewInfoHeader({ title, className }: Props) {
-  return <h2 className={cn(className, "text-foreground text-xl font-bold")}>{title}</h2>;
+  return <h2 className={cn(className, "text-foreground text-xl")}>{title}</h2>;
 }
 
 export default DetailedViewInfoHeader;

@@ -12,8 +12,6 @@ import PokemonDetailCard from "./pokemon-detailed-view-card";
 import { useEffect, useState, useRef } from "react";
 import { UseGetPokemon } from "@/client/pokemon.client";
 import CoolSpacer from "@/Components/ui/cool-spacer";
-import TypeBadge from "@/Components/ui/type-badge";
-import { cn } from "@/lib/utils";
 import PokemonAbilities from "./abilities";
 import PokemonBaseStats from "./components/PokemonBaseStats";
 import PokemonBasicInfo from "./components/PokemonBasicInfo";
@@ -21,9 +19,8 @@ import PokemonBreeding from "./components/PokemonBreeding";
 import PokemonHeader from "./components/PokemonHeader";
 import PokemonImages from "./components/PokemonImages";
 import PokemonTraining from "./components/PokemonTraining";
-import H1 from "@/Components/layouts/h1-header";
 import PokemonFormSwitcher from "./pokemon-form-switcher";
-import Portal from "@/Portal";
+import PokemonSprites from "./pokemon-sprites";
 function PokemonDetailedView() {
   const { slug } = useParams();
   const [pokemonIdentifier, setPokemonIdentifier] = useState<string>(slug || "1"); // The id parameter can be either a numeric ID or a name
@@ -36,13 +33,14 @@ function PokemonDetailedView() {
   const formsChainRef = useRef<HTMLDivElement>(null);
   const typeRelationsRef = useRef<HTMLDivElement>(null);
   const movesRef = useRef<HTMLDivElement>(null);
-
+  const spritesRef = useRef<HTMLDivElement>(null);
   const sectionRefs = [
     { label: "Basic Info", ref: infoRef },
     { label: "Evolution Chain", ref: evoChainRef },
     { label: "Forms Chain", ref: formsChainRef },
     { label: "Type Relations", ref: typeRelationsRef },
     { label: "Moves", ref: movesRef },
+    { label: "Sprites", ref: spritesRef },
   ];
 
   useEffect(() => {
@@ -100,7 +98,7 @@ function PokemonDetailedView() {
     <>
       <FloatingNav sectionRefs={sectionRefs} />
       <PageWrapper className="*:my-4 px-4">
-        <PokemonDetailCard species={species} pokemon={pokemon} ref={infoRef}>
+        <PokemonDetailCard ref={infoRef} title="Basic Info">
           <PokemonFormSwitcher
             species={species}
             pokemon={pokemon}
@@ -110,9 +108,6 @@ function PokemonDetailedView() {
           <CoolSpacer />
           {/* Images and Basic Info Section */}
           <section aria-labelledby="basic-info-section">
-            <h2 id="basic-info-section" className="sr-only">
-              Basic Information
-            </h2>
             <div className="grid grid-cols-2 gap-4 max-sm:gap-2 max-md:grid-cols-1">
               {isLoadingPokemon ? <p>Loading...</p> : <PokemonImages pokemon={pokemon} />}
               <PokemonBasicInfo pokemon={pokemon} species={species} />
@@ -121,71 +116,46 @@ function PokemonDetailedView() {
 
           <CoolSpacer />
 
-          <section aria-labelledby="stats-section">
-            <h2 id="stats-section" className="sr-only">
-              Base Stats
-            </h2>
-            <PokemonBaseStats pokemon={pokemon} />
-          </section>
+          <PokemonBaseStats pokemon={pokemon} />
 
           <CoolSpacer />
 
-          <section aria-labelledby="abilities-section" className="p-4 rounded-lg bg-foreground/5">
-            <h2 id="abilities-section" className="sr-only">
-              Abilities
-            </h2>
-            <PokemonAbilities pokemon={pokemon} />
-          </section>
+          <PokemonAbilities pokemon={pokemon} />
 
           <CoolSpacer />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <section aria-labelledby="training-section" className="p-4 rounded-lg bg-foreground/5">
-              <h2 id="training-section" className="sr-only">
-                Training
-              </h2>
-              <PokemonTraining pokemon={pokemon} species={species} />
-            </section>
-
-            <section aria-labelledby="breeding-section" className="p-4 rounded-lg bg-foreground/5">
-              <h2 id="breeding-section" className="sr-only">
-                Breeding
-              </h2>
-              <PokemonBreeding species={species} />
-            </section>
-          </div>
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <PokemonTraining pokemon={pokemon} species={species} />
+            <PokemonBreeding species={species} />
+          </section>
         </PokemonDetailCard>
 
         {/* Evolution chain - only shown if the Pokemon has evolutions */}
         {hasEvolutions() && (
-          <PokemonDetailCard
-            species={species}
-            pokemon={pokemon}
-            ref={evoChainRef}
-            title="Evolution Chain">
+          <PokemonDetailCard ref={evoChainRef} title="Evolution Chain">
             <PokemonEvolutionChain evoChain={evoData!} />
           </PokemonDetailCard>
         )}
 
         {/* Form chain */}
         {species.varieties.length > 1 && (
-          <PokemonDetailCard species={species} pokemon={pokemon} ref={formsChainRef} title="Forms">
+          <PokemonDetailCard ref={formsChainRef} title="Forms">
             <PokemonFormsChain speciesData={species} />
           </PokemonDetailCard>
         )}
 
         {/* Type Relations */}
-        <PokemonDetailCard
-          species={species}
-          pokemon={pokemon}
-          ref={typeRelationsRef}
-          title="Type Relations">
+        <PokemonDetailCard ref={typeRelationsRef} title="Type Relations">
           <PokemonTypeRelations pokemon={pokemon} />
         </PokemonDetailCard>
 
         {/* Moves */}
-        <PokemonDetailCard species={species} pokemon={pokemon} ref={movesRef} title="Moves">
+        <PokemonDetailCard ref={movesRef} title="Moves">
           <PokemonMoves currentPokemonId={pokemonIdentifier} />
+        </PokemonDetailCard>
+
+        <PokemonDetailCard ref={spritesRef} title="Sprites">
+          <PokemonSprites pokemon={pokemon} />
         </PokemonDetailCard>
       </PageWrapper>
     </>

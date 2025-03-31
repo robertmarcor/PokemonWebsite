@@ -7,6 +7,7 @@
   --font-body: "Montserrat", sans-serif;
   --menu: oklch(20.62% 0.0124 145.11);
   --background: oklch(0.985 0 0);
+  --background-secondary: oklch(0.985 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --primary: oklch(0.68 0.15 237);
   --primary-foreground: oklch(0.985 0 0);
@@ -24,6 +25,7 @@
 
 .dark {
   --background: oklch(0.141 0.005 285.823);
+  --background-secondary: oklch(0.2 0 0);
   --foreground: oklch(0.985 0 0);
   --primary: oklch(0.59 0.22 18);
   --primary-foreground: oklch(0.08 0 0);
@@ -42,6 +44,7 @@
 @theme inline {
   --color-menu: var(--menu);
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -78,9 +81,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-
-  font-size: 16px;
-  font-weight: 400;
 }
 
 button {
@@ -91,6 +91,7 @@ button {
 h1,h2,h3,h4,h5,h6 {
   font-family: var(--font-heading);
   letter-spacing:0.15em;
+  @apply font-bold;
 }
 /* prettier-ignore */
 h2,h3,h4,h5,h6 {
@@ -126,6 +127,9 @@ input::-webkit-outer-spin-button {
 
 .text-shadow {
   text-shadow: 0px 0px 2px var(--tw-shadow-color);
+}
+.type-badge {
+  color: white;
 }
 
 .glow {

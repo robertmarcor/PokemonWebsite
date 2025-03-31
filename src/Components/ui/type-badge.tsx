@@ -16,7 +16,7 @@ function TypeBadge({ type, className }: Props) {
         className,
         ring,
         color,
-        "uppercase px-2 rounded-md text-white font-semibold text-shadow shadow-black"
+        "uppercase px-2 rounded-md text-red-400 font-semibold text-shadow type-badge shadow-black"
       )}>
       {type}
     </span>

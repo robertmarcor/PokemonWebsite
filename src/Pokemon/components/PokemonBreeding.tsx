@@ -24,7 +24,7 @@ function PokemonBreeding({ species }: Props) {
   const eggCycleSteps = groupSteps[selectedGroup];
 
   return (
-    <div>
+    <section>
       <header className="flex flex-col sm:flex-row justify-between">
         <a href="#egg-group">
           <DetailedViewInfoHeader title="Breeding" className="text-left" />
@@ -64,7 +64,7 @@ function PokemonBreeding({ species }: Props) {
         *Note: Egg cycle steps are 256 for Generations II and III, 255 for Gen IV, 257 for
         Generations V and VI, and 128 for all others.
       </p>
-    </div>
+    </section>
   );
 }
 

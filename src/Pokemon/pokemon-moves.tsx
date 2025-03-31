@@ -178,13 +178,11 @@ function PokemonMoves({ currentPokemonId }: PokemonMovesProps) {
   return (
     <>
       {/* Move learning method tabs */}
-      <div className="flex mb-6 border-gray-700 border-b">
+      <div className="flex mb-6 border-b">
         <button
           onClick={() => setActiveTab("level-up")}
           className={`px-4 py-2 font-semibold ${
-            activeTab === "level-up"
-              ? "text-white border-b-2 border-blue-500"
-              : "text-gray-400 hover:text-white"
+            activeTab === "level-up" ? "border-b-2 border-blue-500" : "hover:text-white"
           }`}>
           Level Up
         </button>
@@ -217,37 +215,37 @@ function PokemonMoves({ currentPokemonId }: PokemonMovesProps) {
         </button>
       </div>
       {/* Moves table */}
-      <div className="border border-gray-700 rounded-lg overflow-hidden">
+      <div className="border rounded-lg overflow-hidden">
         <table className="divide-y divide-gray-700 min-w-full">
-          <thead className="bg-gray-700/50">
+          <thead className="bg-primary">
             <tr>
               <th
                 scope="col"
-                className="px-4 py-3 font-medium text-gray-300 text-xs text-left uppercase tracking-wider">
+                className="px-4 py-3 font-medium text-xs text-left uppercase tracking-wider">
                 {activeTab === "level-up" ? "Level" : activeTab === "egg" ? "Source" : "Method"}
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 font-medium text-gray-300 text-xs text-center uppercase tracking-wider">
+                className="px-4 py-3 font-medium text-xs text-center uppercase tracking-wider">
                 Move
               </th>
               <th
                 scope="col"
-                className="hidden md:table-cell px-4 py-3 font-medium text-gray-300 text-xs text-center uppercase tracking-wider">
+                className="hidden md:table-cell px-4 py-3 font-medium text-xs text-center uppercase tracking-wider">
                 Type
               </th>
               <th
                 scope="col"
-                className="hidden lg:table-cell px-4 py-3 font-medium text-gray-300 text-xs text-center uppercase tracking-wider">
+                className="hidden lg:table-cell px-4 py-3 font-medium text-xs text-center uppercase tracking-wider">
                 Category
               </th>
             </tr>
           </thead>
-          <tbody className="bg-gray-800/30 divide-y divide-gray-700">
+          <tbody className="divide-y">
             {pokemon &&
               getMovesForActiveTab(pokemon).map((moveData, index) => (
-                <tr key={index} className={index % 2 === 0 ? "bg-black/20" : "bg-black/50"}>
-                  <td className="px-4 py-2 font-medium text-white text-sm whitespace-nowrap">
+                <tr key={index} className={index % 2 === 0 ? "bg-primary/20" : "bg-primary/40"}>
+                  <td className="px-4 py-2 font-medium text-sm whitespace-nowrap">
                     {activeTab === "level-up"
                       ? moveData.level === 0
                         ? "Evo"
@@ -258,13 +256,13 @@ function PokemonMoves({ currentPokemonId }: PokemonMovesProps) {
                       ? "TM/HM"
                       : "Tutor"}
                   </td>
-                  <td className="px-4 py-2 text-white text-sm capitalize whitespace-nowrap">
+                  <td className="px-4 py-2 text-sm capitalize whitespace-nowrap">
                     {moveData.name.replace(/-/g, " ")}
                   </td>
-                  <td className="hidden md:table-cell px-4 py-2 text-white text-sm whitespace-nowrap">
+                  <td className="hidden md:table-cell px-4 py-2 text-sm whitespace-nowrap">
                     <TypeBadge type={moveData.type} className="max-w-28" />
                   </td>
-                  <td className="hidden lg:table-cell px-4 py-2 text-white text-sm whitespace-nowrap">
+                  <td className="hidden lg:table-cell px-4 py-2 text-sm whitespace-nowrap">
                     <span
                       className={`${getDamageClassColor(
                         moveData.damageClass
@@ -277,7 +275,7 @@ function PokemonMoves({ currentPokemonId }: PokemonMovesProps) {
 
             {pokemon && getMovesForActiveTab(pokemon).length === 0 && (
               <tr>
-                <td colSpan={4} className="px-4 py-4 text-gray-400 text-sm text-center">
+                <td colSpan={4} className="px-4 py-4 text-sm text-center">
                   No {activeTab.replace("-", " ")} moves found for this Pokémon.
                 </td>
               </tr>

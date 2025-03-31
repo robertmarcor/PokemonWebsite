@@ -19,7 +19,7 @@ function PokemonTraining({ pokemon, species }: Props) {
     .replace(/special/g, "Sp.");
 
   return (
-    <div>
+    <section>
       <DetailedViewInfoHeader title="Training" className="text-left" />
       <table className="w-full border-collapse text-left">
         <tbody>
@@ -29,7 +29,7 @@ function PokemonTraining({ pokemon, species }: Props) {
           <InfoRow label="Growth Rate" value={species.growth_rate.name} />
         </tbody>
       </table>
-    </div>
+    </section>
   );
 }
 

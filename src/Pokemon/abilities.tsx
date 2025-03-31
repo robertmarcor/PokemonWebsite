@@ -45,14 +45,14 @@ function PokemonAbilities({ pokemon }: { pokemon: Pokemon }) {
   }
 
   return (
-    <div className="space-y-3 text-left">
+    <section className="space-y-3 text-left">
       {/* Abilities Summary Line */}
       <header className="flex items-center gap-4 capitalize flex-wrap">
         <DetailedViewInfoHeader title="Abilities - " className="text-left" />
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex gap-2 *:ring-2 *:ring-secondary *:px-2 *:rounded-lg dark:*:bg-black/30">
             {regularAbilities.map((ability) => (
-              <span>{ability.ability.name}</span>
+              <span key={ability.ability.name}>{ability.ability.name}</span>
             ))}
           </div>
           <div className="flex *:ring-2 *:ring-secondary *:px-2 *:rounded-lg dark:*:bg-black/30">
@@ -98,7 +98,7 @@ function PokemonAbilities({ pokemon }: { pokemon: Pokemon }) {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -9,9 +9,9 @@ type Props = {
 
 function PokemonHeader({ pokemon }: Props) {
   return (
-    <header className="flex flex-col sm:flex-row items-start sm:items-center gap-2 my-2">
+    <header className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
       <Badge variant={"id"}>#{pokemon.id}</Badge>
-      <H1 text={pokemon.name} />
+      <H1 text={pokemon.name} className="my-2" />
       <div className="pokemon-types flex flex-wrap gap-1">
         {pokemon.types.map((type) => (
           <TypeBadge key={type.type.name} type={type.type.name} />

@@ -26,7 +26,7 @@ const games = [
 
 export default function GamesPage() {
   return (
-    <PageWrapper className="mb-8">
+    <PageWrapper>
       <div className="flex items-center gap-2">
         <Gamepad2 className="size-8" />
         <H1 text="Games" />

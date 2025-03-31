@@ -20,7 +20,7 @@ function PokemonBaseStats({ pokemon }: Props) {
   };
 
   return (
-    <div className="my-4 bg-black/[0.01] p-6 rounded-md">
+    <section className="my-4 bg-black/[0.01] p-6 rounded-md">
       <DetailedViewInfoHeader title={"Base Stats"} className="text-left mb-4" />
       <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
         {pokemon.stats.map((stat) => (
@@ -50,7 +50,7 @@ function PokemonBaseStats({ pokemon }: Props) {
             style={{ width: `${Math.min(100, (totalStats / 600) * 100)}%` }}></div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -15,7 +15,7 @@ export const InfoRow = ({ label, value, className }: InfoRowProps) => {
         "odd:bg-black/[.05] even:bg-black/[.01] dark:odd:bg-black/30 dark:even:bg-black/10"
       )}>
       {/* Fading border element */}
-      <td className="font-semibold p-1.5 z-10">{label}:</td>
+      <td className="p-1.5 z-10">{label}:</td>
       <td className="font-sans capitalize p-1.5 z-10">{value}</td>
     </tr>
   );
