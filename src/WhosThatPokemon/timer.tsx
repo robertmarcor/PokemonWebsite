@@ -1,27 +1,23 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useImperativeHandle,
-  ForwardedRef,
-  forwardRef,
-} from "react";
+import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
 
 interface TimerProps {
   setTime: (value: number) => void;
+  ref: React.RefObject<TimerFunctions | null>;
 }
 
 export interface TimerFunctions {
   startTimer: () => void;
   stopTimer: () => void;
+  getElapsedTime: () => number;
 }
 
-function WhosThatPokemonTimer(props: TimerProps, ref: ForwardedRef<TimerFunctions>) {
+function WhosThatPokemonTimer({ setTime, ref }: TimerProps) {
   const [myTimer, setMyTimer] = useState<number>(0);
   const startTimeRef = useRef<number | null>(null);
   const intervalRef = useRef<number | null>(null);
 
   const startTimer = () => {
+    console.log("started");
     startTimeRef.current = Date.now();
 
     if (intervalRef.current !== null) {
@@ -41,13 +37,14 @@ function WhosThatPokemonTimer(props: TimerProps, ref: ForwardedRef<TimerFunction
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    props.setTime(myTimer);
+    setTime(myTimer);
   };
 
-  useImperativeHandle(ref, () => ({
-    startTimer,
-    stopTimer,
-  }));
+  if (ref.current) {
+    ref.current.startTimer = startTimer;
+    ref.current.stopTimer = stopTimer;
+    ref.current.getElapsedTime = () => myTimer;
+  }
 
   useEffect(() => {
     return () => {
@@ -65,4 +62,4 @@ function WhosThatPokemonTimer(props: TimerProps, ref: ForwardedRef<TimerFunction
   );
 }
 
-export default forwardRef(WhosThatPokemonTimer);
+export default WhosThatPokemonTimer;

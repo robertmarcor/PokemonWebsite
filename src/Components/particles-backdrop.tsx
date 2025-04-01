@@ -80,7 +80,7 @@ function ParticlesBackdrop() {
   }, []);
   return (
     <Portal>
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-50 bg-black" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-30 bg-black" />
     </Portal>
   );
 }

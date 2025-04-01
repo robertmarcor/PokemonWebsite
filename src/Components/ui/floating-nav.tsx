@@ -17,7 +17,7 @@ function FloatingNav({ sectionRefs }: FloatingNavProps) {
   return (
     <>
       {quickRefVisible && (
-        <nav className="sticky top-0 z-40 w-full p-4 shadow-lg bg-gradient-to-t from-primary/50 via-primary/90 to-primary/50">
+        <nav className="sticky top-0 z-30 w-full p-4 shadow-lg bg-gradient-to-t from-primary/50 via-primary/90 to-primary/50">
           <div className="flex items-center justify-between mb-2">
             <button
               className="absolute top-2 left-2 p-1.5 text-white transition-colors rounded-full hover:bg-blue-600/80 size-9"

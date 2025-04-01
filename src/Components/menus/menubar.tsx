@@ -12,7 +12,7 @@ function MenuBar() {
 
   const UI = ({ children }: { children: ReactNode }) => {
     return (
-      <div className="flex bg-menu h-6 z-10">
+      <div className="flex bg-menu h-6 z-50">
         <div
           className={cn(
             `${isLaptop ? "mx-0 h-[4.4rem]" : "mx-20 mr-[19rem]"}`,
@@ -39,7 +39,7 @@ function MenuBar() {
     <>
       <UI>
         <div className="absolute left-2 top-3 flex">
-          <HamburgerMenu className="top-12 left-50 z-30 text-white" />
+          <HamburgerMenu className="top-12 left-50 text-white" />
 
           <Logo />
         </div>

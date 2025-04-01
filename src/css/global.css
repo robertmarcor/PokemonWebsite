@@ -98,9 +98,12 @@ h2,h3,h4,h5,h6 {
   color: var(--primary);
 }
 
+.hero{
+  font-size: 3rem;
+}
 h1 {
   font-size: 2rem;
-  @apply max-lg:text-2xl max-md:text-xl;
+  @apply max-lg:text-3xl max-md:text-2xl;
 }
 h2 {
   font-size: 1.5rem;

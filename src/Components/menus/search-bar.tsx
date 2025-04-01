@@ -27,7 +27,7 @@ export default function SearchBar() {
       {!isMobile && <p className="text-white">Search</p>}
       <div className="relative">
         <input
-          className="rounded-md z-[41] w-36 h-6 relative text-black font-sans cursor-text p-4 bg-white"
+          className="rounded-md z-10 w-36 h-6 relative text-black font-sans cursor-text p-4 bg-white"
           placeholder={`🔎 ${isMobile ? "Search" : ""}`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -39,7 +39,7 @@ export default function SearchBar() {
           }}
         />
         {searchDropdown && (
-          <div className="absolute bg-white w-36 border-2 border-black z-40 -translate-y-2 text-left max-h-56 overflow-y-auto py-4">
+          <div className="absolute bg-white w-36 border-2 border-black -translate-y-2 text-left max-h-56 overflow-y-auto py-4">
             {filteredSearch.slice(0, 25).map((item) => {
               const itemType = getItemType(item);
               return (

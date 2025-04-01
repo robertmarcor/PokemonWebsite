@@ -12,11 +12,10 @@ export default function Home() {
   return (
     <>
       <ParticlesBackdrop />
-      <PageWrapper className="xl:mt-12">
+      <div className="fixed bg-black -z-40 w-full h-screen" />
+      <PageWrapper className="mt-8">
         <header>
-          <h1 className="mb-2 text-4xl font-bold tracking-wider text-yellow-400">
-            Welcome to Pokèmenn
-          </h1>
+          <h1 className="mb-2 font-bold tracking-wider text-yellow-400 hero">Pokèmenn</h1>
           <p className="mb-8 font-sans mx-20 text-white">
             Fan made website about Pokémon, built with React and PokéAPI for learning about API
             calls, fetching, and state management hooks.
@@ -34,13 +33,13 @@ export default function Home() {
         </section>
 
         {!isMobile && (
-          <section className="text-center bg-primary/40 rounded-lg p-6">
+          <section className="text-center bg-primary/40 rounded-lg p-6 text-white">
             <h2 className="font-bold text-yellow-400 mb-6">Power users</h2>
             <div className="flex flex-col justify-center items-center font-sans text-xl gap-2">
               <p className="flex center items-center gap-2">
                 Press{" "}
                 <span className="p-1 bg-black/40 rounded border border-border">
-                  <Command size={20} className="text-white" />
+                  <Command size={20} />
                 </span>
                 +<KeyboardShortcut>K</KeyboardShortcut>
                 on Mac
@@ -100,7 +99,7 @@ function Card({ title, description, linkText, linkTo, icon }: CardProps) {
         <h2 className="text-2xl group-hover:text-secondary">{title}</h2>
       </div>
       <p className="text-white/80 mb-6 min-h-[80px] font-sans">{description}</p>
-      <MyButton className="bg-gradient-to-tl from-amber-500 to-yellow-400 hover:from-black/20 hover:to-secondary ring-white">
+      <MyButton className="bg-gradient-to-tl from-amber-500 to-yellow-400 hover:bg-white hover:to-yellow-400/50 ring-white mt-auto">
         <Link to={linkTo} className="flex items-center justify-center">
           {linkText}
         </Link>

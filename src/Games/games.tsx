@@ -12,7 +12,7 @@ const games = [
     description:
       "Guess the Pokémon based on its silhouette! Inspired by the classic 'Who's That Pokémon?' segment from the series.",
     image: "/guess-game.png",
-    link: "/who-is-that-pokemon-game",
+    link: "/whosthatpokemon",
   },
   {
     id: "game2",
@@ -53,7 +53,7 @@ interface Game {
 
 function GameCard({ game }: { game: Game }) {
   return (
-    <div className="flex flex-col border-2 rounded-md h-[500px] overflow-hidden">
+    <div className="flex flex-col border-2 rounded-md h-[500px] overflow-hidden bg-background-secondary">
       <div className="w-full h-64 overflow-hidden">
         <img
           src={game.image}

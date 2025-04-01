@@ -27,7 +27,6 @@ function PokemonDetailedView() {
   const [pokemon, setPokemon] = useState<Pokemon>();
   const [species, setSpecies] = useState<PokemonSpecies>();
 
-  const topRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const evoChainRef = useRef<HTMLDivElement>(null);
   const formsChainRef = useRef<HTMLDivElement>(null);

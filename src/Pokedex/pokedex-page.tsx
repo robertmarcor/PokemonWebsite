@@ -2,6 +2,7 @@ import H1 from "@/Components/layouts/h1-header";
 import { Zap, Database, Egg, Dna, Award, Heart } from "lucide-react";
 import { Link } from "react-router";
 import PokedexCategoryCard from "./pokedex-category-card";
+import { allPokemon } from "@/data/pokemonList";
 
 function Pokedex() {
   return (
@@ -62,21 +63,21 @@ function Pokedex() {
         <PokedexCategoryCard
           title="Items"
           description="Browse through all the items available in the Pokémon games, from Poké Balls to evolution stones."
-          to="/items"
+          to="/item"
           icon={<Database />}
           iconBgColor="bg-orange-100 dark:bg-orange-950/30"
           iconColor="text-orange-500"
         />
       </div>
 
-      <div className="p-6 mt-16 text-center bg-white rounded-md">
+      <div className="p-6 mt-16 text-center bg-background-secondary rounded-md">
         <h2 className="mb-4 text-2xl font-bold">Ready to become a Pokémon Master?</h2>
-        <p className="max-w-2xl mx-auto mb-6 text-muted">
+        <p className="max-w-2xl mx-auto mb-6 text-muted-foreground">
           Our comprehensive database is updated regularly with the latest information from all
           Pokémon games.
         </p>
         <Link
-          to="/random"
+          to={`/pokemon/${Math.floor(Math.random() * allPokemon.count)}`}
           className="inline-flex items-center justify-center h-10 px-8 text-sm font-medium transition-colors rounded-md shadow bg-primary hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
           Discover a Random Pokémon
         </Link>

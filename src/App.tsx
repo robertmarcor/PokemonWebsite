@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import Footer from "./Footer/Footer";
 import WhosThatGame from "./WhosThatGame/whos-that-game";
 import Home from "./Home/Home";
@@ -20,6 +20,8 @@ import ItemPage from "./Item/item-page";
 import MoveDetailedView from "@/Moves/slug/move-detailed-view";
 import Test from "./__test__/test";
 function App() {
+  const location = useLocation();
+  const hideBackground = location.pathname === "/whosthatpokemon" || location.pathname === "/";
   return (
     <>
       <PokemonServiceProvider>
@@ -58,7 +60,7 @@ function App() {
         <footer className="flex items-center justify-center text-center bg-gray-950">
           <Footer />
         </footer>
-        <WavyBg />
+        {!hideBackground && <WavyBg />}
       </PokemonServiceProvider>
     </>
   );

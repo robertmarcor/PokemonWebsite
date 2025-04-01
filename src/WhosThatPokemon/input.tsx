@@ -5,9 +5,10 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 interface InputProps {
   inputRef: React.RefObject<HTMLInputElement | null>;
   word: string;
+  onGuess: (isCorrect: boolean) => void;
 }
 
-function WhosThatPokemonInput({ inputRef, word }: InputProps) {
+function WhosThatPokemonInput({ inputRef, word, onGuess }: InputProps) {
   const [input, setInput] = useState<string>("");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -25,8 +26,12 @@ function WhosThatPokemonInput({ inputRef, word }: InputProps) {
           inputRef.current.focus();
         }
       }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleGuess();
+      }
     },
-    [inputRef]
+    [inputRef, input]
   );
 
   useEffect(() => {
@@ -35,6 +40,21 @@ function WhosThatPokemonInput({ inputRef, word }: InputProps) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleKeyDown]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (inputRef.current) {
+        setInput("");
+        inputRef.current.focus();
+      }
+    }, 10);
+  }, [word]);
+
+  const handleGuess = () => {
+    const isCorrect = input.toLowerCase() === word.toLowerCase();
+    onGuess(isCorrect);
+    return isCorrect;
+  };
 
   return (
     <div className="relative flex flex-col items-center">

@@ -5,11 +5,11 @@ import { cn } from "../lib/utils";
 type PickGenProps = {
   toggleModal: () => void;
 };
+export const GEN_KEY = "SelectedGens";
 
 export default function PickGen({ toggleModal: onClose }: PickGenProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [activeGenerations, setActiveGenerations] = useState<number[]>([]);
-  const KEY = "SelectedGens";
 
   const toggleGenerationSelection = (generationId: number) => {
     setActiveGenerations((prevSelected) =>
@@ -20,7 +20,7 @@ export default function PickGen({ toggleModal: onClose }: PickGenProps) {
   };
 
   useEffect(() => {
-    const data = localStorage.getItem(KEY);
+    const data = localStorage.getItem(GEN_KEY);
     if (data) {
       setActiveGenerations(JSON.parse(data));
     }
@@ -28,7 +28,7 @@ export default function PickGen({ toggleModal: onClose }: PickGenProps) {
 
   useEffect(() => {
     if (activeGenerations.length > 0) {
-      localStorage.setItem(KEY, JSON.stringify(activeGenerations));
+      localStorage.setItem(GEN_KEY, JSON.stringify(activeGenerations));
     }
   }, [activeGenerations]);
 
@@ -116,7 +116,7 @@ export default function PickGen({ toggleModal: onClose }: PickGenProps) {
           onClick={() => {
             if (activeGenerations.length === 0) {
               setActiveGenerations([1]);
-              localStorage.setItem(KEY, JSON.stringify([1]));
+              localStorage.setItem(GEN_KEY, JSON.stringify([1]));
             }
             onClose();
           }}>

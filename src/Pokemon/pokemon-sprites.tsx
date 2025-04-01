@@ -56,7 +56,72 @@ function PokemonSprites({ pokemon }: Props) {
     },
   ];
 
-  // Helper function to check if a sprite URL exists
+  const getGameColor = (gameId: string) => {
+    switch (gameId) {
+      // Generation I
+      case "red-blue":
+        return "bg-gradient-to-r from-red-500 via-red-500 to-blue-500 [background-size:200%_100%] [background-position:0%_0%]";
+      case "yellow":
+        return "bg-yellow-500";
+
+      // Generation II
+      case "gold":
+        return "bg-background";
+      case "silver":
+        return "bg-gray-400";
+      case "crystal":
+        return "bg-blue-200";
+
+      // Generation III
+      case "ruby-sapphire":
+        return "bg-gradient-to-r from-rose-500 to-blue-600";
+      case "emerald":
+        return "bg-green-500";
+      case "firered-leafgreen":
+        return "bg-gradient-to-r from-red-600 to-green-600";
+
+      // Generation IV
+      case "diamond-pearl":
+        return "bg-gradient-to-r from-indigo-500 to-blue-300";
+      case "platinum":
+        return "bg-slate-500";
+      case "heartgold-soulsilver":
+        return "bg-gradient-to-r from-amber-500 to-gray-400";
+
+      // Generation V
+      case "black-white":
+        return "bg-gradient-to-r from-gray800 to-white";
+
+      // Generation VI
+      case "x-y":
+        return "bg-gradient-to-r from-purple-500 to-pink-500";
+
+      // Remakes for Gen III
+      case "omegaruby-alphasapphire":
+        return "bg-gradient-to-r from-rose-600 to-blue-700";
+
+      // Generation VII
+      case "ultra-sun":
+        return "bg-orange-600";
+      case "ultra-moon":
+        return "bg-blue-800";
+
+      // Generation VIII
+      case "sword":
+        return "bg-gray-700";
+      case "shield":
+        return "bg-gray-600";
+
+      // Generation IX
+      case "scarlet-violet":
+        return "bg-gradient-to-r from-red-700 to-purple-600";
+
+      // Fallback
+      default:
+        return "bg-gray-500";
+    }
+  };
+
   const spriteExists = (url: string | null): boolean => {
     return url !== null && url !== "";
   };
@@ -89,11 +154,11 @@ function PokemonSprites({ pokemon }: Props) {
         gameId as keyof (typeof pokemon.sprites.versions)["generation-i"]
       ];
 
-    if (!sprites) return null;
+    if (!sprites || !sprites.front_default || !sprites.back_default) return null;
 
     return (
       <Card className="mb-6">
-        <div className="bg-primary text-primary-foreground p-2 font-bold">{gameName}</div>
+        <div className={`${getGameColor(gameId)} text-white p-2 font-bold`}>{gameName}</div>
         <CardContent className="grid grid-cols-2 gap-4 p-4">
           <div className="flex justify-center">{renderSprite(sprites.front_default, "Front")}</div>
           <div className="flex justify-center">{renderSprite(sprites.back_default, "Back")}</div>
@@ -109,13 +174,13 @@ function PokemonSprites({ pokemon }: Props) {
         gameId as keyof (typeof pokemon.sprites.versions)["generation-ii"]
       ];
 
-    if (!sprites) return null;
+    if (!sprites || !sprites.front_default || !sprites.back_default) return null;
 
     const hasShiny = spriteExists(sprites.front_shiny) || spriteExists(sprites.back_shiny);
 
     return (
       <Card className="mb-6">
-        <div className="bg-primary text-primary-foreground p-2 font-bold">{gameName}</div>
+        <div className={`${getGameColor(gameId)} text-white p-2 font-bold`}>{gameName}</div>
         <CardContent className="grid grid-cols-2 gap-4 p-4">
           <div className="flex justify-center">{renderSprite(sprites.front_default, "Front")}</div>
           <div className="flex justify-center">{renderSprite(sprites.back_default, "Back")}</div>
@@ -123,7 +188,7 @@ function PokemonSprites({ pokemon }: Props) {
 
         {hasShiny && (
           <>
-            <div className="bg-yellow-500 text-black p-2 font-bold">Shiny</div>
+            <div className="p-2 font-bold bg-background">Shiny ✨</div>
             <CardContent className="grid grid-cols-2 gap-4 p-4">
               <div className="flex justify-center">
                 {renderSprite(sprites.front_shiny, "Front")}
@@ -143,7 +208,7 @@ function PokemonSprites({ pokemon }: Props) {
         gameId as keyof (typeof pokemon.sprites.versions)["generation-iii"]
       ];
 
-    if (!sprites) return null;
+    if (!sprites || !sprites.front_default) return null;
 
     // Special case for Emerald which only has front sprites
     if (gameId === "emerald") {
@@ -155,14 +220,14 @@ function PokemonSprites({ pokemon }: Props) {
 
       return (
         <Card className="mb-6">
-          <div className="bg-primary text-primary-foreground p-2 font-bold">{gameName}</div>
+          <div className={`${getGameColor(gameId)} text-white p-2 font-bold`}>{gameName}</div>
           <CardContent className="flex justify-center p-4">
             {renderSprite(emeraldSprites.front_default, "Front")}
           </CardContent>
 
           {hasShiny && (
             <>
-              <div className="bg-yellow-500 text-black p-2 font-bold">Shiny</div>
+              <div className="p-2 font-bold bg-background">Shiny ✨</div>
               <CardContent className="flex justify-center p-4">
                 {renderSprite(emeraldSprites.front_shiny, "Front")}
               </CardContent>
@@ -184,7 +249,7 @@ function PokemonSprites({ pokemon }: Props) {
 
     return (
       <Card className="mb-6">
-        <div className="bg-primary text-primary-foreground p-2 font-bold">{gameName}</div>
+        <div className={`${getGameColor(gameId)} text-white p-2 font-bold`}>{gameName}</div>
         <CardContent className="grid grid-cols-2 gap-4 p-4">
           <div className="flex justify-center">
             {renderSprite(fullSprites.front_default, "Front")}
@@ -196,7 +261,7 @@ function PokemonSprites({ pokemon }: Props) {
 
         {hasShiny && (
           <>
-            <div className="bg-yellow-500 text-black p-2 font-bold">Shiny</div>
+            <div className="p-2 font-bold bg-background">Shiny ✨</div>
             <CardContent className="grid grid-cols-2 gap-4 p-4">
               <div className="flex justify-center">
                 {renderSprite(fullSprites.front_shiny, "Front")}
@@ -218,7 +283,7 @@ function PokemonSprites({ pokemon }: Props) {
         gameId as keyof (typeof pokemon.sprites.versions)["generation-iv"]
       ];
 
-    if (!sprites) return null;
+    if (!sprites || !sprites.front_default || !sprites.back_default) return null;
 
     const hasShiny = spriteExists(sprites.front_shiny) || spriteExists(sprites.back_shiny);
     const hasFemale = spriteExists(sprites.front_female) || spriteExists(sprites.back_female);
@@ -227,7 +292,7 @@ function PokemonSprites({ pokemon }: Props) {
 
     return (
       <Card className="mb-6">
-        <div className="bg-primary text-primary-foreground p-2 font-bold">{gameName}</div>
+        <div className={`${getGameColor(gameId)} text-white p-2 font-bold`}>{gameName}</div>
         <CardContent className="grid grid-cols-2 gap-4 p-4">
           <div className="flex justify-center">{renderSprite(sprites.front_default, "Front")}</div>
           <div className="flex justify-center">{renderSprite(sprites.back_default, "Back")}</div>
@@ -235,7 +300,7 @@ function PokemonSprites({ pokemon }: Props) {
 
         {hasShiny && (
           <>
-            <div className="bg-yellow-500 text-black p-2 font-bold">Shiny</div>
+            <div className="p-2 font-bold bg-background">Shiny ✨</div>
             <CardContent className="grid grid-cols-2 gap-4 p-4">
               <div className="flex justify-center">
                 {renderSprite(sprites.front_shiny, "Front")}
@@ -298,7 +363,7 @@ function PokemonSprites({ pokemon }: Props) {
 
     return (
       <Card className="mb-6">
-        <div className="bg-primary text-primary-foreground p-2 font-bold">{gameName}</div>
+        <div className={`${getGameColor(gameId)} text-white p-2 font-bold`}>{gameName}</div>
         <CardContent className="grid grid-cols-2 gap-4 p-4">
           <div className="flex justify-center">{renderSprite(sprites.front_default, "Front")}</div>
           <div className="flex justify-center">{renderSprite(sprites.back_default, "Back")}</div>
@@ -306,7 +371,7 @@ function PokemonSprites({ pokemon }: Props) {
 
         {hasShiny && (
           <>
-            <div className="bg-yellow-500 text-black p-2 font-bold">Shiny</div>
+            <div className="p-2 font-bold bg-background">Shiny ✨</div>
             <CardContent className="grid grid-cols-2 gap-4 p-4">
               <div className="flex justify-center">
                 {renderSprite(sprites.front_shiny, "Front")}
