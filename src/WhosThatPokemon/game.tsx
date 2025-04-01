@@ -6,7 +6,6 @@ import WhosTHatPokemonHud from "./hud";
 import {
   gameReducer,
   initialGameState,
-  GameActionType,
   increaseScore,
   decreaseHealth,
   increaseStreak,
@@ -115,26 +114,6 @@ function WhosThatPokemon() {
     }
     handleFeedback(isCorrect);
   };
-  function calculateGuessScore(elapsedTime) {
-    const baseScore = 1000;
-    const minimumScore = 100;
-
-    // If under or equal to 3s, return full score.
-    if (elapsedTime <= 3000) {
-      return baseScore;
-    }
-
-    // Otherwise, calculate how many full seconds beyond 3s.
-    const secondsOver3 = Math.floor((elapsedTime - 3000) / 1000);
-
-    // Each second over 3 deducts 100 points.
-    const penalty = secondsOver3 * 100;
-
-    // Final score can't go below 100
-    const finalScore = Math.max(baseScore - penalty, minimumScore);
-
-    return finalScore;
-  }
 
   const calculateScore = () => {
     const elapsedTime = gameTimerRef.current.getElapsedTime();
