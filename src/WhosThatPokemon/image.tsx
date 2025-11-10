@@ -5,7 +5,10 @@ interface Props {
   pokemonId: number;
   reveal: boolean;
 }
-const WhosThatPokemonImage = memo(function WhosThatPokemonImage({ pokemonId, reveal }: Props) {
+const WhosThatPokemonImage = memo(function WhosThatPokemonImage({
+  pokemonId,
+  reveal,
+}: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const spriteUrl =
     "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/other/official-artwork";
@@ -26,7 +29,7 @@ const WhosThatPokemonImage = memo(function WhosThatPokemonImage({ pokemonId, rev
         src={makeSpriteUrl(pokemonId)}
         alt="silhouette of pokemon"
         className={cn(
-          "pointer-events-none cursor-none w-auto z-50",
+          "pointer-events-none cursor-none w-auto z-30",
           `filter ${reveal ? "brightness-100" : "brightness-0"}`
         )}
         onLoad={() => setIsLoading(false)}

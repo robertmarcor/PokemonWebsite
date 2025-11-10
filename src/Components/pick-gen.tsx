@@ -60,7 +60,8 @@ export default function PickGen({ toggleModal: onClose }: PickGenProps) {
           isActive ? "text-background hover:text-black" : "",
           "max-sm:w-20 max-sm:text-sm"
         )}
-        onClick={() => toggleGenerationSelection(GenId)}>
+        onClick={() => toggleGenerationSelection(GenId)}
+      >
         <div
           className={cn(
             "absolute -z-50 inset-0 border-2 border-foreground rounded-lg transform -skew-x-12 pointer-events-none",
@@ -77,7 +78,8 @@ export default function PickGen({ toggleModal: onClose }: PickGenProps) {
             isActive
               ? "text-primary"
               : "group-hover:text-primary group-hover:underline group-hover:font-bold"
-          }`}>
+          }`}
+        >
           Gen {GenId}
         </p>
         <img
@@ -95,10 +97,14 @@ export default function PickGen({ toggleModal: onClose }: PickGenProps) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center max-sm:mx-8">
-      <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm"
+        onClick={onClose}
+      />
       <div
         ref={modalRef}
-        className="text-center border-2 w-[36rem] h-fit p-4 pb-8 rounded-3xl z-50 bg-background">
+        className="text-center border-2 w-[36rem] h-fit p-4 pb-8 rounded-3xl z-50 bg-background"
+      >
         <h2 className="my-2 font-bold">Select a gen</h2>
         <ul className="grid grid-cols-3 my-8 gap-y-6 place-items-center">
           {generations.map((genItem) => (
@@ -119,7 +125,8 @@ export default function PickGen({ toggleModal: onClose }: PickGenProps) {
               localStorage.setItem(GEN_KEY, JSON.stringify([1]));
             }
             onClose();
-          }}>
+          }}
+        >
           Confirm
         </button>
       </div>
